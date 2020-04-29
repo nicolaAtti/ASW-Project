@@ -1,15 +1,16 @@
 <template>
     <div class="register-form">
+        <link href='http://fonts.googleapis.com/css?family=Bitter' rel='stylesheet' type='text/css'>
         <h1>Sign up now!</h1>
         <form>
             <div class="section"><span>1</span>Personal data:</div>
             <div class="inner-wrap">
-                <label>Your Full Name <input type="text" name="fullname-field" /></label>
+                <label>Your full name <input type="text" name="fullname-field" /></label>
                 <label>Your birthday date <input type="date" name="date-field"></label>
                 <label>Your gender </label>
                 <div class="gender">
-                    <label>Male<input type="radio" name="male-field"></label>
-                    <label>Female<input type="radio" name="female-field"></label>
+                    <label><input type="radio" name="male-field">Male</label>
+                    <label><input type="radio" name="female-field">Female</label>
                 </div>
                 <label>Your height <input type="number" name="weight-field" /></label>
                 <label>Your weight <input type="number" name="height-field" /></label>
@@ -77,11 +78,11 @@
     .register-form h1 > span{
         display: block;
         margin-top: 2px;
-        font: 13px Arial, Helvetica, sans-serif;
+        font: 13px Bitter, serif;
     }
     .register-form label{
         display: block;
-        font: 13px Arial, Helvetica, sans-serif;
+        font: 13px  Bitter, serif;
         color: #888;
         margin-bottom: 15px;
     }
@@ -113,7 +114,8 @@
 
     .gender label{
         display: inline-block;
-
+        padding: 20px 30px 20px 30px;
+        margin: -10px -15px 10px -15px;
     }
 
     .register-form .section{
@@ -160,7 +162,7 @@
     .register-form .achi-pub{
         float: right;
         width: 250px;
-        font: 12px Arial, Helvetica, sans-serif;
+        font: 12px Bitter, serif;
         color: #4D4D4D;
         margin-top: 10px;
         text-align: right;
