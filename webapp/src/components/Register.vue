@@ -2,31 +2,31 @@
     <div class="register-form">
         <link href='http://fonts.googleapis.com/css?family=Bitter' rel='stylesheet' type='text/css'>
         <h1>Sign up now!</h1>
-        <form>
+        <form id="registration">
             <div class="section"><span>1</span>Personal data:</div>
             <div class="inner-wrap">
-                <label>Your full name <input type="text" name="fullname-field" /></label>
-                <label>Your birthday date <input type="date" name="date-field"></label>
+                <label>Your full name <input type="text" v-model="fullname" name="fullname" required/></label>
+                <label>Your birthday date <input type="date" v-model="birthday" name="birthday" required></label>
                 <label>Your gender </label>
                 <div class="gender">
-                    <label><input type="radio" name="male-field">Male</label>
-                    <label><input type="radio" name="female-field">Female</label>
+                    <label><input type="radio" name="gender" v-model="gender" value="Male" required>Male</label>
+                    <label><input type="radio" name="gender" v-model="gender" value="Female" required>Female</label>
                 </div>
-                <label>Your height <input type="number" name="weight-field" /></label>
-                <label>Your weight <input type="number" name="height-field" /></label>
+                <label>Your height <input type="number" v-model="weight" name="weight" required/></label>
+                <label>Your weight <input type="number" v-model="height" name="height" required/></label>
             </div>
 
             <div class="section"><span>2</span>Account data:</div>
             <div class="inner-wrap">
-                <label>Email <input type="email" name="email-field"></label>
-                <label>Username <input type="text" name="uname-field"></label>
-                <label>Password <input type="password" name="pass-field" /></label>
-                <label>Confirm Password <input type="password" name="conf-pass-field" /></label>
+                <label>Email address<input type="email" v-model="email" name="email" required></label>
+                <label>Username <input type="text" v-model="username" name="username" required></label>
+                <label>Password <input type="password" v-model="password" name="password" required/></label>
+                <label>Confirm Password <input type="password" v-model="confirm_pass" name="confirm_pass" required/></label>
             </div>
             <div class="button-section">
-                <input type="submit" name="Sign Up" value="Sign Up"/>
+                <input type="submit" name="Sign Up" value="Sign Up" @click="processForm"/>
                 <span class="achi-pub">
-     <input type="checkbox" name="field7">Display your achievements publicly.
+     <label><input type="checkbox"  v-model="achi_pub" name="pub_achi">Display your achievements publicly.</label>
      </span>
             </div>
         </form>
@@ -35,8 +35,36 @@
 
 <script>
     export default {
-        name: "Register"
+        name: "Register",
+        data() {
+            return {
+                fullname: "",
+                birthday: "",
+                gender: "",
+                height: "",
+                weight: "",
+                email: "",
+                username: "",
+                password: "",
+                confirm_pass: "",
+                achi_pub: ""
+            };
+        },
 
+        methods: {
+            processForm(){
+                console.log(this.fullname);
+                console.log(this.birthday);
+                console.log(this.gender);
+                console.log(this.height);
+                console.log(this.weight);
+                console.log(this.email);
+                console.log(this.username);
+                console.log(this.password);
+                console.log(this.confirm_pass);
+                console.log(this.achi_pub);
+            }
+        }
     }
 </script>
 
@@ -136,6 +164,7 @@
         color: #fff;
         margin-top: -3px;
     }
+
     .register-form input[type="button"],
     .register-form input[type="submit"]{
         background: #2A88AD;
@@ -160,10 +189,11 @@
         box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.28);
     }
     .register-form .achi-pub{
-        float: right;
+        float: left;
         width: 250px;
         font: 12px Bitter, serif;
         color: #4D4D4D;
+        margin-right: 100px;
         margin-top: 10px;
         text-align: right;
     }
