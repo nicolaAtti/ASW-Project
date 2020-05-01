@@ -1,7 +1,13 @@
 <template>
-    <div class="register-form">
+    <div class="register-form" @submit="processForm">
         <link href='http://fonts.googleapis.com/css?family=Bitter' rel='stylesheet' type='text/css'>
         <h1>Sign up now!</h1>
+        <p v-if="errors.length">
+            <b>Please correct the following error(s):</b>
+        <ul>
+            <li v-for="error in errors" v-bind:key="error.id">{{ error }}</li>
+        </ul>
+        </p>
         <form id="registration">
             <div class="section"><span>1</span>Personal data:</div>
             <div class="inner-wrap">
@@ -12,8 +18,8 @@
                     <label><input type="radio" name="gender" v-model="gender" value="Male" required>Male</label>
                     <label><input type="radio" name="gender" v-model="gender" value="Female" required>Female</label>
                 </div>
-                <label>Your height <input type="number" v-model="weight" name="weight" required/></label>
-                <label>Your weight <input type="number" v-model="height" name="height" required/></label>
+                <label>Your height <input type="number" v-model="weight" name="weight" /></label>
+                <label>Your weight <input type="number" v-model="height" name="height" /></label>
             </div>
 
             <div class="section"><span>2</span>Account data:</div>
@@ -24,7 +30,7 @@
                 <label>Confirm Password <input type="password" v-model="confirm_pass" name="confirm_pass" required/></label>
             </div>
             <div class="button-section">
-                <input type="submit" name="Sign Up" value="Sign Up" @click="processForm"/>
+                <input type="submit" name="Sign Up" value="Sign Up"/>
                 <span class="achi-pub">
      <label><input type="checkbox"  v-model="achi_pub" name="pub_achi">Display your achievements publicly.</label>
      </span>
@@ -38,6 +44,7 @@
         name: "Register",
         data() {
             return {
+                errors: [],
                 fullname: "",
                 birthday: "",
                 gender: "",
@@ -52,17 +59,15 @@
         },
 
         methods: {
-            processForm(){
-                console.log(this.fullname);
-                console.log(this.birthday);
-                console.log(this.gender);
-                console.log(this.height);
-                console.log(this.weight);
-                console.log(this.email);
-                console.log(this.username);
-                console.log(this.password);
-                console.log(this.confirm_pass);
-                console.log(this.achi_pub);
+            processForm(e){
+                if(!(this.password === this.confirm_pass)){
+                    //Inserted passwords do not match
+                    console.log("Throw an error telling that the passwords don't match")
+                }else{
+                    //Begin the server side validation
+                    console.log("Send the data to the registration server to begin validation")
+                }
+                e.preventDefault()
             }
         }
     }
