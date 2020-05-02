@@ -42,10 +42,18 @@ app.post('/users/:username', (req, res) => {
                     message: 'Username already present'
                 })
             } else {
-                res.status(500).send({
-                    success: false,
-                    message: 'Failed to save user'
-                })
+                if (error instanceof mongoose.Error.ValidationError) {
+                    res.status(400).send({
+                        success: false,
+                        message: 'Wrong parameters'
+                    })
+                } else {
+                    console.log(error)
+                    res.status(500).send({
+                        success: false,
+                        message: 'Failed to save user'
+                    })
+                }
             }
         } else {
             res.status(201).send({
