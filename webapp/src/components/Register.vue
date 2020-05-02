@@ -2,8 +2,8 @@
     <div class="register-form" @submit="processForm">
         <link href='http://fonts.googleapis.com/css?family=Bitter' rel='stylesheet' type='text/css'>
         <h1>Sign up now!</h1>
-        <p v-if="errors.length">
-            <b>Please correct the following error(s):</b>
+        <p v-if="errors.length" class="error-list">
+            <b>Please correct the following errors:</b>
         <ul>
             <li v-for="error in errors" v-bind:key="error.id">{{ error }}</li>
         </ul>
@@ -40,6 +40,8 @@
 </template>
 
 <script>
+    import axios from "axios"
+
     export default {
         name: "Register",
         data() {
@@ -59,13 +61,16 @@
         },
 
         methods: {
-            processForm(e){
+            async processForm(e){
+                this.errors = [];
                 if(!(this.password === this.confirm_pass)){
                     //Inserted passwords do not match
                     console.log("Throw an error telling that the passwords don't match")
+                    this.errors.push("Inserted passwords do not match.")
                 }else{
                     //Begin the server side validation
                     console.log("Send the data to the registration server to begin validation")
+                    //TODO await axios.post(Create the url)
                 }
                 e.preventDefault()
             }
@@ -85,6 +90,23 @@
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
     -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
     -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+    }
+
+    .error-list b{
+        font: normal 20px 'Bitter', serif;
+        color: #2A88AD;
+        margin-bottom: 5px;
+    }
+
+    .error-list ul{
+        list-style: inside;
+        margin-left: -60px;
+    }
+
+    .error-list li{
+        font: normal 14px 'Bitter', serif;
+        color: #ad1e1b;
+        margin-bottom: 5px;
     }
 
     .register-form .inner-wrap{
