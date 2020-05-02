@@ -194,9 +194,7 @@
     .register-form input[type="submit"]{
         background: #2A88AD;
         padding: 2% 4% 2% 4%;
-        border-radius: 10%;
-        -webkit-border-radius: 10%;
-        -moz-border-radius: 10%;
+
         color: #fff;
         text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.12);
         font: normal 90% 'Bitter', serif;
