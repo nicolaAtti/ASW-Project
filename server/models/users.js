@@ -22,7 +22,8 @@ var usersSchema = new Schema({
     height: Number,
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     _id: {
         type: String,

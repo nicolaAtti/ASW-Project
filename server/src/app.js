@@ -39,7 +39,7 @@ app.post('/users/:username', (req, res) => {
             if (error.code === 11000) {
                 res.status(409).send({
                     success: false,
-                    message: 'Username already present'
+                    message: 'Username or e-mail already present'
                 })
             } else {
                 if (error instanceof mongoose.Error.ValidationError) {
