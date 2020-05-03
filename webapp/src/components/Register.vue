@@ -1,7 +1,7 @@
 <template>
     <div class="register-form" @submit="processForm">
         <link href='http://fonts.googleapis.com/css?family=Bitter' rel='stylesheet' type='text/css'>
-        <h1>Sign up now!</h1>
+        <h1>{{ $t('register_title')}}</h1>
         <p v-if="errors.length" class="error-list">
             <b>Please correct the following errors:</b>
         <ul>
