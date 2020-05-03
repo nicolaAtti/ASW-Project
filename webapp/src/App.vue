@@ -1,16 +1,18 @@
 <template>
   <div id="app">
-    <LoginPage msg="Titolo App"/>
+    <router-view/>
   </div>
 </template>
 
 <script>
-import LoginPage from './components/LoginPage.vue'
+
+import router from "./router";
 
 export default {
   name: 'App',
-  components: {
-    LoginPage
+
+  beforeMount() {
+    router.push('login')
   }
 }
 </script>

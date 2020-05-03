@@ -4,7 +4,7 @@
         <div class="form">
             <form class="login-form">
                 <header>
-                    <h1>{{ msg }}</h1>
+                    <h1>{{ $t('app_title') }}</h1>
                 </header>
                 <input type="text" v-model= "input.username" placeholder="Username" />
                 <input type="password" v-model="input.password" placeholder="Password" />
@@ -17,6 +17,7 @@
 
 <script>
     import axios from "axios";
+    import router from "../router";
 
     export default {
         name: "LoginPage",
@@ -47,6 +48,7 @@
             },
             // Questo metodo deve rimandare l'utente alla pagina di registrazione
             sendDataRegister() {
+                router.push('register')
                 axios({ method: "POST", "url": "https://httpbin.org/post", "data": this.input, "headers": { "content-type": "application/json" } }).then(result => {
                     this.response = result.data;
                 }, error => {
