@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
     <Login msg="This is a placeholder for the login page"/>
   </div>
 </template>
