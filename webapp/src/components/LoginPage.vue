@@ -1,15 +1,14 @@
-
 <template>
     <div class="login-page">
         <div class="form">
             <form class="login-form">
                 <header>
-                    <h1>{{ $t('app_title') }}</h1>
+                    <h1>{{ $t('loginPage.app_title') }}</h1>
                 </header>
                 <input type="text" v-model= "input.username" placeholder="Username" />
                 <input type="password" v-model="input.password" placeholder="Password" />
-                <button v-on:click="sendDataLogin()">Sign In</button>
-                <button v-on:click="sendDataRegister()">Sign Up</button>
+                <button v-on:click="sendDataLogin()">{{ $t("signIn")}}</button>
+                <button v-on:click="sendDataRegister()">{{ $t("signUp")}}</button>
             </form>
         </div>
     </div>
@@ -100,7 +99,7 @@
         color: #ffffff;
     }
     .login-page {
-        width: 360px;
+        width: 95%;
         padding: 8% 0 0;
         margin: auto;
     }

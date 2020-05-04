@@ -1,4 +1,29 @@
 {
-  "register_title": "Registrati adesso!",
-  "app_title": "Titolo App"
+  "signUp": "Registrati",
+  "signIn": "Accedi",
+  "it_lang": "Italiano",
+  "en_lang": "Inglese",
+  "loginPage": {
+    "app_title": "Titolo App"
+  },
+  "registerPage": {
+    "register_title": "Registrati Adesso!",
+    "correct_errors": "Per favore correggi i seguenti errori:",
+    "pass_mismatch": "Le password inserite non coincidono.",
+    "personal_data": "Dati personali:",
+    "fullname": "Nome completo",
+    "birthday_date": "Data di nascita",
+    "gender": "Sesso",
+    "male": "Maschio",
+    "female": "Femmina",
+    "height": "La tua altezza",
+    "weight": "Il tuo peso",
+    "account_data": "Dati account",
+    "email": "Indirizzo email",
+    "username": "Username",
+    "password": "Password",
+    "confirm_password": "Conferma password",
+    "pub_achievements": "Mostra achievement pubblici."
+  }
+
 }
