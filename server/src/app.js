@@ -12,7 +12,7 @@ app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(cors());
 
-mongoose.connect(process.env.MONGO_CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGO_CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "Connection Error"));
 db.once("open", function(callback){
@@ -39,7 +39,7 @@ app.post('/users/:username', (req, res) => {
             if (error.code === 11000) {
                 res.status(409).send({
                     success: false,
-                    message: 'Username or e-mail already present'
+                    message: 'Username or email already present'
                 })
             } else {
                 if (error instanceof mongoose.Error.ValidationError) {
@@ -64,9 +64,35 @@ app.post('/users/:username', (req, res) => {
     });
 });
 
+app.get('/users/:username', (req, res) => {
+    User.findById(req.params.username,function (error, result) {
+        if (error || result === null) {
+            res.status(404).send({
+                success: false,
+                message: 'Resource not found'
+            });
+        } else {
+            res.send({
+                username: result.id,
+                name: result.name,
+                surname: result.surname,
+                birthday: result.birthday,
+                gender: result.gender,
+                height: result.height,
+                email: result.email,
+                publicAchievements: result.publicAchievements,
+                registrationDate: result.registrationDate,
+                achievements: result.achievements
+            });
+        }
+    })
+});
+
 app.use(function (req, res, next) {
-    res.setHeader('Content-Type', 'text/plain');
-    res.status(404).send('Resource not found');
+    res.status(404).send({
+        success: false,
+        message: 'Resource not found'
+    });
 });
 
 const port = process.env.PORT || 3000;
