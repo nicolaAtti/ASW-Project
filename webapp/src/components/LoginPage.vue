@@ -47,11 +47,6 @@
             // Questo metodo deve rimandare l'utente alla pagina di registrazione
             sendDataRegister() {
                 router.push('register')
-                axios({ method: "POST", "url": "https://httpbin.org/post", "data": this.input, "headers": { "content-type": "application/json" } }).then(result => {
-                    this.response = result.data;
-                }, error => {
-                    console.error(error);
-                });
             }
         }
     }
