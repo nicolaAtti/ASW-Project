@@ -5,8 +5,11 @@ const morgan = require('morgan');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const User = require("../models/users");
+const jwt = require('express-jwt');
+const jsonwebtoken = require('jsonwebtoken');
 
 dotenv.config();
+const JWT_SECRET = process.env.JWT_SECRET
 const app = express();
 app.use(morgan('combined'));
 app.use(bodyParser.json());
@@ -64,7 +67,31 @@ app.post('/users/:username', (req, res) => {
     });
 });
 
-app.get('/users/:username', (req, res) => {
+app.get('/users/:username/authentication', (req, res) => {
+    User.findById(req.params.username,function (error, result) {
+        if (error || result === null) {
+            res.status(404).send({
+                success: false,
+                message: 'Resource not found'
+            });
+        } else {
+            if (req.body.password === result.password) {
+                const token = jsonwebtoken.sign({ username: req.params.username, email: result.email }, JWT_SECRET);
+                res.send({
+                    success: true,
+                    token: token
+                });
+            } else {
+                res.status(401).send({
+                    success: false,
+                    message: 'Wrong password'
+                });
+            }
+        }
+    })
+});
+
+app.get('/users/:username', jwt({ secret: JWT_SECRET }), (req, res) => {
     User.findById(req.params.username,function (error, result) {
         if (error || result === null) {
             res.status(404).send({
@@ -81,8 +108,7 @@ app.get('/users/:username', (req, res) => {
                 height: result.height,
                 email: result.email,
                 publicAchievements: result.publicAchievements,
-                registrationDate: result.registrationDate,
-                achievements: result.achievements
+                registrationDate: result.registrationDate
             });
         }
     })
@@ -93,6 +119,15 @@ app.use(function (req, res, next) {
         success: false,
         message: 'Resource not found'
     });
+});
+
+app.use(function (err, req, res, next) {
+    if (err.name === 'UnauthorizedError') {
+        res.status(401).send(err);
+    }
+    else {
+        next(err);
+    }
 });
 
 const port = process.env.PORT || 3000;
