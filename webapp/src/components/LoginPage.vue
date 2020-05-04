@@ -25,10 +25,9 @@
         },
         data () {
             return {
-                ip: "",
                 input: {
-                    firstname: "",
-                    lastname: ""
+                    username: "",
+                    password: ""
                 },
                 response: ""
             }
