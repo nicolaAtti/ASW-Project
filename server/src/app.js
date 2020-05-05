@@ -133,6 +133,37 @@ app.get('/users/:username', (req, res) => {
     }
 });
 
+app.get('/users/:username/achievements', (req, res) => {
+    try {
+        const token = req.header('Authorization').replace('Bearer ', '');
+        const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
+        if (req.params.username === decodedJwt.username) {
+            User.findById(decodedJwt.username, function (error, result) {
+                if (error || result === null) {
+                    res.status(404).send({
+                        success: false,
+                        message: 'Resource not found'
+                    });
+                } else {
+                    res.send({
+                        achievements: result.achievements
+                    });
+                }
+            })
+        } else {
+            res.status(401).send({
+                success: false,
+                message: 'Wrong token'
+            });
+        }
+    } catch (e) {
+        res.status(401).send({
+            success: false,
+            message: 'Invalid token'
+        });
+    }
+});
+
 app.use(function (err, req, res, next) {
     res.status(404).send({
         success: false,
