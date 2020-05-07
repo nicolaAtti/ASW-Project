@@ -23,7 +23,8 @@ var usersSchema = new Schema({
     email: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        lowercase: true
     },
     _id: {
         type: String,

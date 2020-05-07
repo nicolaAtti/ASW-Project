@@ -1,0 +1,29 @@
+{
+  "signUp": "Sign Up",
+  "signIn": "Sign In",
+  "it_lang": "Italian",
+  "en_lang": "English",
+  "loginPage": {
+    "app_title": "App Title"
+  },
+  "registerPage": {
+    "register_title": "Sign Up Now!",
+    "correct_errors": "Please correct the following errors:",
+    "pass_mismatch": "Inserted passwords do not match.",
+    "personal_data": "Personal data:",
+    "fullname": "Full name",
+    "birthday_date": "Birthday date",
+    "gender": "Gender",
+    "male": "Male",
+    "female": "Female",
+    "height": "Your height",
+    "weight": "Your weight",
+    "account_data": "Account data",
+    "email": "Email address",
+    "username": "Username",
+    "password": "Password",
+    "confirm_password": "Confirm password",
+    "pub_achievements": "Display achievements publicly."
+  }
+
+}

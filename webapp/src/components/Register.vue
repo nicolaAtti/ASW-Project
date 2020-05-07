@@ -1,38 +1,38 @@
 <template>
     <div class="register-form" @submit="processForm">
         <link href='http://fonts.googleapis.com/css?family=Bitter' rel='stylesheet' type='text/css'>
-        <h1>Sign up now!</h1>
+        <h1>{{ $t('registerPage.register_title')}}</h1>
         <p v-if="errors.length" class="error-list">
-            <b>Please correct the following errors:</b>
+            <b>{{ $t("registerPage.correct_errors")}}</b>
         <ul>
             <li v-for="error in errors" v-bind:key="error.id">{{ error }}</li>
         </ul>
         </p>
         <form id="registration">
-            <div class="section"><span>1</span>Personal data:</div>
+            <div class="section"><span>1</span>{{ $t("registerPage.personal_data")}}</div>
             <div class="inner-wrap">
-                <label>Your full name <input type="text" v-model="fullname" name="fullname" required/></label>
-                <label>Your birthday date <input type="date" v-model="birthday" name="birthday" required></label>
-                <label>Your gender </label>
+                <label>{{ $t("registerPage.fullname")}}<input type="text" v-model="fullname" name="fullname" required/></label>
+                <label>{{ $t("registerPage.birthday_date")}}<input type="date" v-model="birthday" name="birthday" required></label>
+                <label>{{ $t("registerPage.gender")}}</label>
                 <div class="gender">
-                    <label><input type="radio" name="gender" v-model="gender" value="Male" required>Male</label>
-                    <label><input type="radio" name="gender" v-model="gender" value="Female" required>Female</label>
+                    <label><input type="radio" name="gender" v-model="gender" value="Male" required>{{ $t("registerPage.male")}}</label>
+                    <label><input type="radio" name="gender" v-model="gender" value="Female" required>{{ $t("registerPage.female")}}</label>
                 </div>
-                <label>Your height <input type="number" v-model="weight" name="weight" /></label>
-                <label>Your weight <input type="number" v-model="height" name="height" /></label>
+                <label>{{ $t("registerPage.height")}}<input type="number" v-model="weight" name="weight" /></label>
+                <label>{{ $t("registerPage.weight")}}<input type="number" v-model="height" name="height" /></label>
             </div>
 
-            <div class="section"><span>2</span>Account data:</div>
+            <div class="section"><span>2</span>{{ $t("registerPage.account_data")}}</div>
             <div class="inner-wrap">
-                <label>Email address<input type="email" v-model="email" name="email" required></label>
-                <label>Username <input type="text" v-model="username" name="username" required></label>
-                <label>Password <input type="password" v-model="password" name="password" required/></label>
-                <label>Confirm Password <input type="password" v-model="confirm_pass" name="confirm_pass" required/></label>
+                <label>{{ $t("registerPage.email")}}<input type="email" v-model="email" name="email" required></label>
+                <label>{{ $t("registerPage.username")}} <input type="text" v-model="username" name="username" required></label>
+                <label>{{ $t("registerPage.password")}} <input type="password" v-model="password" name="password" required/></label>
+                <label>{{ $t("registerPage.confirm_password")}}<input type="password" v-model="confirm_pass" name="confirm_pass" required/></label>
             </div>
             <div class="button-section">
-                <input type="submit" name="Sign Up" value="Sign Up"/>
+                <button type="submit"  name="Sign Up" value="Sign Up">{{ $t("signUp")}}</button>
                 <span class="achi-pub">
-     <label><input type="checkbox"  v-model="achi_pub" name="pub_achi">Display achievements publicly.</label>
+     <label><input type="checkbox"  v-model="achi_pub" name="pub_achi">{{ $t("registerPage.pub_achievements")}}</label>
      </span>
             </div>
         </form>
@@ -66,7 +66,7 @@
                 if(!(this.password === this.confirm_pass)){
                     //Inserted passwords do not match
                     console.log("Throw an error telling that the passwords don't match");
-                    this.errors.push("Inserted passwords do not match.");
+                    this.errors.push("{{$t(registerPage.pass_mismatch)}}");
                     window.scrollTo(0,0)
                 }else{
                     //Begin the server side validation
@@ -80,17 +80,15 @@
 </script>
 
 <style scoped>
-    .register-form{
-    width: 80%;
-    padding: 5%;
-    margin: 3% auto;
-    background: #FFF;
-    border-radius: 5%;
-    -webkit-border-radius: 5%;
-    -moz-border-radius: 5%;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.13);
-    -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.13);
-    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.13);
+    .register-form {
+        margin: 0 5% 10% 5%;
+
+        width: 90%;
+        padding: 5%;
+        background: #FFF;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.13);
+        -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.13);
+        -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.13);
     }
 
     .error-list b{
@@ -190,8 +188,8 @@
         margin-top: -1%;
     }
 
-    .register-form input[type="button"],
-    .register-form input[type="submit"]{
+    .register-form button[type="button"],
+    .register-form button[type="submit"]{
         background: #2A88AD;
         padding: 2% 4% 2% 4%;
 
@@ -203,8 +201,8 @@
         box-shadow: inset 0 2px 2px 0 rgba(255, 255, 255, 0.17);
         border: 1px solid #257C9E;
     }
-    .register-form input[type="button"]:hover,
-    .register-form input[type="submit"]:hover{
+    .register-form button[type="button"]:hover,
+    .register-form button[type="submit"]:hover{
         background: #2A6881;
         -moz-box-shadow: inset 0 2px 2px 0 rgba(255, 255, 255, 0.28);
         -webkit-box-shadow: inset 0 2px 2px 0 rgba(255, 255, 255, 0.28);

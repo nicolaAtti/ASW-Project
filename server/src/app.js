@@ -5,17 +5,23 @@ const morgan = require('morgan');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const User = require("../models/users");
+const jsonwebtoken = require('jsonwebtoken');
 
 dotenv.config();
+const JWT_SECRET = process.env.JWT_SECRET
 const app = express();
 app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(cors());
 
-mongoose.connect(process.env.MONGO_CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGO_CONNECTION_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false});
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "Connection Error"));
-db.once("open", function(callback){
+db.once("open", function() {
     console.log("Connection Succeeded");
 });
 
@@ -39,7 +45,7 @@ app.post('/users/:username', (req, res) => {
             if (error.code === 11000) {
                 res.status(409).send({
                     success: false,
-                    message: 'Username or e-mail already present'
+                    message: 'Username or email already present'
                 })
             } else {
                 if (error instanceof mongoose.Error.ValidationError) {
@@ -58,15 +64,111 @@ app.post('/users/:username', (req, res) => {
         } else {
             res.status(201).send({
                 success: true,
-                message: 'User creation successfully done'
+                message: 'User successfully created'
             })
         }
     });
 });
 
-app.use(function (req, res, next) {
-    res.setHeader('Content-Type', 'text/plain');
-    res.status(404).send('Resource not found');
+app.get('/users/:username/authentication', (req, res) => {
+    User.findById(req.params.username,function (error, result) {
+        if (error || result === null) {
+            res.status(404).send({
+                success: false,
+                message: 'Resource not found'
+            });
+        } else {
+            if (req.body.password === result.password) {
+                const token = jsonwebtoken.sign({ username: req.params.username, email: result.email }, JWT_SECRET);
+                res.send({
+                    success: true,
+                    token: token
+                });
+            } else {
+                res.status(401).send({
+                    success: false,
+                    message: 'Wrong password'
+                });
+            }
+        }
+    })
+});
+
+app.get('/users/:username', (req, res) => {
+    try {
+        const token = req.header('Authorization').replace('Bearer ', '');
+        const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
+        if (req.params.username === decodedJwt.username) {
+            User.findById(decodedJwt.username, function (error, result) {
+                if (error || result === null) {
+                    res.status(404).send({
+                        success: false,
+                        message: 'Resource not found'
+                    });
+                } else {
+                    res.send({
+                        username: result.id,
+                        name: result.name,
+                        surname: result.surname,
+                        birthday: result.birthday,
+                        gender: result.gender,
+                        height: result.height,
+                        email: result.email,
+                        publicAchievements: result.publicAchievements,
+                        registrationDate: result.registrationDate
+                    });
+                }
+            })
+        } else {
+            res.status(401).send({
+                success: false,
+                message: 'Wrong token'
+            });
+        }
+    } catch (e) {
+        res.status(401).send({
+            success: false,
+            message: 'Invalid token'
+        });
+    }
+});
+
+app.get('/users/:username/achievements', (req, res) => {
+    try {
+        const token = req.header('Authorization').replace('Bearer ', '');
+        const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
+        if (req.params.username === decodedJwt.username) {
+            User.findById(decodedJwt.username, function (error, result) {
+                if (error || result === null) {
+                    res.status(404).send({
+                        success: false,
+                        message: 'Resource not found'
+                    });
+                } else {
+                    res.send({
+                        achievements: result.achievements
+                    });
+                }
+            })
+        } else {
+            res.status(401).send({
+                success: false,
+                message: 'Wrong token'
+            });
+        }
+    } catch (e) {
+        res.status(401).send({
+            success: false,
+            message: 'Invalid token'
+        });
+    }
+});
+
+app.use(function (err, req, res, next) {
+    res.status(404).send({
+        success: false,
+        message: 'Resource not found'
+    });
 });
 
 const port = process.env.PORT || 3000;

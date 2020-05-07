@@ -1,15 +1,14 @@
-
 <template>
     <div class="login-page">
         <div class="form">
             <form class="login-form">
                 <header>
-                    <h1>{{ msg }}</h1>
+                    <h1>{{ $t('loginPage.app_title') }}</h1>
                 </header>
                 <input type="text" v-model= "input.username" placeholder="Username" />
                 <input type="password" v-model="input.password" placeholder="Password" />
-                <button v-on:click="sendDataLogin()">Sign In</button>
-                <button v-on:click="sendDataRegister()">Sign Up</button>
+                <button v-on:click="sendDataLogin()">{{ $t("signIn")}}</button>
+                <button v-on:click="sendDataRegister()">{{ $t("signUp")}}</button>
             </form>
         </div>
     </div>
@@ -17,6 +16,7 @@
 
 <script>
     import axios from "axios";
+    import router from "../router";
 
     export default {
         name: "LoginPage",
@@ -46,11 +46,7 @@
             },
             // Questo metodo deve rimandare l'utente alla pagina di registrazione
             sendDataRegister() {
-                axios({ method: "POST", "url": "https://httpbin.org/post", "data": this.input, "headers": { "content-type": "application/json" } }).then(result => {
-                    this.response = result.data;
-                }, error => {
-                    console.error(error);
-                });
+                router.push('register')
             }
         }
     }
@@ -97,7 +93,7 @@
         color: #ffffff;
     }
     .login-page {
-        width: 360px;
+        width: 95%;
         padding: 8% 0 0;
         margin: auto;
     }
