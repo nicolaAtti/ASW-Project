@@ -81,8 +81,8 @@
 
 <style scoped>
     .register-form {
-        margin-top: 10%;
-        margin-bottom: 10%;
+        margin: 0 5% 10% 5%;
+
         width: 90%;
         padding: 5%;
         background: #FFF;
