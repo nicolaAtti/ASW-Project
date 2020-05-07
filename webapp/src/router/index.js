@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import LoginPage from "../components/LoginPage";
 import Register from "../components/Register";
+import HomePage from "../components/HomePage";
 
 Vue.use(VueRouter)
 
