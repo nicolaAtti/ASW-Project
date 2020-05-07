@@ -1,31 +1,49 @@
 <template>
   <div id="app">
-    <div class="lang_chooser">
-      <select class="language" v-model="$i18n.locale">
-        <option v-for="(lang, i) in languageArray" :key="`lang${i}`" :value="lang">{{ $t(lang+"_lang")}}</option>
-      </select>
-    </div>
+    <v-toolbar dense color="#2A88AD">
+      <v-btn v-if="$route.path!=='/login'" icon color="#fff" v-on:click="goBack()">
+        <v-icon>mdi-backspace</v-icon>
+      </v-btn>
+
+      <v-spacer/>
+      <!--
+      <v-btn icon color="#fff">
+        <v-icon>mdi-dots-vertical</v-icon>
+      </v-btn>
+      -->
+      <v-btn rounded color= dark v-on:click="changeLang()">{{language}}</v-btn>
+    </v-toolbar>
     <router-view class="pages"/>
   </div>
 </template>
 
 <script>
+  import router from "./router";
+  import VueI18n from "./i18n"
 
-import router from "./router";
-
-export default {
-  name: 'App',
-  
-  data() {
-  return {
-    languageArray: ['en','it']
-  };
-},
-
-  beforeMount() {
-    router.push('login')
+  export default {
+    name: 'App',
+    beforeMount() {
+      router.push('login')
+    },
+    data: () => ({
+      language: 'English',
+    }),
+    methods: {
+      changeLang() {
+        if(this.language === 'English'){
+          this.language = 'Italian';
+          VueI18n.locale = 'it';
+        }else{
+          this.language = 'English';
+          VueI18n.locale= 'en';
+        }
+      },
+      goBack() {
+        router.back();
+      }
+    }
   }
-}
 </script>
 
 <style>
@@ -38,26 +56,8 @@ export default {
     margin-top: 2%;
   }
 
-  .lang_chooser {
-    position: absolute;
-    top: 1%;
-    right: 5%;
-  }
-
-  .lang_chooser select {
-    color: #fff;
-    padding: 8% 8% 8% 8%;
-    -webkit-appearance: button;
-    background: #2A88AD;
-    -moz-box-shadow: inset 0 2px 2px 0 rgba(255, 255, 255, 0.17);
-    -webkit-box-shadow: inset 0 2px 2px 0 rgba(255, 255, 255, 0.17);
-    box-shadow: inset 0 2px 2px 0 rgba(255, 255, 255, 0.17);
-    border: 1px solid #257C9E;
-  }
-
   .pages{
     position: relative;
     top: 30px;
   }
-
 </style>
