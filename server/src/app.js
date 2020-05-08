@@ -70,6 +70,39 @@ app.post('/users/:username', (req, res) => {
     });
 });
 
+app.patch('/users/:username', (req, res) => {
+    try {
+        const token = req.header('Authorization').replace('Bearer ', '');
+        const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
+        if (req.params.username === decodedJwt.username) {
+            User.findByIdAndUpdate(decodedJwt.username, req.body,function (error, result) {
+                if (error || result === null) {
+                    res.status(404).send({
+                        success: false,
+                        message: 'Resource not found'
+                    });
+                } else {
+                    res.send({
+                        success: true,
+                        message: 'User successfully updated'
+                    });
+                }
+            })
+        } else {
+            res.status(401).send({
+                success: false,
+                message: 'Wrong token'
+            });
+        }
+    } catch (e) {
+        console.log(e);
+        res.status(401).send({
+            success: false,
+            message: 'Invalid token'
+        });
+    }
+});
+
 app.get('/users/:username/authentication', (req, res) => {
     User.findById(req.params.username,function (error, result) {
         if (error || result === null) {
