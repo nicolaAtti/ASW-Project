@@ -59,7 +59,7 @@
         position: relative;
         width: 100%;
         padding: 10px;
-        margin: -10px -10px 25px -10px;
+        margin: -10px -10px 25px 0px;
         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         background: #2A88AD;
         font-family: 'Roboto', sans-serif;
@@ -80,7 +80,7 @@
         position: absolute;
         width: 100%;
         height: 5px;
-        padding: 10px;
+        padding: 8px;
         margin: -10px 0 0 -10px;
         box-sizing: border-box;
         background: rgba(0, 0, 0, 0.156);
