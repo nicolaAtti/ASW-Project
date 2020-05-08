@@ -11,7 +11,7 @@
         <div class="navigation-links">
             <transition-group name="fade">
                 <div v-show="showLink" key="1">Profile</div>
-                <div v-show="showLink" key="2">Sessions History</div>
+                <div v-show="showLink" key="2">History</div>
                 <div v-show="showLink" key="3">Sign Out</div>
             </transition-group>
         </div>
@@ -55,9 +55,9 @@
 
     .container{
         position: absolute;
-        top: 0;
+        top: 100px;
         left: 0;
-        width: 50px;
+        width: 70px;
         padding: 10px;
         min-height: calc(100vh - 20px);
         background-color: rgba($color: #2A88AD, $alpha: .8);
@@ -116,15 +116,36 @@
         .navigation-links {
             padding-top: 14px;
             float: left;
-
             div {
+                display: flex ;
+                align-items: stretch ;
+                flex-flow: column wrap ;
+                vertical-align: middle;
+                margin-right: 5px;
                 font-size: 1.35rem;
                 padding-left: 10px;
-                margin-bottom: 18px;
+                margin-bottom: 26px;
                 cursor: pointer;
 
                 &:hover {
                     color: #ffffff;
+                }
+            }
+            @media all and (max-width: 480px) {
+                div {
+                    display: flex ;
+                    align-items: stretch ;
+                    flex-flow: column wrap ;
+                    vertical-align: middle;
+                    margin-right: 5px;
+                    font-size: 1.35rem;
+                    padding-left: 10px;
+                    margin-bottom: 20px;
+                    cursor: pointer;
+
+                    &:hover {
+                        color: #ffffff;
+                    }
                 }
             }
         }
