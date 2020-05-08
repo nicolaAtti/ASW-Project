@@ -15,7 +15,7 @@
 </template>
 
 <script>
-    import axios from "axios";
+    //import axios from "axios";
     import router from "../router";
 
     export default {
@@ -38,11 +38,12 @@
         methods: {
             //Questo metodo deve inviare al servizio 'login' le credenziale e aspettare la risposta. Se corrette rimandare l'utente alla pagina 'home'
             sendDataLogin() {
-                axios({ method: "POST", "url": "https://httpbin.org/post", "data": this.input, "headers": { "content-type": "application/json" } }).then(result => {
+            /*    axios({ method: "POST", "url": "https://httpbin.org/post", "data": this.input, "headers": { "content-type": "application/json" } }).then(result => {
                     this.response = result.data;
                 }, error => {
                     console.error(error);
-                });
+                });*/
+                router.push('home')
             },
             // Questo metodo deve rimandare l'utente alla pagina di registrazione
             sendDataRegister() {
