@@ -103,6 +103,39 @@ app.patch('/users/:username', (req, res) => {
     }
 });
 
+app.delete('/users/:username', (req, res) => {
+    try {
+        const token = req.header('Authorization').replace('Bearer ', '');
+        const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
+        if (req.params.username === decodedJwt.username) {
+            User.findByIdAndDelete(decodedJwt.username, function (error, result) {
+                if (error || result === null) {
+                    res.status(404).send({
+                        success: false,
+                        message: 'Already deleted'
+                    });
+                } else {
+                    res.send({
+                        success: true,
+                        message: 'User successfully deleted'
+                    });
+                }
+            })
+        } else {
+            res.status(401).send({
+                success: false,
+                message: 'Wrong token'
+            });
+        }
+    } catch (e) {
+        console.log(e);
+        res.status(401).send({
+            success: false,
+            message: 'Invalid token'
+        });
+    }
+});
+
 app.get('/users/:username/authentication', (req, res) => {
     User.findById(req.params.username,function (error, result) {
         if (error || result === null) {
