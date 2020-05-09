@@ -1,16 +1,16 @@
 <template>
     <div>
-        <button class="tablink" onclick="openPage('Profile', this, 'red')">Profile</button>
-        <button class="tablink" onclick="openPage('Achievements', this, 'green')" id="defaultOpen">Achievements</button>
+        <button class="tablink" v-on:click="openPage('Profile')">Profile</button>
+        <button class="tablink" v-on:click="openPage('Achievements')" id="defaultOpen">Achievements</button>
 
         <div id="Profile" class="tabcontent">
             <h3>Profile</h3>
-            <p>Home is where the heart is..</p>
+            <p>This tab will contain the profile data</p>
         </div>
 
         <div id="Achievements" class="tabcontent">
             <h3>Achievements</h3>
-            <p>Some news this fine day!</p>
+            <p>This tab will contain achievements</p>
         </div>
     </div>
 </template>
@@ -20,7 +20,7 @@
         name: "ProfilePage",
 
         methods: {
-            openPage(pageName, elmnt, color) {
+            openPage(pageName) {
                 // Hide all elements with class="tabcontent" by default */
                 var i, tabcontent, tablinks;
                 tabcontent = document.getElementsByClassName("tabcontent");
@@ -36,9 +36,6 @@
 
                 // Show the specific tab content
                 document.getElementById(pageName).style.display = "block";
-
-                // Add the specific color to the button used to open the tab content
-                elmnt.style.backgroundColor = color;
             }
         }
     }
@@ -70,12 +67,9 @@
 
     /* Style the tab content (and add height:100% for full page content) */
     .tabcontent {
-        color: white;
+        color: #000000;
         display: none;
         padding: 100px 20px;
         height: 100%;
     }
-
-    #Profile {background-color: red;}
-    #Achievements {background-color: green;}
 </style>
