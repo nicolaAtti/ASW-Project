@@ -4,7 +4,7 @@
             <i class="fas fa-angle-double-right" @click="showNav"></i>
         </div>
         <div class="navigation-icons">
-            <i class="fas fa-user-circle"></i>
+            <i class="fas fa-user-circle" v-on:click="goToProfile"></i>
             <i class="fas fa-file"></i>
             <i class="fas fa-sign-out-alt"></i>
         </div>
@@ -42,6 +42,9 @@
                         this.showLink = true;
                     }, 500);
                 }
+            },
+            goToProfile(){
+                this.$router.push('/home/profile')
             }
         }
     }

@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import LoginPage from "../components/LoginPage";
 import Register from "../components/Register";
 import HomePage from "../components/HomePage";
+import ProfilePage from "../components/ProfilePage";
 
 Vue.use(VueRouter)
 
@@ -15,16 +16,19 @@ Vue.use(VueRouter)
   {
     path: '/register',
     name: 'Register',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: Register
   },
     {
       path: '/home',
       name: 'HomePage',
       component: HomePage
+    },
+    {
+      path: '/home/profile',
+      name: 'ProfilePage',
+      component: ProfilePage
     }
+
 
 ]
 

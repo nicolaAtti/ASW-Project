@@ -56,6 +56,6 @@
     }
     .pages{
         position: relative;
-        top: 30px;
+        top: 0px;
     }
 </style>
