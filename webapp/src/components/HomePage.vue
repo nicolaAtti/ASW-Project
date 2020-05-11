@@ -6,22 +6,22 @@
         <div class="navigation-icons">
             <i class="fas fa-user-circle" v-on:click="goToProfile"></i>
             <i class="fas fa-file"></i>
-            <i class="fas fa-sign-out-alt"></i>
+            <i class="fas fa-sign-out-alt" @click="returnToLoginPage"></i>
         </div>
         <div class="navigation-links">
             <transition-group name="fade">
                 <div v-show="showLink" key="1">Profile</div>
                 <div v-show="showLink" key="2">History</div>
-                <div v-show="showLink" key="3">Sign Out</div>
+                <div v-show="showLink" key="3" @click="returnToLoginPage">Sign Out</div>
             </transition-group>
         </div>
     </div>
 </template>
 
 <script>
-  //  import router from "../router";
+    import router from "../router";
 
-    export default {
+  export default {
         data: () => {
             return {
                 showSidebar: false,
@@ -42,6 +42,10 @@
                         this.showLink = true;
                     }, 500);
                 }
+            },
+
+            returnToLoginPage(){
+                router.push('login')
             },
             goToProfile(){
                 this.$router.push('/home/profile')
