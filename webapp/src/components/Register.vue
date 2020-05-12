@@ -11,7 +11,8 @@
         <form id="registration">
             <div class="section"><span>1</span>{{ $t("registerPage.personal_data")}}</div>
             <div class="inner-wrap">
-                <label>{{ $t("registerPage.fullname")}}<input type="text" v-model="fullname" name="fullname" required/></label>
+                <label>{{ $t("registerPage.name")}}<input type="text" v-model="name" name="name" required/></label>
+                <label>{{ $t("registerPage.surname")}}<input type="text" v-model="surname" name="surname" required/></label>
                 <label>{{ $t("registerPage.birthday_date")}}<input type="date" v-model="birthday" name="birthday" required></label>
                 <label>{{ $t("registerPage.gender")}}</label>
                 <div class="gender">
@@ -30,9 +31,9 @@
                 <label>{{ $t("registerPage.confirm_password")}}<input type="password" v-model="confirm_pass" name="confirm_pass" required/></label>
             </div>
             <div class="button-section">
-                <button type="submit"  name="Sign Up" value="Sign Up">{{ $t("signUp")}}</button>
+                <button type="submit" name="Sign Up" value="Sign Up">{{ $t("signUp")}}</button>
                 <span class="achi-pub">
-     <label><input type="checkbox"  v-model="achi_pub" name="pub_achi">{{ $t("registerPage.pub_achievements")}}</label>
+     <label><input type="checkbox" true-value="true" v-model="achi_pub" name="pub_achi">{{ $t("registerPage.pub_achievements")}}</label>
      </span>
             </div>
         </form>
@@ -40,14 +41,16 @@
 </template>
 
 <script>
-    //import axios from "axios"
+    import axios from "axios";
+    import router from "../router";
 
     export default {
         name: "Register",
         data() {
             return {
                 errors: [],
-                fullname: "",
+                name: "",
+                surname: "",
                 birthday: "",
                 gender: "",
                 height: "",
@@ -56,24 +59,54 @@
                 username: "",
                 password: "",
                 confirm_pass: "",
-                achi_pub: ""
+                achi_pub: "false"
             };
         },
 
         methods: {
             async processForm(e){
                 this.errors = [];
+                console.log(this.achi_pub);
                 if(!(this.password === this.confirm_pass)){
                     //Inserted passwords do not match
                     console.log("Throw an error telling that the passwords don't match");
-                    this.errors.push("{{$t(registerPage.pass_mismatch)}}");
+                    this.errors.push(this.$t('registerPage.password_mismatch'));
+                    e.preventDefault()
                     window.scrollTo(0,0)
-                }else{
+                }else {
+                    try {
                     //Begin the server side validation
-                    console.log("Send the data to the registration server to begin validation")
-                    //TODO await axios.post(Create the url)
+                    console.log("Send the data to the registration server to begin validation");
+                    e.preventDefault();
+                    const response = await axios.post('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT + '/users/' + this.username, {
+                            name: this.name,
+                            surname: this.surname,
+                            birthday: this.birthday,
+                            gender: this.gender,
+                            height: this.height,
+                            weight: this.weight,
+                            email: this.email,
+                            password: this.password,
+                            publicAchievements: this.achi_pub
+                    });
+                    if(response.status===201){
+                        router.back();
+                        const snack = document.getElementById("snackbar");
+                        snack.className = "show";
+                        setTimeout(() => {
+                            snack.className = snack.className.replace("show","");
+                        }, 3000)
+                    }
+                    } catch(err){
+                        if(err.response.status===409){
+                            this.errors.push((this.$t('registerPage.existing_username')))
+                        }else{
+                            this.errors.push(this.$t('registerPage.generic_server_error'))
+                        }
+                        e.preventDefault();
+                        window.scrollTo(0,0)
+                    }
                 }
-                e.preventDefault()
             }
         }
     }
@@ -164,7 +197,7 @@
 
     .gender label{
         display: inline-block;
-        padding: 2% 5% 2% 5%;
+        padding: 2% 10% 2% 10%;
         margin: -2% -5% 2% -5%;
     }
 
@@ -216,6 +249,5 @@
         margin-left: -8%;
         margin-top: 1%;
     }
-
 
 </style>
