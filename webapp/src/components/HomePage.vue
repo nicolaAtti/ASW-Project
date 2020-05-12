@@ -19,12 +19,11 @@
         components: {
             Sidebar,
             HomeContent
-        },
+        }
     }
 
 </script>
 
 <style lang="scss" scoped >
-
-
 </style>
+

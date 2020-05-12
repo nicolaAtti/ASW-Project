@@ -26,6 +26,8 @@ db.once("open", function() {
 });
 
 app.post('/users/:username', (req, res) => {
+    console.log(req.params.username);
+    console.log(req.body);
     const user = new User({
         name: req.body.name,
         surname: req.body.surname,
