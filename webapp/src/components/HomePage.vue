@@ -3,58 +3,58 @@
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <div class="col-3 col-s-3 menu">
             <ul>
-                <li>Profile</li>
-                <li>Sessions History</li>
-                <li>Sign Out</li>
+                <li v-on:click="goToProfile()">{{ $t('homePage.Profile') }} </li>
+                <li>{{ $t('homePage.Sessions History') }}</li>
+                <li v-on:click="signOut()">{{ $t('homePage.Sign Out') }}</li>
             </ul>
         </div>
         <div class="col-9 col-s-4">
             <div class="w3-container">
-                <h2>User Data</h2>
+                <h2>{{ $t('homePage.User Data') }}</h2>
                 <ul class="w3-ul w3-large" >
-                    <li class="w3-padding-large">Age</li>
-                    <li class="w3-padding-large">Weight</li>
-                    <li class="w3-padding-large">Height</li>
+                    <li class="w3-padding-large">{{ $t('homePage.Age') }}</li>
+                    <li class="w3-padding-large">{{ $t('homePage.Weight') }}</li>
+                    <li class="w3-padding-large">{{ $t('homePage.Height') }}</li>
                 </ul>
             </div>
             <hr class="new5">
             <div class="w3-container">
-                <h2>Last Training Summary</h2>
+                <h2>{{ $t('homePage.Last Training Summary') }}</h2>
                 <ul class="w3-ul w3-large" >
-                    <li class="w3-padding-large">Session ID</li>
-                    <li class="w3-padding-large">Start Time</li>
-                    <li class="w3-padding-large">End Time</li>
-                    <li class="w3-padding-large">Calories Burned</li>
-                    <li class="w3-padding-large">Average Heart Beat</li>
-                    <li class="w3-padding-large">Kilometers Traveled</li>
-                    <li class="w3-padding-large">Steps</li>
-                    <li class="w3-padding-large">Average Altitude</li>
-                    <li class="w3-padding-large">Average Speed</li>
-                    <li class="w3-padding-large">Max Speed</li>
+                    <li class="w3-padding-large">{{ $t('homePage.Session ID') }}</li>
+                    <li class="w3-padding-large">{{ $t('homePage.Start Time') }}</li>
+                    <li class="w3-padding-large">{{ $t('homePage.End Time') }}</li>
+                    <li class="w3-padding-large">{{ $t('homePage.Calories Burned') }}</li>
+                    <li class="w3-padding-large">{{ $t('homePage.Average Heart Beat') }}</li>
+                    <li class="w3-padding-large">{{ $t('homePage.Kilometers Traveled') }}</li>
+                    <li class="w3-padding-large">{{ $t('homePage.Steps') }}</li>
+                    <li class="w3-padding-large">{{ $t('homePage.Average Altitude') }}</li>
+                    <li class="w3-padding-large">{{ $t('homePage.Average Speed') }}</li>
+                    <li class="w3-padding-large">{{ $t('homePage.Max Speed') }}</li>
                 </ul>
             </div>
             <hr class="new5">
-            <ejs-chart id="container" :title='titleSteps' :primaryXAxis='primaryXAxis_steps' :primaryYAxis='primaryYAxis_steps' :tooltip='tooltip'>
+            <ejs-chart id="container" :title='titleSteps' :primaryXAxis='primaryXAxis_steps' :primaryYAxis='primaryYAxis_steps' :tooltip='tooltip' :border='border' :titleStyle='titleStyle'>
                 <e-series-collection>
-                    <e-series :dataSource='seriesDataSteps' type='Line' xName='day' yName='steps' name='Steps' :marker='marker'> </e-series>
+                    <e-series :dataSource='seriesDataSteps' type='Column' xName='day' yName='steps' name='Steps' :marker='marker'> </e-series>
                 </e-series-collection>
             </ejs-chart>
             <hr class="new4">
-            <ejs-chart id="container2" :title='titleCalories' :primaryXAxis='primaryXAxis_calories' :primaryYAxis='primaryYAxis_calories' :tooltip='tooltip'>
+            <ejs-chart id="container2" :title='titleCalories' :primaryXAxis='primaryXAxis_calories' :primaryYAxis='primaryYAxis_calories' :tooltip='tooltip' :border='border' :titleStyle='titleStyle'>
                 <e-series-collection>
-                    <e-series :dataSource='seriesDataCalories' type='Line' xName='day' yName='calories' name='Calories' :marker='marker'> </e-series>
+                    <e-series :dataSource='seriesDataCalories' type='Column' xName='day' yName='calories' name='Calories' :marker='marker'> </e-series>
                 </e-series-collection>
             </ejs-chart>
             <hr class="new4">
-            <ejs-chart id="container3" :title='titleKm' :primaryXAxis='primaryXAxis_km' :primaryYAxis='primaryYAxis_km' :tooltip='tooltip'>
+            <ejs-chart id="container3" :title='titleKm' :primaryXAxis='primaryXAxis_km' :primaryYAxis='primaryYAxis_km' :tooltip='tooltip' :border='border' :titleStyle='titleStyle'>
                 <e-series-collection>
-                    <e-series :dataSource='seriesDataKm' type='Line' xName='day' yName='km' name='Chilometers' :marker='marker'> </e-series>
+                    <e-series :dataSource='seriesDataKm' type='Column' xName='day' yName='km' name='Chilometers' :marker='marker'> </e-series>
                 </e-series-collection>
             </ejs-chart>
             <hr class="new4">
-            <ejs-chart id="container4" :title='titleAvgSpeed' :primaryXAxis='primaryXAxis_AvgSpeed' :primaryYAxis='primaryYAxis_AvgSpeed' :tooltip='tooltip'>
+            <ejs-chart id="container4" :title='titleAvgSpeed' :primaryXAxis='primaryXAxis_AvgSpeed' :primaryYAxis='primaryYAxis_AvgSpeed' :tooltip='tooltip' :border='border' :titleStyle='titleStyle'>
                 <e-series-collection>
-                    <e-series :dataSource='seriesDataAvgSpeed' type='Line' xName='day' yName='km_h' name='AvgSpeed' :marker='marker'> </e-series>
+                    <e-series :dataSource='seriesDataAvgSpeed' type='Column' xName='day' yName='km_h' name='AvgSpeed' :marker='marker'> </e-series>
                 </e-series-collection>
             </ejs-chart>
             <hr class="new5">
@@ -64,7 +64,8 @@
 
 <script>
     import Vue from 'vue';
-    import { ChartPlugin, LineSeries, Category, DataLabel, Tooltip} from '@syncfusion/ej2-vue-charts';
+    import { ChartPlugin, LineSeries, ColumnSeries,  Category, DataLabel, Tooltip} from '@syncfusion/ej2-vue-charts';
+    import router from "../router";
     Vue.use(ChartPlugin);
 
     export default {
@@ -76,6 +77,16 @@
         },
         data() {
             return {
+                border: {color: "#107228", width: 1},
+
+                titleStyle:{
+                    fontFamily: "Arial",
+                    fontStyle: 'italic',
+                    fontWeight: 'regular',
+                    color: "#1f1913",
+                    size: '30px'
+                },
+
                 seriesDataSteps: [
                     { day: 'Monday', steps: 1530 }, { day: 'Tuesday', steps: 1245 },
                     { day: 'Wednesday', steps: 2340 }, { day: 'Thursday', steps: 1670 },
@@ -144,7 +155,15 @@
             };
         },
         provide: {
-            chart: [LineSeries, Category, DataLabel, Tooltip]
+            chart: [LineSeries, ColumnSeries, Category, DataLabel, Tooltip]
+        },
+        methods: {
+            signOut() {
+                router.push('login')
+            },
+            goToProfile() {
+                router.push('home/profile')
+            }
         }
     }
 
@@ -184,6 +203,7 @@
         background-color: #33b5e5;
         color: #ffffff;
         box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        cursor: pointer;
     }
 
     .menu li:hover {
