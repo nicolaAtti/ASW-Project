@@ -138,7 +138,7 @@ app.delete('/users/:username', (req, res) => {
     }
 });
 
-app.get('/users/:username/authentication', (req, res) => {
+app.post('/users/:username/authentication', (req, res) => {
     User.findById(req.params.username,function (error, result) {
         if (error || result === null) {
             res.status(404).send({
