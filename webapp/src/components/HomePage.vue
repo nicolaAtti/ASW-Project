@@ -34,12 +34,38 @@
                 </ul>
             </div>
             <hr class="new5">
-
+            <ejs-chart id="container" :title='titleSteps' :primaryXAxis='primaryXAxis_steps' :primaryYAxis='primaryYAxis_steps' :tooltip='tooltip'>
+                <e-series-collection>
+                    <e-series :dataSource='seriesDataSteps' type='Line' xName='day' yName='steps' name='Steps' :marker='marker'> </e-series>
+                </e-series-collection>
+            </ejs-chart>
+            <hr class="new4">
+            <ejs-chart id="container2" :title='titleCalories' :primaryXAxis='primaryXAxis_calories' :primaryYAxis='primaryYAxis_calories' :tooltip='tooltip'>
+                <e-series-collection>
+                    <e-series :dataSource='seriesDataCalories' type='Line' xName='day' yName='calories' name='Calories' :marker='marker'> </e-series>
+                </e-series-collection>
+            </ejs-chart>
+            <hr class="new4">
+            <ejs-chart id="container3" :title='titleKm' :primaryXAxis='primaryXAxis_km' :primaryYAxis='primaryYAxis_km' :tooltip='tooltip'>
+                <e-series-collection>
+                    <e-series :dataSource='seriesDataKm' type='Line' xName='day' yName='km' name='Chilometers' :marker='marker'> </e-series>
+                </e-series-collection>
+            </ejs-chart>
+            <hr class="new4">
+            <ejs-chart id="container4" :title='titleAvgSpeed' :primaryXAxis='primaryXAxis_AvgSpeed' :primaryYAxis='primaryYAxis_AvgSpeed' :tooltip='tooltip'>
+                <e-series-collection>
+                    <e-series :dataSource='seriesDataAvgSpeed' type='Line' xName='day' yName='km_h' name='AvgSpeed' :marker='marker'> </e-series>
+                </e-series-collection>
+            </ejs-chart>
+            <hr class="new5">
         </div>
     </div>
 </template>
 
 <script>
+    import Vue from 'vue';
+    import { ChartPlugin, LineSeries, Category, DataLabel, Tooltip} from '@syncfusion/ej2-vue-charts';
+    Vue.use(ChartPlugin);
 
     export default {
         metaInfo: {
@@ -48,6 +74,78 @@
                 { name: 'viewport', content: 'width=device-width, initial-scale=1' }
             ]
         },
+        data() {
+            return {
+                seriesDataSteps: [
+                    { day: 'Monday', steps: 1530 }, { day: 'Tuesday', steps: 1245 },
+                    { day: 'Wednesday', steps: 2340 }, { day: 'Thursday', steps: 1670 },
+                    { day: 'Friday', steps: 1200 }, { day: 'Saturday', steps: 1465 },
+                    { day: 'Sunday', steps: 900 }
+                ],
+                primaryXAxis_steps: {
+                    valueType: 'Category'
+                },
+                primaryYAxis_steps:{
+                    labelFormat: '{value}'
+                },
+                titleSteps: "Steps",
+
+                seriesDataCalories: [
+                    { day: 'Monday', calories: 260 }, { day: 'Tuesday', calories: 248 },
+                    { day: 'Wednesday', calories: 120 }, { day: 'Thursday', calories: 89 },
+                    { day: 'Friday', calories: 60 }, { day: 'Saturday', calories: 73 },
+                    { day: 'Sunday', calories: 180 }
+                ],
+                primaryXAxis_calories: {
+                    valueType: 'Category'
+                },
+                primaryYAxis_calories:{
+                    labelFormat: '{value} Kcal'
+                },
+                titleCalories: "Calories",
+
+                seriesDataKm: [
+                    { day: 'Monday', km: 1.3 }, { day: 'Tuesday', km: 2.4 },
+                    { day: 'Wednesday', km: 0.6 }, { day: 'Thursday', km: 1.8 },
+                    { day: 'Friday', km: 1.2 }, { day: 'Saturday', km: 3.4 },
+                    { day: 'Sunday', km: 0.9 }
+                ],
+                primaryXAxis_km: {
+                    valueType: 'Category'
+                },
+                primaryYAxis_km:{
+                    labelFormat: '{value} Km'
+                },
+                titleKm: "Chilometers",
+
+                seriesDataAvgSpeed: [
+                    { day: 'Monday', km_h: 10.5 }, { day: 'Tuesday', km_h: 9.4 },
+                    { day: 'Wednesday', km_h: 11.4 }, { day: 'Thursday', km_h: 7.4 },
+                    { day: 'Friday', km_h: 10.8 }, { day: 'Saturday', km_h: 7.9},
+                    { day: 'Sunday', km_h: 9.9 }
+                ],
+                primaryXAxis_AvgSpeed: {
+                    valueType: 'Category'
+                },
+                primaryYAxis_AvgSpeed:{
+                    labelFormat: '{value} Km/h'
+                },
+                titleAvgSpeed: "Average Speed",
+
+                legendSettings: {
+                    visible: true
+                },
+                marker: {
+                    dataLabel:{
+                        visible: true
+                    }
+                },
+                tooltip:{ enable: true },
+            };
+        },
+        provide: {
+            chart: [LineSeries, Category, DataLabel, Tooltip]
+        }
     }
 
 </script>
@@ -102,6 +200,10 @@
     hr.new5 {
         border: 10px solid green;
         border-radius: 5px;
+    }
+
+    .container, container2, container3, container4 {
+        height: 350px;
     }
 
     [class*="col-"] {

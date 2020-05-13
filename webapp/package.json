@@ -13,6 +13,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "@fortawesome/vue-fontawesome": "^0.1.9",
     "@mdi/font": "^5.1.45",
+    "@syncfusion/ej2-vue-charts": "^18.1.52",
     "apexcharts": "^3.19.0",
     "axios": "^0.19.2",
     "core-js": "^3.6.4",

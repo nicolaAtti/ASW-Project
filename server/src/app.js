@@ -26,8 +26,6 @@ db.once("open", function() {
 });
 
 app.post('/users/:username', (req, res) => {
-    console.log(req.params.username);
-    console.log(req.body);
     const user = new User({
         name: req.body.name,
         surname: req.body.surname,
@@ -138,7 +136,7 @@ app.delete('/users/:username', (req, res) => {
     }
 });
 
-app.get('/users/:username/authentication', (req, res) => {
+app.post('/users/:username/authentication', (req, res) => {
     User.findById(req.params.username,function (error, result) {
         if (error || result === null) {
             res.status(404).send({
