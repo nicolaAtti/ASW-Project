@@ -66,17 +66,12 @@
         methods: {
             async processForm(e){
                 this.errors = [];
-                console.log(this.achi_pub);
                 if(!(this.password === this.confirm_pass)){
-                    //Inserted passwords do not match
-                    console.log("Throw an error telling that the passwords don't match");
                     this.errors.push(this.$t('registerPage.password_mismatch'));
                     e.preventDefault()
                     window.scrollTo(0,0)
                 }else {
                     try {
-                    //Begin the server side validation
-                    console.log("Send the data to the registration server to begin validation");
                     e.preventDefault();
                     const response = await axios.post('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT + '/users/' + this.username, {
                             name: this.name,

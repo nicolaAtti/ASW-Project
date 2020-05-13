@@ -39,7 +39,7 @@
         width: 100%;
         border-collapse: collapse;
         margin-top: 10px;
-        margin-left: 170px;
+        margin-left: 5%;
         padding: 0 10px 0 0;
 
 

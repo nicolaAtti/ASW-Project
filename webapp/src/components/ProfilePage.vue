@@ -13,7 +13,7 @@
         </div>
 
         <div id="Achievements" class="tabcontent">
-            <h3>Achievements</h3>
+            <v-text-field label="Solo" solo> {{ name }}</v-text-field>
             <p>This tab will contain achievements</p>
         </div>
     </div>
@@ -25,7 +25,8 @@
 
         data: () => {
             return {
-                username: "Username"
+                username: "Username",
+                name: "Placeholder Name"
             };
         },
 
