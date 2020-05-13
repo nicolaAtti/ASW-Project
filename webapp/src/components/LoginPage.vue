@@ -11,8 +11,8 @@
                     <li v-for="error in errors" v-bind:key="error.id">{{ error }}</li>
                 </ul>
                 </p>
-                <input type="text" v-model= "input.username" placeholder="Username" />
-                <input type="password" v-model="input.password" placeholder="Password" />
+                <input type="text" v-model= "input.username" placeholder="Username" required />
+                <input type="password" v-model="input.password" placeholder="Password" required/>
                 <button type="submit" name="Sign In" value="Sign In">{{ $t("signIn")}}</button>
                 <button v-on:click="sendDataRegister()">{{ $t("signUp")}}</button>
             </form>
@@ -45,7 +45,7 @@
                     password: this.input.password
                 }).then((response) => {
                     console.log(response);
-                    localStorage.token = response.data.token;
+                    sessionStorage.token = response.data.token;
                     router.push('home')
                 }, (error) => {
                     console.log(error);
