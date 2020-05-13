@@ -28,6 +28,26 @@
     "password": "Password",
     "confirm_password": "Conferma password",
     "pub_achievements": "Mostra achievement pubblici."
+  },
+  "homePage": {
+    "Profile": "Profilo",
+    "Sessions History": "Storico Sessioni",
+    "Sign Out": "Disconnetti",
+    "User Data": "Dati Generali",
+    "Age": "Età",
+    "Weight": "Peso",
+    "Height": "Altezza",
+    "Last Training Summary": "Riepilogo Ultimo Allenamento",
+    "Session ID": "ID Sessione",
+    "Start Time": "Tempo di Inizio",
+    "End Time": "Tempo di Fine",
+    "Calories Burned": "Calorie Bruciate",
+    "Average Heart Beat": "Battito Cardiaco Medio",
+    "Kilometers Traveled": "Chilometri Percorsi",
+    "Steps": "Passi",
+    "Average Altitude": "Altitudine Media",
+    "Average Speed": "Velocità Media",
+    "Max Speed": "Velocità Massima"
   }
 
 }
