@@ -8,16 +8,16 @@ import ProfilePage from "../components/ProfilePage";
 Vue.use(VueRouter)
 
   const routes = [
-  {
-    path: '/login',
-    name: 'LoginPage',
-    component: LoginPage
-  },
-  {
-    path: '/register',
-    name: 'Register',
-    component: Register
-  },
+    {
+      path: "/login",
+      name: 'LoginPage',
+      component: LoginPage
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: Register
+    },
     {
       path: '/home',
       name: 'HomePage',
@@ -28,8 +28,6 @@ Vue.use(VueRouter)
       name: 'ProfilePage',
       component: ProfilePage
     }
-
-
 ]
 
 const router = new VueRouter({

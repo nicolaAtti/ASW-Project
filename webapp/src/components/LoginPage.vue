@@ -1,13 +1,19 @@
 <template>
     <div class="login-page">
         <div class="form">
-            <form class="login-form">
+            <form class="login-form" @submit="sendDataLogin">
                 <header>
                     <h1>{{ $t('loginPage.app_title') }}</h1>
                 </header>
+                <p v-if="errors.length" class="error-list">
+                    <b>{{ $t("registerPage.correct_errors")}}</b>
+                <ul>
+                    <li v-for="error in errors" v-bind:key="error.id">{{ error }}</li>
+                </ul>
+                </p>
                 <input type="text" v-model= "input.username" placeholder="Username" />
                 <input type="password" v-model="input.password" placeholder="Password" />
-                <button v-on:click="sendDataLogin()">{{ $t("signIn")}}</button>
+                <button type="submit" name="Sign In" value="Sign In">{{ $t("signIn")}}</button>
                 <button v-on:click="sendDataRegister()">{{ $t("signUp")}}</button>
             </form>
         </div>
@@ -15,14 +21,11 @@
 </template>
 
 <script>
-    //import axios from "axios";
+    import axios from "axios";
     import router from "../router";
 
     export default {
         name: "LoginPage",
-        props: {
-            msg: String
-        },
         data () {
             return {
                 errors: [],
@@ -35,17 +38,26 @@
             }
         },
         methods: {
-            //Questo metodo deve inviare al servizio 'login' le credenziale e aspettare la risposta. Se corrette rimandare l'utente alla pagina 'home'
-            sendDataLogin() {
-            /*    axios({ method: "POST", "url": "https://httpbin.org/post", "data": this.input, "headers": { "content-type": "application/json" } }).then(result => {
-                    this.response = result.data;
-                }, error => {
-                    console.error(error);
-                });*/
-                router.push('home')
-
+            sendDataLogin(e) {
+                this.errors = [];
+                e.preventDefault();
+                const response = axios.post('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT + '/users/' + this.input.username + '/authentication',{
+                    password: this.input.password
+                }).then((response) => {
+                    console.log(response);
+                    localStorage.token = response.data.token;
+                    router.push('home')
+                }, (error) => {
+                    console.log(error);
+                    if(response.status===404){
+                        console.log("404")
+                        this.errors.push("Username non trovato")
+                    }else{
+                        console.log("409")
+                        this.errors.push("Password errata")
+                    }
+                });
             },
-            // Questo metodo deve rimandare l'utente alla pagina di registrazione
             sendDataRegister() {
                 router.push('register')
             }
@@ -171,6 +183,25 @@
         font-family: "Roboto", sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+    }
+
+    .error-list b{
+        font: normal 80% 'Bitter', serif;
+        color: #2A88AD;
+        margin-left: -13%;
+        margin-bottom: 5%;
+    }
+
+    .error-list ul{
+        list-style: inside;
+        justify-content: center;
+    }
+
+    .error-list li{
+        font: normal 80% 'Bitter', serif;
+        color: #ad1e1b;
+        margin-left: -8%;
+        margin-bottom: 5%;
     }
 
 </style>

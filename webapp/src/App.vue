@@ -24,9 +24,8 @@
 
     export default {
         name: 'App',
-        beforeMount() {
+        beforeCreate() {
             router.push('login');
-            console.log('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT)
         },
         data: () => ({
             language: 'English',
@@ -34,11 +33,11 @@
         methods: {
             changeLang() {
                 if(this.language === 'English'){
-                    this.language = 'Italian';
                     VueI18n.locale = 'it';
+                    this.language = this.$t('it_lang');
                 }else{
-                    this.language = 'English';
                     VueI18n.locale= 'en';
+                    this.language = this.$t('en_lang');
                 }
             },
             goBack() {

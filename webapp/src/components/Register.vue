@@ -68,7 +68,7 @@
                 this.errors = [];
                 if(!(this.password === this.confirm_pass)){
                     this.errors.push(this.$t('registerPage.password_mismatch'));
-                    e.preventDefault()
+                    e.preventDefault();
                     window.scrollTo(0,0)
                 }else {
                     try {
