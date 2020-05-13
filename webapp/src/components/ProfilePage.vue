@@ -1,5 +1,9 @@
 <template>
     <div>
+        <div class="profile_top_card">
+            <img src="avatar.png" alt="Avatar" class="avatar">
+            <h2 class="username_title">{{ username }}</h2>
+        </div>
         <button class="tablink" v-on:click="openPage('Profile')">Profile</button>
         <button class="tablink" v-on:click="openPage('Achievements')" id="defaultOpen">Achievements</button>
 
@@ -9,7 +13,7 @@
         </div>
 
         <div id="Achievements" class="tabcontent">
-            <h3>Achievements</h3>
+            <v-text-field label="Solo" solo> {{ name }}</v-text-field>
             <p>This tab will contain achievements</p>
         </div>
     </div>
@@ -18,6 +22,13 @@
 <script>
     export default {
         name: "ProfilePage",
+
+        data: () => {
+            return {
+                username: "Username",
+                name: "Placeholder Name"
+            };
+        },
 
         methods: {
             openPage(pageName) {
@@ -50,7 +61,7 @@
 
     /* Style tab links */
     .tablink {
-        background-color: #555;
+        background-color: #257C9E;
         color: white;
         float: left;
         border: none;
@@ -62,7 +73,7 @@
     }
 
     .tablink:hover {
-        background-color: #777;
+        background-color: #2A6881;
     }
 
     /* Style the tab content (and add height:100% for full page content) */
@@ -71,5 +82,20 @@
         display: none;
         padding: 100px 20px;
         height: 100%;
+    }
+
+    .profile_top_card {
+    }
+
+    .avatar {
+        vertical-align: middle;
+        width: 25%;
+        height: 25%;
+        margin-top: 5%;
+        margin-bottom: 3%;
+        border-radius: 50%;
+    }
+    .username_title {
+        margin-bottom: 2%;
     }
 </style>
