@@ -25,15 +25,14 @@
         },
         data () {
             return {
+                errors: [],
                 input: {
                     username: "",
                     password: ""
                 },
                 response: ""
-            }
-        },
-        mounted() {
 
+            }
         },
         methods: {
             //Questo metodo deve inviare al servizio 'login' le credenziale e aspettare la risposta. Se corrette rimandare l'utente alla pagina 'home'
@@ -44,6 +43,7 @@
                     console.error(error);
                 });*/
                 router.push('home')
+
             },
             // Questo metodo deve rimandare l'utente alla pagina di registrazione
             sendDataRegister() {
@@ -94,9 +94,14 @@
         color: #ffffff;
     }
     .login-page {
-        width: 95%;
-        padding: 8% 0 0;
-        margin: auto;
+        margin: 5% 5% 10% 5%;
+
+        width: 90%;
+        padding: 5%;
+        background: #FFF;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.13);
+        -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.13);
+        -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.13);
     }
     .form {
         position: relative;
