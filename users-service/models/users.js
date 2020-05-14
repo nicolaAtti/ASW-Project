@@ -1,7 +1,7 @@
-var mongoose = require("mongoose");
-var Schema = mongoose.Schema;
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-var usersSchema = new Schema({
+const usersSchema = new Schema({
     name: {
         type: String,
         required: true
@@ -45,5 +45,5 @@ var usersSchema = new Schema({
     achievements: [[String]]
 });
 
-var users = mongoose.model("users", usersSchema);
+const users = mongoose.model("users", usersSchema);
 module.exports = users;
