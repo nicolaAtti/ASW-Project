@@ -99,7 +99,7 @@
                 primaryYAxis_steps:{
                     labelFormat: '{value}'
                 },
-                titleSteps: "Steps",
+                titleSteps: this.$t('homePage.Steps'),
 
                 seriesDataCalories: [
                     { day: 'Monday', calories: 260 }, { day: 'Tuesday', calories: 248 },
@@ -200,6 +200,7 @@
         font-size: 18px;
         padding: 8px;
         margin-bottom: 7px;
+        border: 1.5px solid cornflowerblue;
         background-color: #33b5e5;
         color: #ffffff;
         box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
