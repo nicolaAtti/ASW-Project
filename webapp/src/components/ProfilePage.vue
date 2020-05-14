@@ -1,19 +1,21 @@
 <template>
     <div>
         <div class="profile_top_card">
-            <img src="avatar.png" alt="Avatar" class="avatar">
+            <v-avatar size="70">
+                <img
+                        src="avatar.png"
+                >
+            </v-avatar>
             <h2 class="username_title">{{ username }}</h2>
         </div>
         <button class="tablink" v-on:click="openPage('Profile')">Profile</button>
         <button class="tablink" v-on:click="openPage('Achievements')" id="defaultOpen">Achievements</button>
 
         <div id="Profile" class="tabcontent">
-            <h3>Profile</h3>
-            <p>This tab will contain the profile data</p>
+            <v-text-field label="Solo" solo> {{ name }}</v-text-field>
         </div>
 
         <div id="Achievements" class="tabcontent">
-            <v-text-field label="Solo" solo> {{ name }}</v-text-field>
             <p>This tab will contain achievements</p>
         </div>
     </div>
@@ -56,7 +58,7 @@
     body, html {
         height: 100%;
         margin: 0;
-        font-family: Arial;
+        font-family: Arial, serif;
     }
 
     /* Style tab links */
@@ -84,18 +86,16 @@
         height: 100%;
     }
 
-    .profile_top_card {
+    .profile_top_card{
+        padding: 1%;
+        background: #4d4d4d;
     }
 
-    .avatar {
-        vertical-align: middle;
-        width: 25%;
-        height: 25%;
-        margin-top: 5%;
-        margin-bottom: 3%;
-        border-radius: 50%;
+    #Profile{
+        display: block;
     }
+
     .username_title {
-        margin-bottom: 2%;
+        margin-bottom: 1%;
     }
 </style>
