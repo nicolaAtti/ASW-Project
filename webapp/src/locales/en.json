@@ -12,6 +12,7 @@
     "password_mismatch": "Inserted passwords do not match.",
     "existing_username" : "Username or email already exists.",
     "generic_server_error": "A server error has occurred.",
+    "requiredField": "The * indicates a required field",
     "success": "Registration Successful",
     "personal_data": "Personal data:",
     "name": "Name",

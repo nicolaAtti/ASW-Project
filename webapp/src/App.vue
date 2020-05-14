@@ -6,11 +6,6 @@
             </v-btn>
 
             <v-spacer/>
-            <!--
-            <v-btn icon color="#fff">
-              <v-icon>mdi-dots-vertical</v-icon>
-            </v-btn>
-            -->
             <v-btn rounded color= dark v-on:click="changeLang()">{{language}}</v-btn>
         </v-toolbar>
         <router-view class="pages"/>

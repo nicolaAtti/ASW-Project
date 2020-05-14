@@ -11,10 +11,10 @@
         <form id="registration">
             <div class="section"><span>1</span>{{ $t("registerPage.personal_data")}}</div>
             <div class="inner-wrap">
-                <label>{{ $t("registerPage.name")}}<input type="text" v-model="name" name="name" required/></label>
-                <label>{{ $t("registerPage.surname")}}<input type="text" v-model="surname" name="surname" required/></label>
-                <label>{{ $t("registerPage.birthday_date")}}<input type="date" v-model="birthday" name="birthday" required></label>
-                <label>{{ $t("registerPage.gender")}}</label>
+                <label>{{ $t("registerPage.name")}}*<input type="text" v-model="name" name="name" required/></label>
+                <label>{{ $t("registerPage.surname")}}*<input type="text" v-model="surname" name="surname" required/></label>
+                <label>{{ $t("registerPage.birthday_date")}}*<input type="date" v-model="birthday" name="birthday" required></label>
+                <label>{{ $t("registerPage.gender")}}*</label>
                 <div class="gender">
                     <label><input type="radio" name="gender" v-model="gender" value="Male" required>{{ $t("registerPage.male")}}</label>
                     <label><input type="radio" name="gender" v-model="gender" value="Female" required>{{ $t("registerPage.female")}}</label>
@@ -25,11 +25,12 @@
 
             <div class="section"><span>2</span>{{ $t("registerPage.account_data")}}</div>
             <div class="inner-wrap">
-                <label>{{ $t("registerPage.email")}}<input type="email" v-model="email" name="email" required></label>
-                <label>{{ $t("registerPage.username")}} <input type="text" v-model="username" name="username" required></label>
-                <label>{{ $t("registerPage.password")}} <input type="password" v-model="password" name="password" required/></label>
-                <label>{{ $t("registerPage.confirm_password")}}<input type="password" v-model="confirm_pass" name="confirm_pass" required/></label>
+                <label>{{ $t("registerPage.email")}}*<input type="email" v-model="email" name="email" required></label>
+                <label>{{ $t("registerPage.username")}}*<input type="text" v-model="username" name="username" required></label>
+                <label>{{ $t("registerPage.password")}}*<input type="password" v-model="password" name="password" required/></label>
+                <label>{{ $t("registerPage.confirm_password")}}*<input type="password" v-model="confirm_pass" name="confirm_pass" required/></label>
             </div>
+            <p>{{ $t("registerPage.requiredField")}}</p>
             <div class="button-section">
                 <button type="submit" name="Sign Up" value="Sign Up">{{ $t("signUp")}}</button>
                 <span class="achi-pub">
@@ -158,6 +159,13 @@
     }
 
     .register-form label{
+        display: block;
+        font: 75%  Bitter, serif;
+        color: #888;
+        margin-bottom: 5%;
+    }
+
+    .register-form p{
         display: block;
         font: 75%  Bitter, serif;
         color: #888;

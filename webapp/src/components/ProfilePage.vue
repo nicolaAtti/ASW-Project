@@ -12,7 +12,7 @@
         <button class="tablink" v-on:click="openPage('Achievements')" id="defaultOpen">Achievements</button>
 
         <div id="Profile" class="tabcontent">
-            <v-text-field label="Solo" solo> {{ name }}</v-text-field>
+            <ProfileDialog />
         </div>
 
         <div id="Achievements" class="tabcontent">
@@ -22,13 +22,20 @@
 </template>
 
 <script>
+    import ProfileDialog from "./ProfileDialog";
+
     export default {
         name: "ProfilePage",
+
+        components: {
+            ProfileDialog
+        },
 
         data: () => {
             return {
                 username: "Username",
-                name: "Placeholder Name"
+                name: "Placeholder Name",
+                dialog: false
             };
         },
 
@@ -55,13 +62,6 @@
 </script>
 
 <style scoped>
-    body, html {
-        height: 100%;
-        margin: 0;
-        font-family: Arial, serif;
-    }
-
-    /* Style tab links */
     .tablink {
         background-color: #257C9E;
         color: white;
@@ -78,17 +78,16 @@
         background-color: #2A6881;
     }
 
-    /* Style the tab content (and add height:100% for full page content) */
     .tabcontent {
         color: #000000;
         display: none;
         padding: 100px 20px;
-        height: 100%;
     }
 
     .profile_top_card{
         padding: 1%;
-        background: #4d4d4d;
+        background-size: cover;
+        background-image: url("../assets/profile-background-motive.jpg");
     }
 
     #Profile{
