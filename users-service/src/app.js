@@ -54,7 +54,6 @@ app.post('/users/:username', (req, res) => {
                         message: 'Wrong parameters'
                     })
                 } else {
-                    console.log(error)
                     res.status(500).send({
                         success: false,
                         message: 'Failed to save user'
@@ -95,7 +94,6 @@ app.patch('/users/:username', (req, res) => {
             });
         }
     } catch (e) {
-        console.log(e);
         res.status(401).send({
             success: false,
             message: 'Invalid token'
@@ -128,7 +126,6 @@ app.delete('/users/:username', (req, res) => {
             });
         }
     } catch (e) {
-        console.log(e);
         res.status(401).send({
             success: false,
             message: 'Invalid token'
