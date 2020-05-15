@@ -2,12 +2,12 @@
     <div id="app">
         <v-app id="inspire">
             <v-row justify="center">
-                <v-dialog v-model="dialog" hide-overlay max-width="600px">
+                <v-dialog class="form-dialog" v-model="dialog" hide-overlay fullscreen transition="dialog-bottom-transition">
                     <template v-slot:activator="{ on }">
-                        <v-btn color="primary" dark v-on="on">Open Dialog</v-btn>
+                        <v-btn color="primary" dark v-on="on">Change Account Information</v-btn>
                     </template>
                     <v-card>
-                        <v-card-title>
+                        <v-card-title class="dialog-title">
                             <span class="headline">Change profile information</span>
                         </v-card-title>
                         <v-card-text>
@@ -75,13 +75,14 @@
             }
         },
 
+
+
         methods: {
             sendNewProfileData() {
                 //Send to backend then clear
                 this.clearForm()
             },
             clearForm() {
-                this.dialog = false;
                 this.name = "";
                 this.surname = "";
                 this.birthday = "";
@@ -90,11 +91,15 @@
                 this.email = "";
                 this.username = "";
                 this.password = "";
+                document.getElementsByClassName('v-dialog--active')[0].scrollTop = 0
+                this.dialog = false;
             }
         }
     }
 </script>
 
 <style scoped>
-
+    .dialog-title{
+        background: dodgerblue;
+    }
 </style>
