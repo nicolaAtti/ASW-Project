@@ -166,7 +166,6 @@
             }
         }
     }
-
 </script>
 
 <style lang="scss" scoped >
@@ -263,8 +262,6 @@
         .col-12 {width: 100%;}
         .col-3 {flex: 0 0 10%}
     }
-
-
 
 </style>
 

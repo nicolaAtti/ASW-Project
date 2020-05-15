@@ -47,8 +47,14 @@
     "Steps": "Passi",
     "Average Altitude": "Altitudine Media",
     "Average Speed": "Velocità Media",
-    "Max Speed": "Velocità Massima",
-    "Steps": "Passi"
+    "Max Speed": "Velocità Massima"
+  },
+  "adminHomePage": {
+    "Profile": "Profilo",
+    "Sign Out": "Disconnetti",
+    "General Data": "Dati Generali degli Utenti",
+    "Registered Users": "Utenti Registrati",
+    "Average Users Age": "Età Media degli Utenti"
   }
 
 }
