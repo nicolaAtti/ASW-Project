@@ -48,8 +48,14 @@
     "Steps": "Steps",
     "Average Altitude": "Average Altitude",
     "Average Speed": "Average Speed",
-    "Max Speed": "Max Speed",
-    "Steps": "Steps"
+    "Max Speed": "Max Speed"
+  },
+  "adminHomePage": {
+    "Profile": "Profile",
+    "Sign Out": "Sign Out",
+    "General Data": "General Users Data",
+    "Registered Users": "Registered Users",
+    "Average Users Age": "Average Users Age"
   }
 
 }

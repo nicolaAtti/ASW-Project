@@ -33,7 +33,12 @@
                     username: "",
                     password: ""
                 },
-                response: ""
+                response: "",
+
+                mockAccount: {
+                    username: "JohhnyDoe",
+                    password: "123456"
+                }
 
             }
         },
@@ -46,7 +51,11 @@
                 }).then((response) => {
                     console.log(response);
                     sessionStorage.token = response.data.token;
-                    router.push('home')
+                    if(this.input.username == this.mockAccount.username && this.input.password == this.mockAccount.password) {
+                        router.push('admin-home')
+                    }else {
+                        router.push('home')
+                    }
                 }, (error) => {
                     console.log(error);
                     if(response.status===404){
