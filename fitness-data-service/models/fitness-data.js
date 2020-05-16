@@ -14,6 +14,7 @@ const fitnessDataSchema = new Schema({
     steps: Number,
     caloriesBurned: Number,
     position: {
+        type: Map,
         altitude: Number,
         latitude: Number,
         longitude: Number
