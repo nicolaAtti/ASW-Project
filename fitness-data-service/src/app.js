@@ -7,7 +7,6 @@ const mongoose = require('mongoose');
 const jsonwebtoken = require('jsonwebtoken');
 
 dotenv.config();
-const JWT_SECRET = process.env.JWT_SECRET
 const app = express();
 app.use(morgan('combined'));
 app.use(bodyParser.json());
