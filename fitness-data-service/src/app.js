@@ -23,6 +23,7 @@ db.once("open", function() {
 });
 
 require('../routes/fat-data-routes')(app);
+require('../routes/fitness-data-routes')(app);
 
 app.use(function (err, req, res, next) {
     res.status(404).send({
