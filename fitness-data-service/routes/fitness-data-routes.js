@@ -82,4 +82,33 @@ module.exports = function(app) {
             });
         }
     });
+
+    app.get('/users/:username/fitness', (req, res) => {
+        try {
+            const token = req.header('Authorization').replace('Bearer ', '');
+            const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
+            if (req.params.username === decodedJwt.username) {
+                FitnessData.find({ username: decodedJwt.username }, { _id: 0, __v: 0 }, function (error, result) {
+                    if (result === null) {
+                        res.send({
+                            success: true,
+                            message: 'No fitness data found'
+                        });
+                    } else {
+                        res.send(result);
+                    }
+                })
+            } else {
+                res.status(401).send({
+                    success: false,
+                    message: 'Wrong token'
+                });
+            }
+        } catch (e) {
+            res.status(401).send({
+                success: false,
+                message: 'Invalid token'
+            });
+        }
+    });
 }
