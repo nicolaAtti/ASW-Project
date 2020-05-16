@@ -21,7 +21,7 @@ module.exports = function(app) {
                         }
                         fatData.save(function (error) {
                             if (error) {
-                                if (error instanceof mongoose.Error.ValidationError) {
+                                if (error.name === "ValidationError") {
                                     res.status(400).send({
                                         success: false,
                                         message: 'Wrong parameters'
