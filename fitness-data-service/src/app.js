@@ -4,7 +4,6 @@ const cors = require('cors');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
-const jsonwebtoken = require('jsonwebtoken');
 
 dotenv.config();
 const app = express();

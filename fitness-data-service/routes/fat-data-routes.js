@@ -1,3 +1,4 @@
+const jsonwebtoken = require('jsonwebtoken');
 const FatData = require("../models/fat-data");
 const JWT_SECRET = process.env.JWT_SECRET
 
