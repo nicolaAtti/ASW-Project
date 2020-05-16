@@ -14,18 +14,9 @@ const fitnessDataSchema = new Schema({
     steps: Number,
     caloriesBurned: Number,
     position: {
-        altitude: {
-            type: Number,
-            required: true
-        },
-        latitude: {
-            type: Number,
-            required: true
-        },
-        longitude: {
-            type: Number,
-            required: true
-        }
+        altitude: Number,
+        latitude: Number,
+        longitude: Number
     },
     trainingSessionId: String
 });
