@@ -14,7 +14,7 @@ module.exports = function(app) {
                     timestamp: req.body.timestamp,
                     weight: req.body.weight
                 });
-                axios.get(process.env.USER_SERVICE_URL + req.params.username, { 'headers': { 'Authorization': req.header('Authorization') } })
+                axios.get(process.env.USER_SERVICE_URL + decodedJwt.username, { 'headers': { 'Authorization': req.header('Authorization') } })
                     .then(userResult => {
                         if (userResult.data.height) {
                             fatData.bmi = (req.body.weight / (userResult.data.height * userResult.data.height)).toFixed(2);
@@ -47,6 +47,38 @@ module.exports = function(app) {
                             message: 'Failed to save fat data'
                         })
                     });
+            } else {
+                res.status(401).send({
+                    success: false,
+                    message: 'Wrong token'
+                });
+            }
+        } catch (e) {
+            res.status(401).send({
+                success: false,
+                message: 'Invalid token'
+            });
+        }
+    });
+
+    app.delete('/users/:username/fat', (req, res) => {
+        try {
+            const token = req.header('Authorization').replace('Bearer ', '');
+            const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
+            if (req.params.username === decodedJwt.username) {
+                FatData.deleteMany({ username: decodedJwt.username }, function (error, result) {
+                    if (error || result === null) {
+                        res.status(404).send({
+                            success: false,
+                            message: 'Already deleted'
+                        });
+                    } else {
+                        res.send({
+                            success: true,
+                            message: 'User fat data successfully deleted'
+                        });
+                    }
+                })
             } else {
                 res.status(401).send({
                     success: false,
