@@ -121,4 +121,33 @@ module.exports = function(app) {
             });
         }
     });
+
+    app.get('/users/:username/fat/latest', (req, res) => {
+        try {
+            const token = req.header('Authorization').replace('Bearer ', '');
+            const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
+            if (req.params.username === decodedJwt.username) {
+                FatData.findOne({ username: decodedJwt.username }, { _id: 0, __v: 0 }, { sort: { 'timestamp' : -1 } }, function (error, result) {
+                    if (result === null) {
+                        res.send({
+                            success: true,
+                            message: 'No fat data found'
+                        });
+                    } else {
+                        res.send(result);
+                    }
+                })
+            } else {
+                res.status(401).send({
+                    success: false,
+                    message: 'Wrong token'
+                });
+            }
+        } catch (e) {
+            res.status(401).send({
+                success: false,
+                message: 'Invalid token'
+            });
+        }
+    });
 }
