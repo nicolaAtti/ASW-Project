@@ -50,4 +50,36 @@ module.exports = function(app) {
             });
         }
     });
+
+    app.delete('/users/:username/fitness', (req, res) => {
+        try {
+            const token = req.header('Authorization').replace('Bearer ', '');
+            const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
+            if (req.params.username === decodedJwt.username) {
+                FitnessData.deleteMany({ username: decodedJwt.username }, function (error, result) {
+                    if (error || result === null) {
+                        res.status(404).send({
+                            success: false,
+                            message: 'Already deleted'
+                        });
+                    } else {
+                        res.send({
+                            success: true,
+                            message: 'User fitness data successfully deleted'
+                        });
+                    }
+                })
+            } else {
+                res.status(401).send({
+                    success: false,
+                    message: 'Wrong token'
+                });
+            }
+        } catch (e) {
+            res.status(401).send({
+                success: false,
+                message: 'Invalid token'
+            });
+        }
+    });
 }
