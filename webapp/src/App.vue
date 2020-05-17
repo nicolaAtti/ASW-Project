@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <v-toolbar dense color="#2A88AD">
+        <v-toolbar dense color="#0277bd">
             <v-btn v-if="($route.path!=='/login' && $route.path!=='/home')" icon color="#fff" v-on:click="goBack()">
                 <v-icon>mdi-backspace</v-icon>
             </v-btn>

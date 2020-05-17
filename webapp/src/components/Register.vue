@@ -1,44 +1,78 @@
 <template>
-    <div class="register-form" @submit="processForm">
-        <link href='http://fonts.googleapis.com/css?family=Bitter' rel='stylesheet' type='text/css'>
-        <h1>{{ $t('registerPage.register_title')}}</h1>
-        <p v-if="errors.length" class="error-list">
-            <b>{{ $t("registerPage.correct_errors")}}</b>
-        <ul>
-            <li v-for="error in errors" v-bind:key="error.id">{{ error }}</li>
-        </ul>
-        </p>
-        <form id="registration">
-            <div class="section"><span>1</span>{{ $t("registerPage.personal_data")}}</div>
-            <div class="inner-wrap">
-                <label>{{ $t("registerPage.name")}}*<input type="text" v-model="name" name="name" required/></label>
-                <label>{{ $t("registerPage.surname")}}*<input type="text" v-model="surname" name="surname" required/></label>
-                <label>{{ $t("registerPage.birthday_date")}}*<input type="date" v-model="birthday" name="birthday" required></label>
-                <label>{{ $t("registerPage.gender")}}*</label>
-                <div class="gender">
-                    <label><input type="radio" name="gender" v-model="gender" value="Male" required>{{ $t("registerPage.male")}}</label>
-                    <label><input type="radio" name="gender" v-model="gender" value="Female" required>{{ $t("registerPage.female")}}</label>
+    <v-app id="inspire">
+        <div class="register-form" @submit="processForm">
+            <link href='http://fonts.googleapis.com/css?family=Bitter' rel='stylesheet' type='text/css'>
+            <h1>{{ $t('registerPage.register_title')}}</h1>
+            <p v-if="errors.length" class="error-list">
+                <b>{{ $t("registerPage.correct_errors")}}</b>
+            <ul>
+                <li v-for="error in errors" v-bind:key="error.id">{{ error }}</li>
+            </ul>
+            </p>
+            <form id="registration">
+                <div class="section"><span>1</span>{{ $t("registerPage.personal_data")}}</div>
+                <div class="inner-wrap">
+                    <v-row>
+                        <v-col cols="12" sm="6" md="6">
+                            <v-text-field v-model="name" dense outlined :label="this.$t('registerPage.name')" required/>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="6">
+                            <v-text-field v-model="surname" dense outlined :label="this.$t('registerPage.surname')" required/>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="6">
+                            <v-label>{{ $t('registerPage.birthday_date')}}</v-label>
+                            <v-date-picker v-model="birthday" reactive width="100%" :locale="$i18n.locale"/>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="6">
+                            <v-select
+                                    outlined
+                                    dense
+                                    :items="[this.$t('registerPage.male'),this.$t('registerPage.female')]"
+                                    :label="this.$t('registerPage.gender')"
+                                    v-model="gender"
+                            />
+                        </v-col>
+                        <v-col cols="12" sm="6" md="6">
+                            <v-text-field v-model="height" dense outlined :label="this.$t('registerPage.height')"/>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="6">
+                            <v-text-field v-model="weight" dense outlined :label="this.$t('registerPage.weight')"/>
+                        </v-col>
+                    </v-row>
                 </div>
-                <label>{{ $t("registerPage.height")}}<input type="number" v-model="weight" name="weight" /></label>
-                <label>{{ $t("registerPage.weight")}}<input type="number" v-model="height" name="height" /></label>
-            </div>
 
-            <div class="section"><span>2</span>{{ $t("registerPage.account_data")}}</div>
-            <div class="inner-wrap">
-                <label>{{ $t("registerPage.email")}}*<input type="email" v-model="email" name="email" required></label>
-                <label>{{ $t("registerPage.username")}}*<input type="text" v-model="username" name="username" required></label>
-                <label>{{ $t("registerPage.password")}}*<input type="password" v-model="password" name="password" required/></label>
-                <label>{{ $t("registerPage.confirm_password")}}*<input type="password" v-model="confirm_pass" name="confirm_pass" required/></label>
-            </div>
-            <p>{{ $t("registerPage.requiredField")}}</p>
-            <div class="button-section">
-                <button type="submit" name="Sign Up" value="Sign Up">{{ $t("signUp")}}</button>
-                <span class="achi-pub">
-     <label><input type="checkbox" true-value="true" v-model="achi_pub" name="pub_achi">{{ $t("registerPage.pub_achievements")}}</label>
-     </span>
-            </div>
-        </form>
-    </div>
+                <div class="section"><span>2</span>{{ $t("registerPage.account_data")}}</div>
+                <div class="inner-wrap">
+                    <v-row>
+                        <v-col cols="12" sm="6" md="6">
+                            <v-text-field v-model="email" dense outlined :label="this.$t('registerPage.email')" required/>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="6">
+                            <v-text-field v-model="username" dense outlined :label="this.$t('registerPage.username')" required/>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="6">
+                            <v-text-field v-model="password" dense outlined :label="this.$t('registerPage.password')" required type="password"/>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="6">
+                            <v-text-field v-model="confirm_pass" dense outlined :label="this.$t('registerPage.confirm_password')" required type="password"/>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="6">
+                            <v-checkbox
+                                    v-model="achi_pub"
+                                    :label="this.$t('registerPage.pub_achievements')"
+                                    true-value="true"
+                            />
+                        </v-col>
+                    </v-row>
+                </div>
+                <p>{{ $t("registerPage.requiredField")}}</p>
+                <div class="button-section">
+
+                    <v-btn class="ma-2" type="submit" name="Sign Up" value="Sign Up" tile color="primary" >{{ $t("signUp")}}</v-btn>
+                </div>
+            </form>
+        </div>
+    </v-app>
 </template>
 
 <script>
@@ -111,7 +145,6 @@
 <style scoped>
     .register-form {
         margin: 5% 5% 10% 5%;
-
         width: 90%;
         padding: 5%;
         background: #FFF;
@@ -142,7 +175,6 @@
     .register-form .inner-wrap{
         padding: 7%;
         background: #F8F8F8;
-        border-radius: 10%;
         margin-bottom: 5%;
     }
     .register-form h1{
@@ -158,50 +190,11 @@
         border: 1px solid #257C9E;
     }
 
-    .register-form label{
-        display: block;
-        font: 75%  Bitter, serif;
-        color: #888;
-        margin-bottom: 5%;
-    }
-
     .register-form p{
         display: block;
         font: 75%  Bitter, serif;
         color: #888;
         margin-bottom: 5%;
-    }
-
-    .register-form input[type="text"],
-    .register-form input[type="date"],
-    .register-form input[type="datetime"],
-    .register-form input[type="email"],
-    .register-form input[type="number"],
-    .register-form input[type="search"],
-    .register-form input[type="time"],
-    .register-form input[type="url"],
-    .register-form input[type="password"],
-    .register-form textarea,
-    .register-form select {
-        display: block;
-        box-sizing: border-box;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        width: 100%;
-        padding: 1%;
-        border-radius: 1%;
-        -webkit-border-radius:6px;
-        -moz-border-radius:6px;
-        border: 2px solid #fff;
-        box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.33);
-        -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.33);
-        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.33);
-    }
-
-    .gender label{
-        display: inline-block;
-        padding: 2% 10% 2% 10%;
-        margin: -2% -5% 2% -5%;
     }
 
     .register-form .section{
@@ -222,35 +215,6 @@
         margin-left: -10%;
         color: #fff;
         margin-top: -1%;
-    }
-
-    .register-form button[type="button"],
-    .register-form button[type="submit"]{
-        background: #2A88AD;
-        padding: 2% 4% 2% 4%;
-
-        color: #fff;
-        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.12);
-        font: normal 90% 'Bitter', serif;
-        -moz-box-shadow: inset 0 2px 2px 0 rgba(255, 255, 255, 0.17);
-        -webkit-box-shadow: inset 0 2px 2px 0 rgba(255, 255, 255, 0.17);
-        box-shadow: inset 0 2px 2px 0 rgba(255, 255, 255, 0.17);
-        border: 1px solid #257C9E;
-    }
-    .register-form button[type="button"]:hover,
-    .register-form button[type="submit"]:hover{
-        background: #2A6881;
-        -moz-box-shadow: inset 0 2px 2px 0 rgba(255, 255, 255, 0.28);
-        -webkit-box-shadow: inset 0 2px 2px 0 rgba(255, 255, 255, 0.28);
-        box-shadow: inset 0 2px 2px 0 rgba(255, 255, 255, 0.28);
-    }
-    .register-form .achi-pub{
-        float: left;
-        width: 75%;
-        font: 80% Bitter, serif;
-        color: #4D4D4D;
-        margin-left: -8%;
-        margin-top: 1%;
     }
 
 </style>

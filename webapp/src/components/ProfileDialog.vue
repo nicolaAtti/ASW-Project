@@ -29,17 +29,17 @@
                                     <v-col cols="12" sm="6" md="6">
                                         <v-text-field label="Height" v-model="height"/>
                                     </v-col>
-                                    <v-col cols="12">
+                                    <v-col cols="12" sm="6" md="6">
                                         <v-text-field label="Username" v-model="username"/>
                                     </v-col>
-                                    <v-col cols="12">
+                                    <v-col cols="12" sm="6" md="6">
                                         <v-text-field label="Email" v-model="email"/>
                                     </v-col>
 
-                                    <v-col cols="12">
+                                    <v-col cols="12" sm="6" md="6">
                                         <v-text-field label="New Password*" type="password" v-model="password"/>
                                     </v-col>
-                                    <v-col cols="12">
+                                    <v-col cols="12" sm="6" md="6">
                                         <v-date-picker  v-model="birthday"/>
                                     </v-col>
                                 </v-row>
@@ -101,5 +101,6 @@
 <style scoped>
     .dialog-title{
         background: dodgerblue;
+        color: #FFFFFF;
     }
 </style>

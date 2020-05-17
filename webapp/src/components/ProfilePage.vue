@@ -13,37 +13,32 @@
 
         <div id="Profile" class="tabcontent">
             <v-row dense class="contet-row">
-                <label class="profile-label"> Name: </label>
-                <v-spacer/>
-                <label class="profile-label"> TestName </label>
+                <v-col cols="12" sm="6" md="6">
+                    <label class="profile-label"> Name: </label>
+                    <label class="profile-label"> TestName </label>
+                </v-col>
+                <v-col cols="12" sm="6" md="6">
+                    <label class="profile-label"> Surname: </label>
+                    <label class="profile-label"> TestSurname </label>
+                </v-col>
+                <v-col cols="12" sm="6" md="6">
+                    <label class="profile-label"> Birthday: </label>
+                    <label class="profile-label"> 05/07/2892 </label>
+                </v-col>
+                <v-col cols="12" sm="6" md="6">
+                    <label class="profile-label"> Email: </label>
+                    <label class="profile-label"> prova@prova.boh </label>
+                </v-col>
+                <v-col cols="12" sm="6" md="6">
+                    <label class="profile-label"> Height: </label>
+                    <label class="profile-label"> 2.72 </label>
+                </v-col>
+                <v-col cols="12" sm="6" md="6">
+                    <label class="profile-label"> Achievements: </label>
+                    <label class="profile-label"> Public </label>
+                </v-col>
             </v-row>
-            <v-spacer />
-            <v-row dense class="contet-row">
-                <label class="profile-label"> Surname: </label>
-                <v-spacer/>
-                <label class="profile-label"> TestSurname </label>
-            </v-row>
-            <v-row dense class="contet-row">
-                <label class="profile-label"> Birthday: </label>
-                <v-spacer/>
-                <label class="profile-label"> 05/07/2892 </label>
-            </v-row>
-            <v-row dense class="contet-row">
-                <label class="profile-label"> Email: </label>
-                <v-spacer/>
-                <label class="profile-label"> prova@prova.boh </label>
-            </v-row>
-            <v-row dense class="contet-row">
-                <label class="profile-label"> Height: </label>
-                <v-spacer/>
-                <label class="profile-label"> 2.72 </label>
-            </v-row>
-            <v-row dense class="contet-row">
-                <label class="profile-label"> Achievements: </label>
-                <v-spacer/>
-                <label class="profile-label"> Public </label>
-            </v-row>
-            <ProfileDialog />
+            <ProfileDialog class="dialog"/>
         </div>
 
         <div id="Achievements" class="tabcontent">
@@ -94,24 +89,23 @@
 
 <style scoped>
     .tablink {
-        background-color: #257C9E;
+        background-color: #01579b;
         color: white;
         float: left;
-        border: none;
-        outline: none;
         cursor: pointer;
-        padding: 14px 16px;
-        font-size: 17px;
+        padding: 4% 5%;
+        font-size: 100%;
         width: 50%;
     }
 
     .tablink:hover {
-        background-color: #2A6881;
+        background-color: #004c8c;
     }
 
     .tabcontent {
         display: none;
         margin: 20% 5% 0 5%;
+
     }
 
     .contet-row {
@@ -120,11 +114,11 @@
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         padding: 2%;
-        margin-bottom: 7%;
+        margin-bottom: 5%;
         border-radius: 1%;
         -webkit-border-radius:6px;
         -moz-border-radius:6px;
-        border: 2px solid #0099cc;
+        border: 2px solid #01579b;
         box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.33);
         -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.33);
         -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.33);
@@ -150,6 +144,10 @@
 
     .username_title {
         margin-bottom: 1%;
+    }
+
+    .dialog {
+        display: inline;
     }
 
 </style>
