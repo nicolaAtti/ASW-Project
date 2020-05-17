@@ -115,9 +115,9 @@
         color: #ffffff;
     }
     .login-page {
-        margin: 5% 5% 10% 5%;
-
+        margin: 5% 5% 5% 5%;
         width: 90%;
+        height: 100%;
         padding: 5%;
         background: #FFF;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.13);

@@ -1,15 +1,17 @@
 <template>
     <div id="app">
-        <v-toolbar dense color="#0277bd">
-            <v-btn v-if="($route.path!=='/login' && $route.path!=='/home')" icon color="#fff" v-on:click="goBack()">
-                <v-icon>mdi-backspace</v-icon>
-            </v-btn>
+        <v-app id="inspire">
+            <v-app-bar dense color="#0277bd">
+                <v-btn v-if="($route.path!=='/login' && $route.path!=='/home')" icon color="#fff" v-on:click="goBack()">
+                    <v-icon>mdi-backspace</v-icon>
+                </v-btn>
 
-            <v-spacer/>
-            <v-btn rounded color= dark v-on:click="changeLang()">{{language}}</v-btn>
-        </v-toolbar>
-        <router-view class="pages"/>
-        <div id="snackbar">{{ $t("registerPage.success")}}</div>
+                <v-spacer/>
+                <v-btn rounded color= dark v-on:click="changeLang()">{{language}}</v-btn>
+            </v-app-bar>
+            <router-view class="pages"/>
+            <div id="snackbar">{{ $t("registerPage.success")}}</div>
+        </v-app>
     </div>
 </template>
 
@@ -49,10 +51,6 @@
         -moz-osx-font-smoothing: grayscale;
         text-align: center;
         color: #2c3e50;
-    }
-    .pages{
-        position: relative;
-        top: 0px;
     }
     #snackbar {
         visibility: hidden;

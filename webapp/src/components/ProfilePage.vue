@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="profile_page">
         <div class="profile_top_card">
             <v-avatar size="70">
                 <img
@@ -11,34 +11,41 @@
         <button class="tablink" v-on:click="openPage('Profile')">Profile</button>
         <button class="tablink" v-on:click="openPage('Achievements')" id="defaultOpen">Achievements</button>
 
-        <div id="Profile" class="tabcontent">
+        <div id="profile_tab" class="tabcontent">
             <v-row dense class="contet-row">
-                <v-col cols="12" sm="6" md="6">
-                    <label class="profile-label"> Name: </label>
-                    <label class="profile-label"> TestName </label>
-                </v-col>
-                <v-col cols="12" sm="6" md="6">
-                    <label class="profile-label"> Surname: </label>
-                    <label class="profile-label"> TestSurname </label>
-                </v-col>
-                <v-col cols="12" sm="6" md="6">
-                    <label class="profile-label"> Birthday: </label>
-                    <label class="profile-label"> 05/07/2892 </label>
-                </v-col>
-                <v-col cols="12" sm="6" md="6">
-                    <label class="profile-label"> Email: </label>
-                    <label class="profile-label"> prova@prova.boh </label>
-                </v-col>
-                <v-col cols="12" sm="6" md="6">
-                    <label class="profile-label"> Height: </label>
-                    <label class="profile-label"> 2.72 </label>
-                </v-col>
-                <v-col cols="12" sm="6" md="6">
-                    <label class="profile-label"> Achievements: </label>
-                    <label class="profile-label"> Public </label>
-                </v-col>
+                <label class="profile-label"> Name: </label>
+                <v-spacer/>
+                <label class="profile-label"> TestName </label>
             </v-row>
-            <ProfileDialog class="dialog"/>
+            <v-spacer />
+            <v-row dense class="contet-row">
+                <label class="profile-label"> Surname: </label>
+                <v-spacer/>
+                <label class="profile-label"> TestSurname </label>
+            </v-row>
+            <v-row dense class="contet-row">
+                <label class="profile-label"> Birthday: </label>
+                <v-spacer/>
+                <label class="profile-label"> 05/07/2892 </label>
+            </v-row>
+            <v-row dense class="contet-row">
+                <label class="profile-label"> Email: </label>
+                <v-spacer/>
+                <label class="profile-label"> prova@prova.boh </label>
+            </v-row>
+            <v-row dense class="contet-row">
+                <label class="profile-label"> Height: </label>
+                <v-spacer/>
+                <label class="profile-label"> 2.72 </label>
+            </v-row>
+            <v-row dense class="contet-row">
+                <label class="profile-label"> Achievements: </label>
+                <v-spacer/>
+                <label class="profile-label"> Public </label>
+            </v-row>
+            <div class="dialog-panel">
+                <ProfileDialog/>
+            </div>
         </div>
 
         <div id="Achievements" class="tabcontent">
@@ -138,16 +145,17 @@
     }
 
 
-    #Profile{
+    #profile_tab{
         display: block;
+    }
+
+
+    #profile_page{
+        height: 100%;
     }
 
     .username_title {
         margin-bottom: 1%;
-    }
-
-    .dialog {
-        display: inline;
     }
 
 </style>
