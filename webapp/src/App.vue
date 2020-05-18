@@ -52,6 +52,11 @@
         text-align: center;
         color: #2c3e50;
     }
+
+    .pages{
+        height: 100%;
+    }
+
     #snackbar {
         visibility: hidden;
         min-width: 250px;
