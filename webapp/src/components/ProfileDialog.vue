@@ -66,8 +66,14 @@
 </template>
 
 <script>
+    import axios from "axios";
+
     export default {
         name: "ProfileDialog",
+
+        props: {
+            currentUsername: String
+        },
 
         data () {
             return {
@@ -90,7 +96,29 @@
 
         methods: {
             sendNewProfileData() {
+                console.log('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT + '/users/' + this.currentUsername);
+                console.log(sessionStorage.token);
                 //Send to backend then clear
+                    axios.patch('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT + '/users/' + this.currentUsername, {
+                        name: this.name,
+                        surname: this.surname,
+                        birthday: this.birthday,
+                        gender: this.gender,
+                        height: this.height,
+                        email: this.email,
+                        _id: this.username,
+                        password: this.password
+                    }, {headers: { Authorization: sessionStorage.token } }).then( () => {
+                        //se success allora esci e fai toast di successo
+                        console.log("Successo")
+                    }, error => {
+                        if(error.status===404){
+                            console.log("Fallito 404")
+                        }else {
+                            //not authorized
+                            console.log("Fallito 401")
+                        }
+                    });
                 this.clearForm()
             },
             clearForm() {

@@ -46,19 +46,19 @@
             sendDataLogin(e) {
                 this.errors = [];
                 e.preventDefault();
-                const response = axios.post('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT + '/users/' + this.input.username + '/authentication',{
+                axios.post('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT + '/users/' + this.input.username + '/authentication',{
                     password: this.input.password
-                }).then((response) => {
+                }).then(response => {
                     console.log(response);
-                    sessionStorage.token = response.data.token;
+                    sessionStorage.token = "Bearer "+response.data.token;
                     if(this.input.username == this.mockAccount.username && this.input.password == this.mockAccount.password) {
                         router.push('admin-home')
                     }else {
                         router.push('home')
                     }
-                }, (error) => {
+                }, error => {
                     console.log(error);
-                    if(response.status===404){
+                    if(error.response.status===404){
                         console.log("404");
                         this.errors.push("Username non trovato")
                     }else{

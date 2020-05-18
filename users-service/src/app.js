@@ -71,6 +71,7 @@ app.post('/users/:username', (req, res) => {
 
 app.patch('/users/:username', (req, res) => {
     try {
+        console.log(req.header.Authorization);
         const token = req.header('Authorization').replace('Bearer ', '');
         const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
         if (req.params.username === decodedJwt.username) {

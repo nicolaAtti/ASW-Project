@@ -44,7 +44,7 @@
                 <label class="profile-label"> Public </label>
             </v-row>
             <div class="dialog-panel">
-                <ProfileDialog/>
+                <ProfileDialog v-bind:currentUsername="this.username"/>
             </div>
         </div>
 
@@ -66,7 +66,7 @@
 
         data: () => {
             return {
-                username: "Username",
+                username: "Nikatti",
                 name: "Placeholder Name",
                 dialog: false
             };
