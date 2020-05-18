@@ -185,6 +185,10 @@
         padding: 10px 20px;
     }
 
+    .w3-padding-large {
+        text-align: left;
+    }
+
     hr.new5 {
         border: 10px solid green;
         border-radius: 5px;
