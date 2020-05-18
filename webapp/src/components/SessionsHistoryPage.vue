@@ -48,6 +48,7 @@
     p {
         text-align: right;
         font-family: Georgia, serif;
+        font-size: 20px;
         font-weight: 500;
     }
 
