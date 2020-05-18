@@ -179,7 +179,8 @@ app.get('/users/:username', (req, res) => {
                         height: result.height,
                         email: result.email,
                         publicAchievements: result.publicAchievements,
-                        registrationDate: result.registrationDate
+                        registrationDate: result.registrationDate,
+                        avatar: result.avatar
                     });
                 }
             })

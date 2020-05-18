@@ -4,7 +4,7 @@
         <div class="col-3 col-s-3 menu">
             <ul>
                 <li v-on:click="goToProfile()">{{ $t('homePage.Profile') }} </li>
-                <li>{{ $t('homePage.Sessions History') }}</li>
+                <li v-on:click="goToHistory()">{{ $t('homePage.Sessions History') }}</li>
                 <li v-on:click="signOut()">{{ $t('homePage.Sign Out') }}</li>
             </ul>
         </div>
@@ -12,7 +12,7 @@
             <div class="w3-container">
                 <h2>{{ $t('homePage.User Data') }}</h2>
                 <ul class="w3-ul w3-large" >
-                    <li class="w3-padding-large">{{ $t('homePage.Age') }}</li>
+                    <li class="w3-padding-large">{{ $t('homePage.Age') }}<p>prova</p></li>
                     <li class="w3-padding-large">{{ $t('homePage.Weight') }}</li>
                     <li class="w3-padding-large">{{ $t('homePage.Height') }}</li>
                 </ul>
@@ -20,7 +20,7 @@
             <hr class="new5">
             <div class="w3-container">
                 <h2>{{ $t('homePage.Last Training Summary') }}</h2>
-                <ul class="w3-ul w3-large" >
+                <ul class="w3-ul">
                     <li class="w3-padding-large">{{ $t('homePage.Session ID') }}</li>
                     <li class="w3-padding-large">{{ $t('homePage.Start Time') }}</li>
                     <li class="w3-padding-large">{{ $t('homePage.End Time') }}</li>
@@ -163,6 +163,9 @@
             },
             goToProfile() {
                 router.push('home/profile')
+            },
+            goToHistory() {
+                router.push('home/sessions-history')
             }
         }
     }
@@ -172,6 +175,16 @@
 
     * {
         box-sizing: border-box;
+    }
+
+    li {
+        font-weight: bold;
+    }
+
+    p {
+        text-align: right;
+        font-family: Georgia, serif;
+        font-weight: 500;
     }
 
     .row::after {
