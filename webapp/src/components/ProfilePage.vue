@@ -6,7 +6,7 @@
                         src="avatar.png"
                 >
             </v-avatar>
-            <h2 class="username_title">{{ username }}</h2>
+            <h2 class="username_title">{{ this.username }}</h2>
         </div>
         <button class="tablink" v-on:click="openPage('profile_tab')">Profile</button>
         <button class="tablink" v-on:click="openPage('achievements_tab')" id="defaultOpen">Achievements</button>
@@ -56,6 +56,7 @@
 
 <script>
     import ProfileDialog from "./ProfileDialog";
+    import axios from "axios";
 
     export default {
         name: "ProfilePage",
@@ -66,10 +67,16 @@
 
         data: () => {
             return {
-                username: "Nikatti",
+                username: sessionStorage.username,
                 name: "Placeholder Name",
                 dialog: false
             };
+        },
+
+        beforeCreate() {
+            axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT + '/users/' + this.username,{headers: { Authorization: sessionStorage.token}}).then(response => {
+                console.log(response.data);
+            })
         },
 
         methods: {
