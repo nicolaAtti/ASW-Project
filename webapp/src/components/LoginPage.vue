@@ -59,10 +59,10 @@
                 }, (error) => {
                     console.log(error);
                     if(response.status===404){
-                        console.log("404")
+                        console.log("404");
                         this.errors.push("Username non trovato")
                     }else{
-                        console.log("409")
+                        console.log("409");
                         this.errors.push("Password errata")
                     }
                 });

@@ -8,8 +8,8 @@
             </v-avatar>
             <h2 class="username_title">{{ username }}</h2>
         </div>
-        <button class="tablink" v-on:click="openPage('Profile')">Profile</button>
-        <button class="tablink" v-on:click="openPage('Achievements')" id="defaultOpen">Achievements</button>
+        <button class="tablink" v-on:click="openPage('profile_tab')">Profile</button>
+        <button class="tablink" v-on:click="openPage('achievements_tab')" id="defaultOpen">Achievements</button>
 
         <div id="profile_tab" class="tabcontent">
             <v-row dense class="contet-row">
@@ -48,7 +48,7 @@
             </div>
         </div>
 
-        <div id="Achievements" class="tabcontent">
+        <div id="achievements_tab" class="tabcontent">
             <p>This tab will contain achievements</p>
         </div>
     </div>
@@ -100,7 +100,7 @@
         color: white;
         float: left;
         cursor: pointer;
-        padding: 4% 5%;
+        padding: 3% 5%;
         font-size: 100%;
         width: 50%;
     }
@@ -149,13 +149,16 @@
         display: block;
     }
 
-
     #profile_page{
         height: 100%;
     }
 
     .username_title {
         margin-bottom: 1%;
+    }
+
+    .avatar_input {
+        float: right;
     }
 
 </style>

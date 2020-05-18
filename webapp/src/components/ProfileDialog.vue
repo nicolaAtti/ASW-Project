@@ -36,10 +36,20 @@
                                 </v-col>
 
                                 <v-col cols="12" sm="6" md="6">
-                                    <v-text-field label="New Password*" type="password" v-model="password"/>
+                                    <v-text-field label="New Password" type="password" v-model="password"/>
                                 </v-col>
                                 <v-col cols="12" sm="6" md="6">
                                     <v-date-picker  v-model="birthday"/>
+                                </v-col>
+                                <v-col cols="12" sm="6" md="6">
+                                    <v-file-input
+                                            label="Change Avatar"
+                                            dense
+                                            accept="image/png, image/jpeg, image/bmp"
+                                            :rules="rules"
+                                            filled
+                                            prepend-icon="mdi-camera"
+                                    />
                                 </v-col>
                             </v-row>
                         </v-container>
@@ -70,6 +80,9 @@
                 email: "",
                 username: "",
                 password: "",
+                rules: [
+                    value => !value || value.size < 2000000 || 'Avatar size should be less than 2 MB!',
+                ]
             }
         },
 
