@@ -42,7 +42,11 @@ const usersSchema = new Schema({
         type: Date,
         required: true
     },
-    achievements: [[String]]
+    achievements: [[String]],
+    avatar: {
+        data: Buffer,
+        contentType: String
+    }
 });
 
 const users = mongoose.model("users", usersSchema);
