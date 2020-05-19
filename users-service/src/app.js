@@ -33,7 +33,7 @@ app.post('/users/:username', (req, res) => {
         gender: req.body.gender,
         height: req.body.height,
         email: req.body.email,
-        _id: req.params.username,
+        username: req.params.username,
         password: req.body.password,
         publicAchievements: req.body.publicAchievements,
         registrationDate: new Date(),
@@ -71,21 +71,49 @@ app.post('/users/:username', (req, res) => {
 
 app.patch('/users/:username', (req, res) => {
     try {
-        console.log(req.header.Authorization);
         const token = req.header('Authorization').replace('Bearer ', '');
         const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
         if (req.params.username === decodedJwt.username) {
-            User.findByIdAndUpdate(decodedJwt.username, req.body,function (error, result) {
-                if (error || result === null) {
-                    res.status(404).send({
-                        success: false,
-                        message: 'Resource not found'
-                    });
+            User.findOneAndUpdate({ username: decodedJwt.username }, req.body, function (error, result) {
+                if (error) {
+                    if (error.code === 11000) {
+                        res.status(409).send({
+                            success: false,
+                            message: 'Username or email already present'
+                        })
+                    } else {
+                        if (error.name === "ValidationError") {
+                            res.status(400).send({
+                                success: false,
+                                message: 'Wrong parameters'
+                            })
+                        } else {
+                            res.status(500).send({
+                                success: false,
+                                message: 'Failed to save user'
+                            })
+                        }
+                    }
                 } else {
-                    res.send({
-                        success: true,
-                        message: 'User successfully updated'
-                    });
+                    if (result === null) {
+                        res.status(404).send({
+                            success: false,
+                            message: 'Username not found'
+                        });
+                    } else {
+                        if (req.body.username) {
+                            const token = jsonwebtoken.sign({ username: req.body.username }, JWT_SECRET);
+                            res.send({
+                                success: true,
+                                newToken: token
+                            });
+                        } else {
+                            res.send({
+                                success: true,
+                                message: 'User successfully updated'
+                            });
+                        }
+                    }
                 }
             })
         } else {
@@ -107,7 +135,7 @@ app.delete('/users/:username', (req, res) => {
         const token = req.header('Authorization').replace('Bearer ', '');
         const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
         if (req.params.username === decodedJwt.username) {
-            User.findByIdAndDelete(decodedJwt.username, function (error, result) {
+            User.findOneAndDelete({ username: decodedJwt.username }, function (error, result) {
                 if (error || result === null) {
                     res.status(404).send({
                         success: false,
@@ -135,7 +163,7 @@ app.delete('/users/:username', (req, res) => {
 });
 
 app.post('/users/:username/authentication', (req, res) => {
-    User.findById(req.params.username,function (error, result) {
+    User.findOne({ username: req.params.username }, function (error, result) {
         if (error || result === null) {
             res.status(404).send({
                 success: false,
@@ -143,7 +171,7 @@ app.post('/users/:username/authentication', (req, res) => {
             });
         } else {
             if (req.body.password === result.password) {
-                const token = jsonwebtoken.sign({ username: req.params.username, email: result.email }, JWT_SECRET);
+                const token = jsonwebtoken.sign({ username: req.params.username }, JWT_SECRET);
                 res.send({
                     success: true,
                     token: token
@@ -163,25 +191,14 @@ app.get('/users/:username', (req, res) => {
         const token = req.header('Authorization').replace('Bearer ', '');
         const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
         if (req.params.username === decodedJwt.username) {
-            User.findById(decodedJwt.username, function (error, result) {
+            User.findOne({ username: decodedJwt.username }, { _id: 0, __v: 0 }, function (error, result) {
                 if (error || result === null) {
                     res.status(404).send({
                         success: false,
                         message: 'Resource not found'
                     });
                 } else {
-                    res.send({
-                        username: result.id,
-                        name: result.name,
-                        surname: result.surname,
-                        birthday: result.birthday,
-                        gender: result.gender,
-                        height: result.height,
-                        email: result.email,
-                        publicAchievements: result.publicAchievements,
-                        registrationDate: result.registrationDate,
-                        avatar: result.avatar
-                    });
+                    res.send(result);
                 }
             })
         } else {
@@ -203,16 +220,14 @@ app.get('/users/:username/achievements', (req, res) => {
         const token = req.header('Authorization').replace('Bearer ', '');
         const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
         if (req.params.username === decodedJwt.username) {
-            User.findById(decodedJwt.username, function (error, result) {
+            User.findOne({ username: decodedJwt.username }, function (error, result) {
                 if (error || result === null) {
                     res.status(404).send({
                         success: false,
                         message: 'Resource not found'
                     });
                 } else {
-                    res.send({
-                        achievements: result.achievements
-                    });
+                    res.send(result.achievements);
                 }
             })
         } else {

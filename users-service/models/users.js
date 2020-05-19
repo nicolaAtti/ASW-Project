@@ -26,8 +26,9 @@ const usersSchema = new Schema({
         unique: true,
         lowercase: true
     },
-    _id: {
+    username: {
         type: String,
+        unique: true,
         required: true
     },
     password: {
