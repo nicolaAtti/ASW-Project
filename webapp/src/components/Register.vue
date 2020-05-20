@@ -95,7 +95,7 @@
                 username: "",
                 password: "",
                 confirm_pass: "",
-                achi_pub: "false"
+                achi_pub: false
             };
         },
 
@@ -124,6 +124,7 @@
                         router.back();
                         const snack = document.getElementById("snackbar");
                         snack.className = "show";
+                        snack.
                         setTimeout(() => {
                             snack.className = snack.className.replace("show","");
                         }, 3000)

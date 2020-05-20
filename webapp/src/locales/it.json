@@ -28,7 +28,7 @@
     "username": "Username*",
     "password": "Password*",
     "confirm_password": "Conferma password*",
-    "pub_achievements": "Mostra achievement pubblici."
+    "pub_achievements": "Mostra achievement pubblicamente."
   },
   "homePage": {
     "Profile": "Profilo",
@@ -57,6 +57,33 @@
     "General Data": "Dati Generali degli Utenti",
     "Registered Users": "Utenti Registrati",
     "Average Users Age": "Età Media degli Utenti"
+  },
+  "profilePage": {
+    "dialog": {
+      "title": "Modifica informazioni profilo",
+      "success_change": "Informazioni profilo modificati",
+      "name": "Nome",
+      "surname": "Cognome",
+      "gender": "Sesso",
+      "username": "Username",
+      "height": "Altezza",
+      "email": "Indirizzo email",
+      "password": "Nuova password",
+      "achi_pub": "Mostra achievement pubblicamente.",
+      "dialogButton": "Modifica Informazioni Account"
+    },
+    "profileTab": "Profilo",
+    "achievementsTab": "Achievement",
+    "name": "Nome:",
+    "surname": "Cognome:",
+    "birthday": "Data di nascita:",
+    "gender": "Sesso:",
+    "Male": "Maschio",
+    "Female": "Femmina",
+    "height": "Altezza:",
+    "email": "Indirizzo email:",
+    "registrationDate": "Data di registrazione:",
+    "achi_pub": "Stato display achievement:"
   }
 
 }

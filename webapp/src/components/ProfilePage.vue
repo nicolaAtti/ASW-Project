@@ -8,38 +8,48 @@
             </v-avatar>
             <h2 class="username_title">{{ this.username }}</h2>
         </div>
-        <button class="tablink" v-on:click="openPage('profile_tab')">Profile</button>
-        <button class="tablink" v-on:click="openPage('achievements_tab')" id="defaultOpen">Achievements</button>
+        <button class="tablink" v-on:click="openPage('profile_tab')">{{ $t("profilePage.profileTab")}}</button>
+        <button class="tablink" v-on:click="openPage('achievements_tab')" id="defaultOpen">{{ $t("profilePage.achievementsTab")}}</button>
 
         <div id="profile_tab" class="tabcontent">
             <v-row dense class="contet-row">
-                <label class="profile-label"> Name: </label>
+                <label class="profile-label"> {{ $t("profilePage.name")}} </label>
                 <v-spacer/>
                 <label class="profile-label"> {{this.name}} </label>
             </v-row>
             <v-spacer />
             <v-row dense class="contet-row">
-                <label class="profile-label"> Surname: </label>
+                <label class="profile-label"> {{ $t("profilePage.surname")}} </label>
                 <v-spacer/>
                 <label class="profile-label"> {{this.surname}} </label>
             </v-row>
             <v-row dense class="contet-row">
-                <label class="profile-label"> Birthday: </label>
+                <label class="profile-label"> {{ $t("profilePage.birthday")}} </label>
                 <v-spacer/>
                 <label class="profile-label"> {{this.birthday}} </label>
             </v-row>
             <v-row dense class="contet-row">
-                <label class="profile-label"> Email: </label>
+                <label class="profile-label"> {{ $t("profilePage.gender")}} </label>
+                <v-spacer/>
+                <label class="profile-label"> {{this.gender}} </label>
+            </v-row>
+            <v-row dense class="contet-row">
+                <label class="profile-label"> {{ $t("profilePage.email")}} </label>
                 <v-spacer/>
                 <label class="profile-label"> {{this.email}} </label>
             </v-row>
             <v-row dense class="contet-row">
-                <label class="profile-label"> Height: </label>
+                <label class="profile-label"> {{ $t("profilePage.height")}} </label>
                 <v-spacer/>
                 <label class="profile-label"> {{this.height}} </label>
             </v-row>
             <v-row dense class="contet-row">
-                <label class="profile-label"> Achievements: </label>
+                <label class="profile-label"> {{ $t("profilePage.registrationDate")}} </label>
+                <v-spacer/>
+                <label class="profile-label"> {{this.registerDate}} </label>
+            </v-row>
+            <v-row dense class="contet-row">
+                <label class="profile-label"> {{ $t("profilePage.achi_pub")}} </label>
                 <v-spacer/>
                 <label class="profile-label"> {{this.achi_pub}} </label>
             </v-row>
@@ -75,21 +85,25 @@
                 gender: "",
                 height: "",
                 achi_pub: "",
+                registerDate: "",
+                achievements: [],
                 dialog: false
             };
         },
 
         mounted() {
             axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT + '/users/' + sessionStorage.username,{headers: { Authorization: sessionStorage.token}}).then(response => {
-                console.log(response.data);
+                var birthdayDate = this.formatDate(response.data.birthday);
+                var registerDate = this.formatDate(response.data.registrationDate);
                 this.name = response.data.name;
                 this.surname = response.data.surname;
                 this.email = response.data.email;
-                this.birthday = response.data.birthday;
-                this.gender = response.data.gender;
+                this.birthday = birthdayDate;
+                this.gender = this.$t('profilePage.'+response.data.gender);
                 this.height = response.data.height;
-                this.achievements = response.data.achi_pub;
-                console.log(this.gender)
+                this.achi_pub = response.data.publicAchievements ? "Public" : "Private";
+                this.registerDate = registerDate;
+                this.achievements = response.data.achievements;
             }).catch(error => {
                 console.log(error.status)
             })
@@ -112,6 +126,13 @@
 
                 // Show the specific tab content
                 document.getElementById(pageName).style.display = "block";
+            },
+            formatDate(date){
+                let d = new Date(date);
+                let day = d.getDate();
+                let month = d.getMonth()+1;
+                let year = d.getFullYear();
+                return day + '/' + month + '/' + year;
             }
         }
     }
@@ -178,10 +199,6 @@
 
     .username_title {
         margin-bottom: 1%;
-    }
-
-    .avatar_input {
-        float: right;
     }
 
 </style>
