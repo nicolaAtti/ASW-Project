@@ -60,7 +60,7 @@
                     }
                 }, error => {
                     console.log(error);
-                    if(error.response.status===404){
+                    if(error.status===404){
                         console.log("404");
                         this.errors.push("Username non trovato")
                     }else{

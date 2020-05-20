@@ -15,33 +15,33 @@
             <v-row dense class="contet-row">
                 <label class="profile-label"> Name: </label>
                 <v-spacer/>
-                <label class="profile-label"> TestName </label>
+                <label class="profile-label"> {{this.name}} </label>
             </v-row>
             <v-spacer />
             <v-row dense class="contet-row">
                 <label class="profile-label"> Surname: </label>
                 <v-spacer/>
-                <label class="profile-label"> TestSurname </label>
+                <label class="profile-label"> {{this.surname}} </label>
             </v-row>
             <v-row dense class="contet-row">
                 <label class="profile-label"> Birthday: </label>
                 <v-spacer/>
-                <label class="profile-label"> 05/07/2892 </label>
+                <label class="profile-label"> {{this.birthday}} </label>
             </v-row>
             <v-row dense class="contet-row">
                 <label class="profile-label"> Email: </label>
                 <v-spacer/>
-                <label class="profile-label"> prova@prova.boh </label>
+                <label class="profile-label"> {{this.email}} </label>
             </v-row>
             <v-row dense class="contet-row">
                 <label class="profile-label"> Height: </label>
                 <v-spacer/>
-                <label class="profile-label"> 2.72 </label>
+                <label class="profile-label"> {{this.height}} </label>
             </v-row>
             <v-row dense class="contet-row">
                 <label class="profile-label"> Achievements: </label>
                 <v-spacer/>
-                <label class="profile-label"> Public </label>
+                <label class="profile-label"> {{this.achi_pub}} </label>
             </v-row>
             <div class="dialog-panel">
                 <ProfileDialog v-bind:currentUsername="this.username"/>
@@ -68,14 +68,30 @@
         data: () => {
             return {
                 username: sessionStorage.username,
-                name: "Placeholder Name",
+                name: "",
+                surname: "",
+                birthday: "",
+                email: "",
+                gender: "",
+                height: "",
+                achi_pub: "",
                 dialog: false
             };
         },
 
-        beforeCreate() {
-            axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT + '/users/' + this.username,{headers: { Authorization: sessionStorage.token}}).then(response => {
+        mounted() {
+            axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT + '/users/' + sessionStorage.username,{headers: { Authorization: sessionStorage.token}}).then(response => {
                 console.log(response.data);
+                this.name = response.data.name;
+                this.surname = response.data.surname;
+                this.email = response.data.email;
+                this.birthday = response.data.birthday;
+                this.gender = response.data.gender;
+                this.height = response.data.height;
+                this.achievements = response.data.achi_pub;
+                console.log(this.gender)
+            }).catch(error => {
+                console.log(error.status)
             })
         },
 
