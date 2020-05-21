@@ -74,7 +74,7 @@
         },
 
         beforeCreate() {
-            axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT + '/users/' + this.username,{headers: { Authorization: sessionStorage.token}}).then(response => {
+            axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.username,{headers: { Authorization: sessionStorage.token}}).then(response => {
                 console.log(response.data);
             })
         },

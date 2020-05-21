@@ -46,7 +46,7 @@
             sendDataLogin(e) {
                 this.errors = [];
                 e.preventDefault();
-                axios.post('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT + '/users/' + this.input.username + '/authentication',{
+                axios.post('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.input.username + '/authentication',{
                     password: this.input.password
                 }).then(response => {
                     console.log(response);

@@ -109,7 +109,7 @@
                 }else {
                     try {
                     e.preventDefault();
-                    const response = await axios.post('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT + '/users/' + this.username, {
+                    const response = await axios.post('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.username, {
                             name: this.name,
                             surname: this.surname,
                             birthday: this.birthday,

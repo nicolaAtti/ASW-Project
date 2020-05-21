@@ -96,10 +96,10 @@
 
         methods: {
             sendNewProfileData() {
-                console.log('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT + '/users/' + this.currentUsername);
+                console.log('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.currentUsername);
                 console.log(sessionStorage.token);
                 //Send to backend then clear
-                    axios.patch('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT + '/users/' + this.currentUsername, {
+                    axios.patch('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.currentUsername, {
                         name: this.name,
                         surname: this.surname,
                         birthday: this.birthday,
