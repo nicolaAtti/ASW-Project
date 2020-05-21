@@ -3,52 +3,49 @@
         <v-row justify="center">
             <v-dialog class="form-dialog" v-model="dialog" hide-overlay fullscreen transition="dialog-bottom-transition">
                 <template v-slot:activator="{ on }">
-                    <v-btn color="primary" dark v-on="on">Change Account Information</v-btn>
+                    <v-btn color="primary" dark v-on="on">{{ $t('profilePage.dialog.dialogButton')}}</v-btn>
                 </template>
                 <v-card>
                     <v-card-title class="dialog-title">
-                        <span class="headline">Change profile information</span>
+                        <span class="headline">{{ $t('profilePage.dialog.title')}}</span>
                     </v-card-title>
                     <v-card-text>
                         <v-container>
                             <v-row>
                                 <v-col cols="12" sm="6" md="6">
-                                    <v-text-field label="Name" v-model="name"/>
+                                    <v-text-field :label="this.$t('profilePage.dialog.name')" v-model="userData.name"/>
                                 </v-col>
                                 <v-col cols="12" sm="6" md="6">
-                                    <v-text-field label="Surname" v-model="surname"/>
+                                    <v-text-field :label="this.$t('profilePage.dialog.surname')" v-model="userData.surname"/>
                                 </v-col>
                                 <v-col cols="12" sm="6" md="6" >
                                     <v-select
-                                            :items="['Male','Female']"
-                                            label="Gender"
-                                            v-model="gender"
+                                            :items="[this.$t('profilePage.Male'),this.$t('profilePage.Female')]"
+                                            :label="this.$t('profilePage.dialog.gender')"
+                                            v-model="userData.gender"
                                     />
                                 </v-col>
                                 <v-col cols="12" sm="6" md="6">
-                                    <v-text-field label="Height" v-model="height"/>
+                                    <v-text-field :label="this.$t('profilePage.dialog.height')" v-model="userData.height" suffix="Cm"/>
                                 </v-col>
                                 <v-col cols="12" sm="6" md="6">
-                                    <v-text-field label="Username" v-model="username"/>
+                                    <v-text-field :label="this.$t('profilePage.dialog.username')" v-model="userData.username"/>
                                 </v-col>
                                 <v-col cols="12" sm="6" md="6">
-                                    <v-text-field label="Email" v-model="email"/>
+                                    <v-text-field :label="this.$t('profilePage.dialog.email')" v-model="userData.email"/>
                                 </v-col>
 
                                 <v-col cols="12" sm="6" md="6">
-                                    <v-text-field label="New Password" type="password" v-model="password"/>
+                                    <v-text-field :label="this.$t('profilePage.dialog.password')" type="password" v-model="userData.password"/>
                                 </v-col>
                                 <v-col cols="12" sm="6" md="6">
-                                    <v-date-picker  v-model="birthday"/>
+                                    <v-date-picker :locale="$i18n.locale" v-model="userData.birthday"/>
                                 </v-col>
                                 <v-col cols="12" sm="6" md="6">
-                                    <v-file-input
-                                            label="Change Avatar"
-                                            dense
-                                            accept="image/png, image/jpeg, image/bmp"
-                                            :rules="rules"
-                                            filled
-                                            prepend-icon="mdi-camera"
+                                    <v-checkbox
+                                            v-model="userData.publicAchievements"
+                                            :label="this.$t('profilePage.dialog.achi_pub')"
+                                            true-value="true"
                                     />
                                 </v-col>
                             </v-row>
@@ -56,8 +53,8 @@
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer/>
-                        <v-btn color="blue darken-1" text @click="clearForm">Close</v-btn>
-                        <v-btn color="blue darken-1" text @click="sendNewProfileData">Save</v-btn>
+                        <v-btn color="blue darken-1" text @click="clearForm">{{$t('profilePage.dialog.close')}}</v-btn>
+                        <v-btn color="blue darken-1" text @click="sendNewProfileData">{{$t('profilePage.dialog.save')}}</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
@@ -78,17 +75,17 @@
         data () {
             return {
                 dialog: false,
-                name: "",
-                surname: "",
-                birthday: "",
-                gender: "",
-                height: "",
-                email: "",
-                username: "",
-                password: "",
-                rules: [
-                    value => !value || value.size < 2000000 || 'Avatar size should be less than 2 MB!',
-                ]
+                userData:{
+                    name: "",
+                    surname: "",
+                    birthday: "",
+                    gender: "",
+                    height: "",
+                    email: "",
+                    username: "",
+                    password: "",
+                    publicAchievements: undefined,
+                },
             }
         },
 
@@ -96,41 +93,35 @@
 
         methods: {
             sendNewProfileData() {
-                console.log('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.currentUsername);
-                console.log(sessionStorage.token);
-                //Send to backend then clear
-                    axios.patch('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.currentUsername, {
-                        name: this.name,
-                        surname: this.surname,
-                        birthday: this.birthday,
-                        gender: this.gender,
-                        height: this.height,
-                        email: this.email,
-                        _id: this.username,
-                        password: this.password
-                    }, {headers: { Authorization: sessionStorage.token } }).then( () => {
-                        //se success allora esci e fai toast di successo
-                        console.log("Successo")
-                    }, error => {
-                        if(error.status===404){
-                            console.log("Fallito 404")
-                        }else {
-                            //not authorized
-                            console.log("Fallito 401")
-                        }
-                    });
-                this.clearForm()
+                var patchData = this.userData;
+                Object.keys(patchData).forEach((key) => (patchData[key] === "" || patchData[key] === undefined) && delete patchData[key]);
+                axios.patch('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.currentUsername, patchData, {headers: { Authorization: sessionStorage.token } }).then( response => {
+                    if(response.data.newToken !== undefined){
+                        sessionStorage.username = this.userData.username;
+                        sessionStorage.token = "Bearer "+response.data.newToken;
+                    }
+                    const snack = document.getElementById("snackbar");
+                    snack.className = "show";
+                    snack.innerHTML = this.$t('profilePage.dialog.success_change');
+                    setTimeout(() => {
+                        snack.className = snack.className.replace("show","");
+                    }, 3000);
+                    this.$emit('profileUpdate');
+                    this.clearForm();
+                }, error => {
+                    console.log(error.message)
+                });
             },
             clearForm() {
-                this.name = "";
-                this.surname = "";
-                this.birthday = "";
-                this.gender = "";
-                this.height = "";
-                this.email = "";
-                this.username = "";
-                this.password = "";
-                document.getElementsByClassName('v-dialog--active')[0].scrollTop = 0
+                this.userData.name = "";
+                this.userData.surname = "";
+                this.userData.birthday = "";
+                this.userData.gender = "";
+                this.userData.height = "";
+                this.userData.email = "";
+                this.userData.username = "";
+                this.userData.password = "";
+                document.getElementsByClassName('v-dialog--active')[0].scrollTop = 0;
                 this.dialog = false;
             }
         }

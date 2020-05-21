@@ -33,10 +33,10 @@
                             />
                         </v-col>
                         <v-col cols="12" sm="6" md="6">
-                            <v-text-field v-model="height" dense outlined :label="this.$t('registerPage.height')"/>
+                            <v-text-field v-model="height" dense outlined :label="this.$t('registerPage.height')" suffix="Cm"/>
                         </v-col>
                         <v-col cols="12" sm="6" md="6">
-                            <v-text-field v-model="weight" dense outlined :label="this.$t('registerPage.weight')"/>
+                            <v-text-field v-model="weight" dense outlined :label="this.$t('registerPage.weight')" suffix="Kg"/>
                         </v-col>
                     </v-row>
                 </div>
@@ -95,7 +95,7 @@
                 username: "",
                 password: "",
                 confirm_pass: "",
-                achi_pub: "false"
+                achi_pub: false
             };
         },
 

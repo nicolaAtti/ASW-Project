@@ -57,6 +57,35 @@
     "General Data": "General Users Data",
     "Registered Users": "Registered Users",
     "Average Users Age": "Average Users Age"
+  },
+  "profilePage": {
+    "dialog": {
+      "title": "Change profile information",
+      "success_change": "Profile data changed",
+      "name": "Name",
+      "surname": "Surname",
+      "gender": "Gender",
+      "username": "Username",
+      "height": "Height",
+      "email": "Email Address",
+      "password": "New Password",
+      "achi_pub": "Display achievements publicly",
+      "dialogButton": "Change Account Information",
+      "close": "Close",
+      "save": "Save"
+    },
+    "profileTab": "Profile",
+    "achievementsTab": "Achievements",
+    "name": "Name:",
+    "surname": "Surname:",
+    "birthday": "Birthday date:",
+    "gender": "Gender:",
+    "Male": "Male",
+    "Female": "Female",
+    "height": "Height:",
+    "email": "Email address:",
+    "registrationDate": "Registration date:",
+    "achi_pub": "Achievement display status:"
   }
 
 }

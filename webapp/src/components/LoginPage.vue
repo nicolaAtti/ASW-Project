@@ -52,7 +52,6 @@
                     console.log(response);
                     sessionStorage.token = "Bearer "+response.data.token;
                     sessionStorage.username = this.input.username;
-                    console.log(sessionStorage.username);
                     if(this.input.username == this.mockAccount.username && this.input.password == this.mockAccount.password) {
                         router.push('admin-home')
                     }else {
@@ -60,7 +59,7 @@
                     }
                 }, error => {
                     console.log(error);
-                    if(error.response.status===404){
+                    if(error.status===404){
                         console.log("404");
                         this.errors.push("Username non trovato")
                     }else{
