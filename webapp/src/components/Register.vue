@@ -8,6 +8,7 @@
             <ul>
                 <li v-for="error in errors" v-bind:key="error.id">{{ error }}</li>
             </ul>
+            </p>
             <form id="registration">
                 <div class="section"><span>1</span>{{ $t("registerPage.personal_data")}}</div>
                 <div class="inner-wrap">

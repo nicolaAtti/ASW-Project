@@ -10,6 +10,7 @@
                 <ul>
                     <li v-for="error in errors" v-bind:key="error.id">{{ error }}</li>
                 </ul>
+                </p>
                 <input type="text" v-model= "input.username" placeholder="Username" required />
                 <input type="password" v-model="input.password" placeholder="Password" required/>
                 <button type="submit" name="Sign In" value="Sign In">{{ $t("signIn")}}</button>
