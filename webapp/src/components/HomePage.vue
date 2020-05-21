@@ -12,9 +12,9 @@
             <div class="w3-container">
                 <h2>{{ $t('homePage.User Data') }}</h2>
                 <ul class="w3-ul w3-large" >
-                    <li class="w3-padding-large">{{ $t('homePage.Age') }}<p>prova</p></li>
-                    <li class="w3-padding-large">{{ $t('homePage.Weight') }}</li>
-                    <li class="w3-padding-large">{{ $t('homePage.Height') }}</li>
+                    <li class="w3-padding-large">{{ $t('homePage.Age') }}<p>{{age}}</p></li>
+                    <li class="w3-padding-large">{{ $t('homePage.Weight') }}<p>{{weight}} kg</p></li>
+                    <li class="w3-padding-large">{{ $t('homePage.Height') }}<p>{{height}} cm</p></li>
                 </ul>
             </div>
             <hr class="new5">
@@ -66,6 +66,7 @@
     import Vue from 'vue';
     import { ChartPlugin, LineSeries, ColumnSeries,  Category, DataLabel, Tooltip} from '@syncfusion/ej2-vue-charts';
     import router from "../router";
+    import axios from "axios";
     Vue.use(ChartPlugin);
 
     export default {
@@ -77,6 +78,11 @@
         },
         data() {
             return {
+                username: sessionStorage.username,
+                age: '',
+                weight: '',
+                height: '',
+
                 border: {color: "#107228", width: 1},
 
                 titleStyle:{
@@ -157,6 +163,11 @@
         provide: {
             chart: [LineSeries, ColumnSeries, Category, DataLabel, Tooltip]
         },
+        created() {
+            this.loadAge();
+            this.loadWeight();
+            this.loadHeight();
+        },
         methods: {
             signOut() {
                 router.push('login')
@@ -166,6 +177,35 @@
             },
             goToHistory() {
                 router.push('home/sessions-history')
+            },
+            loadAge() {
+                this.age = 'Loading...';
+                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.username, {headers: { Authorization: sessionStorage.token}}).then(response => {
+                    var today = new Date();
+                    var birthDate = new Date(response.data.birthday);
+                    var age = today.getFullYear() - birthDate.getFullYear();
+                    var m = today.getMonth() - birthDate.getMonth();
+                    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                        age--;
+                    }
+                    this.age = age
+                })
+            },
+            loadWeight() {
+                this.weight = 'Loading...';
+                console.log("Sono nella loadWeight" + this.username);
+                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_FAT + '/users/' + this.username + '/fat', {headers: { Authorization: sessionStorage.token}}).then(response => {
+                    console.log("Sono nella get di loadWeight");
+                    console.log("" + response.data);
+                    this.weight = response.data.weight;
+                    console.log("" + this.weight);
+                })
+            },
+            loadHeight() {
+                this.height = 'Loading...';
+                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.username, {headers: { Authorization: sessionStorage.token}}).then(response => {
+                    this.height = response.data.height;
+                })
             }
         }
     }
