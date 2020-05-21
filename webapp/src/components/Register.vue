@@ -163,8 +163,8 @@
     }
 
     .error-list ul{
-        list-style: inside;
-        justify-content: center;
+        list-style: none;
+        justify-content: left;
     }
 
     .error-list li{
