@@ -6,7 +6,7 @@
                         src="avatar.png"
                 >
             </v-avatar>
-            <h2 class="username_title">{{ this.username }}</h2>
+            <h2 class="username_title">{{ this.userData.username }}</h2>
         </div>
         <button class="tablink" v-on:click="openPage('profile_tab')">{{ $t("profilePage.profileTab")}}</button>
         <button class="tablink" v-on:click="openPage('achievements_tab')" id="defaultOpen">{{ $t("profilePage.achievementsTab")}}</button>
@@ -15,33 +15,33 @@
             <v-row dense class="contet-row">
                 <label class="profile-label"> {{ $t("profilePage.name")}} </label>
                 <v-spacer/>
-                <label class="profile-label"> {{this.name}} </label>
+                <label class="profile-label"> {{this.userData.name}} </label>
             </v-row>
             <v-spacer />
             <v-row dense class="contet-row">
                 <label class="profile-label"> {{ $t("profilePage.surname")}} </label>
                 <v-spacer/>
-                <label class="profile-label"> {{this.surname}} </label>
+                <label class="profile-label"> {{this.userData.surname}} </label>
             </v-row>
             <v-row dense class="contet-row">
                 <label class="profile-label"> {{ $t("profilePage.birthday")}} </label>
                 <v-spacer/>
-                <label class="profile-label"> {{this.birthday}} </label>
+                <label class="profile-label"> {{this.userData.birthday}} </label>
             </v-row>
             <v-row dense class="contet-row">
                 <label class="profile-label"> {{ $t("profilePage.gender")}} </label>
                 <v-spacer/>
-                <label class="profile-label"> {{this.gender}} </label>
+                <label class="profile-label"> {{this.userData.gender}} </label>
             </v-row>
             <v-row dense class="contet-row">
                 <label class="profile-label"> {{ $t("profilePage.email")}} </label>
                 <v-spacer/>
-                <label class="profile-label"> {{this.email}} </label>
+                <label class="profile-label"> {{this.userData.email}} </label>
             </v-row>
             <v-row dense class="contet-row">
                 <label class="profile-label"> {{ $t("profilePage.height")}} </label>
                 <v-spacer/>
-                <label class="profile-label"> {{this.height}} </label>
+                <label class="profile-label"> {{this.userData.height}} </label>
             </v-row>
             <v-row dense class="contet-row">
                 <label class="profile-label"> {{ $t("profilePage.registrationDate")}} </label>
@@ -51,10 +51,10 @@
             <v-row dense class="contet-row">
                 <label class="profile-label"> {{ $t("profilePage.achi_pub")}} </label>
                 <v-spacer/>
-                <label class="profile-label"> {{this.achi_pub}} </label>
+                <label class="profile-label"> {{this.userData.achi_pub}} </label>
             </v-row>
             <div class="dialog-panel">
-                <ProfileDialog v-bind:currentUsername="this.username"/>
+                <ProfileDialog v-bind:currentUsername="this.userData.username" v-on:profileUpdate="fetchUserData"/>
             </div>
         </div>
 
@@ -77,36 +77,24 @@
 
         data: () => {
             return {
-                username: sessionStorage.username,
-                name: "",
-                surname: "",
-                birthday: "",
-                email: "",
-                gender: "",
-                height: "",
-                achi_pub: "",
+                userData: {
+                    username: "",
+                    name: "",
+                    surname: "",
+                    birthday: "",
+                    email: "",
+                    gender: "",
+                    height: "",
+                    achi_pub: "",
+                },
                 registerDate: "",
                 achievements: [],
-                dialog: false
+                dialog: false,
             };
         },
 
         mounted() {
-            axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT + '/users/' + sessionStorage.username,{headers: { Authorization: sessionStorage.token}}).then(response => {
-                var birthdayDate = this.formatDate(response.data.birthday);
-                var registerDate = this.formatDate(response.data.registrationDate);
-                this.name = response.data.name;
-                this.surname = response.data.surname;
-                this.email = response.data.email;
-                this.birthday = birthdayDate;
-                this.gender = this.$t('profilePage.'+response.data.gender);
-                this.height = response.data.height;
-                this.achi_pub = response.data.publicAchievements ? "Public" : "Private";
-                this.registerDate = registerDate;
-                this.achievements = response.data.achievements;
-            }).catch(error => {
-                console.log(error.status)
-            })
+            this.fetchUserData()
         },
 
         methods: {
@@ -133,6 +121,25 @@
                 let month = d.getMonth()+1;
                 let year = d.getFullYear();
                 return day + '/' + month + '/' + year;
+            },
+            fetchUserData() {
+                this.userData.username = sessionStorage.username;
+                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.userData.username,{headers: { Authorization: sessionStorage.token}}).then(response => {
+                    var birthdayDate = this.formatDate(response.data.birthday);
+                    var registerDate = this.formatDate(response.data.registrationDate);
+                    console.log(response.data.publicAchievements)
+                    this.userData.name = response.data.name;
+                    this.userData.surname = response.data.surname;
+                    this.userData.email = response.data.email;
+                    this.userData.birthday = birthdayDate;
+                    this.userData.gender = this.$t('profilePage.'+response.data.gender);
+                    this.userData.height = response.data.height;
+                    this.userData.achi_pub = response.data.publicAchievements ? "Public" : "Private";
+                    this.registerDate = registerDate;
+                    this.achievements = response.data.achievements;
+                }).catch(error => {
+                    console.log(error.status)
+                })
             }
         }
     }

@@ -33,10 +33,10 @@
                             />
                         </v-col>
                         <v-col cols="12" sm="6" md="6">
-                            <v-text-field v-model="height" dense outlined :label="this.$t('registerPage.height')"/>
+                            <v-text-field v-model="height" dense outlined :label="this.$t('registerPage.height')" suffix="Cm"/>
                         </v-col>
                         <v-col cols="12" sm="6" md="6">
-                            <v-text-field v-model="weight" dense outlined :label="this.$t('registerPage.weight')"/>
+                            <v-text-field v-model="weight" dense outlined :label="this.$t('registerPage.weight')" suffix="Kg"/>
                         </v-col>
                     </v-row>
                 </div>
@@ -109,7 +109,7 @@
                 }else {
                     try {
                     e.preventDefault();
-                    const response = await axios.post('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT + '/users/' + this.username, {
+                    const response = await axios.post('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.username, {
                             name: this.name,
                             surname: this.surname,
                             birthday: this.birthday,
@@ -124,7 +124,6 @@
                         router.back();
                         const snack = document.getElementById("snackbar");
                         snack.className = "show";
-                        snack.
                         setTimeout(() => {
                             snack.className = snack.className.replace("show","");
                         }, 3000)

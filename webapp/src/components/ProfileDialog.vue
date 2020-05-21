@@ -20,13 +20,13 @@
                                 </v-col>
                                 <v-col cols="12" sm="6" md="6" >
                                     <v-select
-                                            :items="[this.$t('profilePage.dialog.male'),this.$t('profilePage.dialog.female')]"
-                                            label="Gender"
+                                            :items="[this.$t('profilePage.Male'),this.$t('profilePage.Female')]"
+                                            :label="this.$t('profilePage.dialog.gender')"
                                             v-model="userData.gender"
                                     />
                                 </v-col>
                                 <v-col cols="12" sm="6" md="6">
-                                    <v-text-field :label="this.$t('profilePage.dialog.height')" v-model="userData.height"/>
+                                    <v-text-field :label="this.$t('profilePage.dialog.height')" v-model="userData.height" suffix="Cm"/>
                                 </v-col>
                                 <v-col cols="12" sm="6" md="6">
                                     <v-text-field :label="this.$t('profilePage.dialog.username')" v-model="userData.username"/>
@@ -43,7 +43,7 @@
                                 </v-col>
                                 <v-col cols="12" sm="6" md="6">
                                     <v-checkbox
-                                            v-model="userData.achi_pub"
+                                            v-model="userData.publicAchievements"
                                             :label="this.$t('profilePage.dialog.achi_pub')"
                                             true-value="true"
                                     />
@@ -53,8 +53,8 @@
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer/>
-                        <v-btn color="blue darken-1" text @click="clearForm">Close</v-btn>
-                        <v-btn color="blue darken-1" text @click="sendNewProfileData">Save</v-btn>
+                        <v-btn color="blue darken-1" text @click="clearForm">{{$t('profilePage.dialog.close')}}</v-btn>
+                        <v-btn color="blue darken-1" text @click="sendNewProfileData">{{$t('profilePage.dialog.save')}}</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
@@ -76,15 +76,15 @@
             return {
                 dialog: false,
                 userData:{
-                    name: undefined,
-                    surname: undefined,
-                    birthday: undefined,
-                    gender: undefined,
-                    height: undefined,
-                    email: undefined,
-                    username: undefined,
-                    password: undefined,
-                    achi_pub: undefined,
+                    name: "",
+                    surname: "",
+                    birthday: "",
+                    gender: "",
+                    height: "",
+                    email: "",
+                    username: "",
+                    password: "",
+                    publicAchievements: undefined,
                 },
             }
         },
@@ -93,24 +93,24 @@
 
         methods: {
             sendNewProfileData() {
-                    let patchData = this.userData;
-                    Object.keys(patchData).forEach(key => patchData[key] === undefined ? delete patchData[key] : {});
-                    axios.patch('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT + '/users/' + this.currentUsername, patchData, {headers: { Authorization: sessionStorage.token } }).then( response => {
-                        if(response.newToken!== undefined){
-                            sessionStorage.username = this.userData.username;
-                            sessionStorage.token = response.newToken;
-                        }
-                        const snack = document.getElementById("snackbar");
-                        snack.className = "show";
-                        snack.innerHTML = this.$t('profilePage.dialog.successful_change');
-                        setTimeout(() => {
-                            snack.className = snack.className.replace("show","");
-                        }, 3000);
-                        this.clearForm();
-                    }, error => {
-                        console.log(error.message)
-                    });
-
+                var patchData = this.userData;
+                Object.keys(patchData).forEach((key) => (patchData[key] === "" || patchData[key] === undefined) && delete patchData[key]);
+                axios.patch('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.currentUsername, patchData, {headers: { Authorization: sessionStorage.token } }).then( response => {
+                    if(response.data.newToken !== undefined){
+                        sessionStorage.username = this.userData.username;
+                        sessionStorage.token = "Bearer "+response.data.newToken;
+                    }
+                    const snack = document.getElementById("snackbar");
+                    snack.className = "show";
+                    snack.innerHTML = this.$t('profilePage.dialog.success_change');
+                    setTimeout(() => {
+                        snack.className = snack.className.replace("show","");
+                    }, 3000);
+                    this.$emit('profileUpdate');
+                    this.clearForm();
+                }, error => {
+                    console.log(error.message)
+                });
             },
             clearForm() {
                 this.userData.name = "";
@@ -121,7 +121,7 @@
                 this.userData.email = "";
                 this.userData.username = "";
                 this.userData.password = "";
-                document.getElementsByClassName('v-dialog--active')[0].scrollTop = 0
+                document.getElementsByClassName('v-dialog--active')[0].scrollTop = 0;
                 this.dialog = false;
             }
         }

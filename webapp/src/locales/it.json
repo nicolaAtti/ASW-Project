@@ -70,7 +70,9 @@
       "email": "Indirizzo email",
       "password": "Nuova password",
       "achi_pub": "Mostra achievement pubblicamente.",
-      "dialogButton": "Modifica Informazioni Account"
+      "dialogButton": "Modifica Informazioni Account",
+      "close": "Chiudi",
+      "save": "Salva"
     },
     "profileTab": "Profilo",
     "achievementsTab": "Achievement",
