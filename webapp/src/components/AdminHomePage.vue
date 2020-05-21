@@ -11,7 +11,7 @@
             <div class="w3-container">
                 <h2>{{ $t('adminHomePage.General Data') }}</h2>
                 <ul class="w3-ul w3-large" >
-                    <li class="w3-padding-large">{{ $t('adminHomePage.Registered Users') }}</li>
+                    <li class="w3-padding-large">{{ $t('adminHomePage.Registered Users') }}<p>{{totalUsers}}</p></li>
                     <li class="w3-padding-large">{{ $t('adminHomePage.Average Users Age') }}</li>
                 </ul>
             </div>
@@ -42,6 +42,7 @@
     import Vue from 'vue';
     import {ChartPlugin, LineSeries, Category, DataLabel, Tooltip} from '@syncfusion/ej2-vue-charts';
     import router from "../router";
+    import axios from "axios";
     Vue.use(ChartPlugin);
 
     export default {
@@ -53,6 +54,9 @@
         },
         data() {
             return {
+                username: sessionStorage.username,
+                totalUsers: '',
+
                 border: {color: "#107228", width: 1},
 
                 titleStyle:{
@@ -125,12 +129,21 @@
         provide: {
             chart: [LineSeries, Category, DataLabel, Tooltip]
         },
+        created() {
+            this.loadTotalUsers();
+        },
         methods: {
             signOut() {
                 router.push('login')
             },
             goToProfile() {
                 //router.push('home/admin-profile')
+            },
+            loadTotalUsers() {
+                this.totalUsers = 'Loading...';
+                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.username, {headers: { Authorization: sessionStorage.token}}).then(response => {
+                    console.log('Provo a caricare il totale degli utenti registrati: ' + response.data.username);
+                })
             }
         }
     }
@@ -140,6 +153,16 @@
 
     * {
         box-sizing: border-box;
+    }
+
+    li {
+        font-weight: bold;
+    }
+
+    p {
+        text-align: right;
+        font-family: Georgia, serif;
+        font-weight: 500;
     }
 
     .row::after {

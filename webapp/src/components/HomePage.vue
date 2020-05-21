@@ -193,10 +193,12 @@
             },
             loadWeight() {
                 this.weight = 'Loading...';
-                console.log("Sono nella loadWeight" + this.username);
+                console.log("Sono nella loadWeight " + this.username);
                 axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_FAT + '/users/' + this.username + '/fat', {headers: { Authorization: sessionStorage.token}}).then(response => {
                     console.log("Sono nella get di loadWeight");
-                    console.log("" + response.data);
+                    console.log("Data = " + response.data);
+                    console.log("Username = " + response.data.username);
+                    console.log("Peso = " + response.data.weight);
                     this.weight = response.data.weight;
                     console.log("" + this.weight);
                 })

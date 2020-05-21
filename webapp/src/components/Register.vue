@@ -100,16 +100,16 @@
         },
 
         methods: {
-            async processForm(e){
+            async processForm(e) {
                 this.errors = [];
-                if(!(this.password === this.confirm_pass)){
+                if (!(this.password === this.confirm_pass)) {
                     this.errors.push(this.$t('registerPage.password_mismatch'));
                     e.preventDefault();
-                    window.scrollTo(0,0)
-                }else {
+                    window.scrollTo(0, 0)
+                } else {
                     try {
-                    e.preventDefault();
-                    const response = await axios.post('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.username, {
+                        e.preventDefault();
+                        const response = await axios.post('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.username, {
                             name: this.name,
                             surname: this.surname,
                             birthday: this.birthday,
@@ -119,28 +119,29 @@
                             email: this.email,
                             password: this.password,
                             publicAchievements: this.achi_pub
-                    });
-                    if(response.status===201){
-                        router.back();
-                        const snack = document.getElementById("snackbar");
-                        snack.className = "show";
-                        setTimeout(() => {
-                            snack.className = snack.className.replace("show","");
-                        }, 3000)
-                    }
-                    } catch(err){
-                        if(err.response.status===409){
+                        });
+                        if (response.status === 201) {
+                            router.back();
+                            const snack = document.getElementById("snackbar");
+                            snack.className = "show";
+                            setTimeout(() => {
+                                snack.className = snack.className.replace("show", "");
+                            }, 3000)
+                        }
+                    } catch (err) {
+                        if (err.response.status === 409) {
                             this.errors.push((this.$t('registerPage.existing_username')))
-                        }else{
+                        } else {
                             this.errors.push(this.$t('registerPage.generic_server_error'))
                         }
                         e.preventDefault();
-                        window.scrollTo(0,0)
+                        window.scrollTo(0, 0)
                     }
                 }
             }
         }
     }
+
 </script>
 
 <style scoped>
