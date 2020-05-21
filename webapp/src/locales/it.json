@@ -4,7 +4,9 @@
   "it_lang": "Italiano",
   "en_lang": "Inglese",
   "loginPage": {
-    "app_title": "Titolo App"
+    "app_title": "Titolo App",
+    "wrong_pass": "Password errata",
+    "wrong_username": "Username non trovato"
   },
   "registerPage": {
     "register_title": "Registrati Adesso!",
@@ -82,10 +84,16 @@
     "gender": "Sesso:",
     "Male": "Maschio",
     "Female": "Femmina",
+    "Maschio": "Maschio",
+    "Femmina": "Femmina",
     "height": "Altezza:",
     "email": "Indirizzo email:",
-    "registrationDate": "Data di registrazione:",
-    "achi_pub": "Stato display achievement:"
+    "registerDate": "Data di registrazione:",
+    "achi_pub": "Stato display achievement:",
+    "Private": "Privato",
+    "Public": "Pubblico",
+    "Privato": "Privato",
+    "Pubblico": "Pubblico"
   }
 
 }

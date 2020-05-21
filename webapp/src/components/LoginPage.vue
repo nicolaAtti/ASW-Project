@@ -42,6 +42,7 @@
 
             }
         },
+
         methods: {
             sendDataLogin(e) {
                 this.errors = [];
@@ -58,13 +59,13 @@
                         router.push('home')
                     }
                 }, error => {
-                    console.log(error);
-                    if(error.status===404){
+                    this.errors = [];
+                    if(error.response.status===404){
                         console.log("404");
-                        this.errors.push("Username non trovato")
-                    }else{
-                        console.log("409");
-                        this.errors.push("Password errata")
+                        this.errors.push(this.$t('loginPage.wrong_username'))
+                    }else if(error.response.status===401){
+                        console.log("401");
+                        this.errors.push(this.$t('loginPage.wrong_password'))
                     }
                 });
             },

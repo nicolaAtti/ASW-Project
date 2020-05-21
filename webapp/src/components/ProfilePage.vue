@@ -6,60 +6,53 @@
                         src="avatar.png"
                 >
             </v-avatar>
-            <h2 class="username_title">{{ this.userData.username }}</h2>
+            <h2 class="username_title">{{ this.username }}</h2>
         </div>
         <button class="tablink" v-on:click="openPage('profile_tab')">{{ $t("profilePage.profileTab")}}</button>
         <button class="tablink" v-on:click="openPage('achievements_tab')" id="defaultOpen">{{ $t("profilePage.achievementsTab")}}</button>
 
+
         <div id="profile_tab" class="tabcontent">
-            <v-row dense class="contet-row">
-                <label class="profile-label"> {{ $t("profilePage.name")}} </label>
-                <v-spacer/>
-                <label class="profile-label"> {{this.userData.name}} </label>
-            </v-row>
-            <v-spacer />
-            <v-row dense class="contet-row">
-                <label class="profile-label"> {{ $t("profilePage.surname")}} </label>
-                <v-spacer/>
-                <label class="profile-label"> {{this.userData.surname}} </label>
-            </v-row>
-            <v-row dense class="contet-row">
-                <label class="profile-label"> {{ $t("profilePage.birthday")}} </label>
-                <v-spacer/>
-                <label class="profile-label"> {{this.userData.birthday}} </label>
-            </v-row>
-            <v-row dense class="contet-row">
-                <label class="profile-label"> {{ $t("profilePage.gender")}} </label>
-                <v-spacer/>
-                <label class="profile-label"> {{this.userData.gender}} </label>
-            </v-row>
-            <v-row dense class="contet-row">
-                <label class="profile-label"> {{ $t("profilePage.email")}} </label>
-                <v-spacer/>
-                <label class="profile-label"> {{this.userData.email}} </label>
-            </v-row>
-            <v-row dense class="contet-row">
-                <label class="profile-label"> {{ $t("profilePage.height")}} </label>
-                <v-spacer/>
-                <label class="profile-label"> {{this.userData.height}} </label>
-            </v-row>
-            <v-row dense class="contet-row">
-                <label class="profile-label"> {{ $t("profilePage.registrationDate")}} </label>
-                <v-spacer/>
-                <label class="profile-label"> {{this.registerDate}} </label>
-            </v-row>
-            <v-row dense class="contet-row">
-                <label class="profile-label"> {{ $t("profilePage.achi_pub")}} </label>
-                <v-spacer/>
-                <label class="profile-label"> {{this.userData.achi_pub}} </label>
-            </v-row>
             <div class="dialog-panel">
                 <ProfileDialog v-bind:currentUsername="this.userData.username" v-on:profileUpdate="fetchUserData"/>
             </div>
+            <v-simple-table>
+                <template v-slot:default>
+                    <tbody>
+                    <tr v-for="key in Object.keys(userData)" v-bind:key="key">
+                        <td>{{ $t('profilePage.'+key) }}</td>
+                        <td>{{ userData[key] }}</td>
+                    </tr>
+                    <tr>
+                        <td> {{ $t('profilePage.gender') }}</td>
+                        <td> {{ $t('profilePage.'+gender) }}</td>
+                    </tr>
+                    <tr>
+                        <td> {{ $t('profilePage.achi_pub') }}</td>
+                        <td> {{ $t('profilePage.'+achi_pub) }}</td>
+                    </tr>
+                    </tbody>
+                </template>
+            </v-simple-table>
         </div>
 
         <div id="achievements_tab" class="tabcontent">
-            <p>This tab will contain achievements</p>
+            <v-expansion-panels>
+                <v-expansion-panel
+                        v-for="(item,i) in 5"
+                        :key="i"
+                >
+                    <!-- qui ci va il numero di achievements dell'utente al posto del 5 -->
+                    <v-expansion-panel-header disable-icon-rotate>
+                        <div class="achievement-title">
+                            <v-img src="new-blood.jpg" height="70%" width="70%"/>
+                        </div><span class="achievement-name">New Blood</span>
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content >
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
         </div>
     </div>
 </template>
@@ -77,17 +70,17 @@
 
         data: () => {
             return {
+                username: "",
+                gender: "",
+                achi_pub: "",
                 userData: {
-                    username: "",
                     name: "",
                     surname: "",
                     birthday: "",
                     email: "",
-                    gender: "",
                     height: "",
-                    achi_pub: "",
+                    registerDate: ""
                 },
-                registerDate: "",
                 achievements: [],
                 dialog: false,
             };
@@ -120,21 +113,21 @@
             },
 
             fetchUserData() {
-                this.userData.username = sessionStorage.username;
-                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.userData.username,{headers: { Authorization: sessionStorage.token}}).then(response => {
+                this.username = sessionStorage.username;
+                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.username,{headers: { Authorization: sessionStorage.token}}).then(response => {
                     var birthdayDate = this.formatDate(response.data.birthday);
                     var registerDate = this.formatDate(response.data.registrationDate);
                     this.userData.name = response.data.name;
                     this.userData.surname = response.data.surname;
                     this.userData.email = response.data.email;
                     this.userData.birthday = birthdayDate;
-                    this.userData.gender = this.$t('profilePage.'+response.data.gender);
+                    this.gender = this.$t('profilePage.'+response.data.gender);
                     this.userData.height = response.data.height;
-                    this.userData.achi_pub = response.data.publicAchievements ? "Public" : "Private";
-                    this.registerDate = registerDate;
+                    this.achi_pub = response.data.publicAchievements ? "Public" : "Private";
+                    this.userData.registerDate = registerDate;
                     this.achievements = response.data.achievements;
                 }).catch(error => {
-                    console.log(error.status)
+                    console.log(error.response.status)
                 })
             }
         }
@@ -158,31 +151,7 @@
 
     .tabcontent {
         display: none;
-        margin: 20% 5% 0 5%;
-
-    }
-
-    .contet-row {
-        background: #fff;
-        box-sizing: border-box;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        padding: 2%;
-        margin-bottom: 5%;
-        border-radius: 1%;
-        -webkit-border-radius:6px;
-        -moz-border-radius:6px;
-        border: 2px solid #01579b;
-        box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.33);
-        -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.33);
-        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.33);
-    }
-
-    label {
-        font-family: "Lucida Sans", sans-serif;
-        font-size: 125%;
-        color: #000000;
-        margin: 2% 1% 2% 1%;
+        margin: 18% 5% 0 5%;
     }
 
     .profile_top_card{
@@ -190,7 +159,6 @@
         background-size: cover;
         background-image: url("../assets/profile-background-motive.jpg");
     }
-
 
     #profile_tab{
         display: block;
@@ -202,6 +170,23 @@
 
     .username_title {
         margin-bottom: 1%;
+    }
+
+    .dialog-panel{
+        margin-bottom: 3%;
+    }
+
+    .achievement-title{
+        display: inline-block;
+        width: 20%;
+    }
+
+    .achievement-name{
+        font: 150%  Bitter, serif;
+    }
+
+    tr {
+        font: 100% Bitter, serif;
     }
 
 </style>
