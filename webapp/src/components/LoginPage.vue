@@ -10,7 +10,6 @@
                 <ul>
                     <li v-for="error in errors" v-bind:key="error.id">{{ error }}</li>
                 </ul>
-                </p>
                 <input type="text" v-model= "input.username" placeholder="Username" required />
                 <input type="password" v-model="input.password" placeholder="Password" required/>
                 <button type="submit" name="Sign In" value="Sign In">{{ $t("signIn")}}</button>
@@ -52,7 +51,6 @@
                     console.log(response);
                     sessionStorage.token = "Bearer "+response.data.token;
                     sessionStorage.username = this.input.username;
-                    console.log(sessionStorage.username);
                     if(this.input.username == this.mockAccount.username && this.input.password == this.mockAccount.password) {
                         router.push('admin-home')
                     }else {

@@ -99,22 +99,18 @@
 
         methods: {
             openPage(pageName) {
-                // Hide all elements with class="tabcontent" by default */
                 var i, tabcontent, tablinks;
                 tabcontent = document.getElementsByClassName("tabcontent");
                 for (i = 0; i < tabcontent.length; i++) {
                     tabcontent[i].style.display = "none";
                 }
-
-                // Remove the background color of all tablinks/buttons
                 tablinks = document.getElementsByClassName("tablink");
                 for (i = 0; i < tablinks.length; i++) {
                     tablinks[i].style.backgroundColor = "";
                 }
-
-                // Show the specific tab content
                 document.getElementById(pageName).style.display = "block";
             },
+
             formatDate(date){
                 let d = new Date(date);
                 let day = d.getDate();
@@ -122,12 +118,12 @@
                 let year = d.getFullYear();
                 return day + '/' + month + '/' + year;
             },
+
             fetchUserData() {
                 this.userData.username = sessionStorage.username;
                 axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.userData.username,{headers: { Authorization: sessionStorage.token}}).then(response => {
                     var birthdayDate = this.formatDate(response.data.birthday);
                     var registerDate = this.formatDate(response.data.registrationDate);
-                    console.log(response.data.publicAchievements)
                     this.userData.name = response.data.name;
                     this.userData.surname = response.data.surname;
                     this.userData.email = response.data.email;
