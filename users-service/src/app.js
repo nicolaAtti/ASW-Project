@@ -23,6 +23,7 @@ db.once("open", function() {
 });
 
 require('../routes/users-routes')(app);
+require('../routes/admin-routes')(app);
 
 app.use(function (err, req, res, next) {
     res.status(404).send({
