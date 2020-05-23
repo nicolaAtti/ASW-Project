@@ -31,4 +31,39 @@ module.exports = function(app) {
             });
         }
     });
+
+    app.get('/admin/average-age', (req, res) => {
+        try {
+            const token = req.header('Authorization').replace('Bearer ', '');
+            const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
+            if (decodedJwt.username === 'Admin') {
+                User.find({}, 'birthday', function (error, result) {
+                    if (error) {
+                        res.status(500).send({
+                            success: false,
+                            message: 'Internal server error'
+                        });
+                    } else {
+                        const averageAge = result.map(entry => {
+                            const diff_ms = Date.now() - entry.birthday;
+                            const age_dt = new Date(diff_ms);
+                            return Math.abs(age_dt.getUTCFullYear() - 1970);
+                        }).reduce((total, value) => { return total + value }) / result.length;
+
+                        res.send({ 'average-age': Math.round(averageAge) });
+                    }
+                })
+            } else {
+                res.status(401).send({
+                    success: false,
+                    message: 'Wrong token'
+                });
+            }
+        } catch (e) {
+            res.status(401).send({
+                success: false,
+                message: 'Invalid token'
+            });
+        }
+    });
 }
