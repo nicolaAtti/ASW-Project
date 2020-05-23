@@ -6,6 +6,7 @@ import HomePage from "../components/HomePage";
 import ProfilePage from "../components/ProfilePage";
 import AdminHomePage from "../components/AdminHomePage"
 import SessionsHistoryPage from "../components/SessionsHistoryPage";
+import AdminProfilePage from "../components/AdminProfilePage";
 
 Vue.use(VueRouter)
 
@@ -34,6 +35,11 @@ Vue.use(VueRouter)
       path: '/admin-home',
       name: 'AdminHomePage',
       component: AdminHomePage
+    },
+    {
+      path: '/home/admin-profile',
+      name: 'AdminProfilePage',
+      component: AdminProfilePage
     },
     {
       path: '/home/sessions-history',

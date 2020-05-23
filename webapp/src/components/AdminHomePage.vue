@@ -137,7 +137,7 @@
                 router.push('login')
             },
             goToProfile() {
-                //router.push('home/admin-profile')
+                router.push('home/admin-profile')
             },
             loadTotalUsers() {
                 this.totalUsers = 'Loading...';
