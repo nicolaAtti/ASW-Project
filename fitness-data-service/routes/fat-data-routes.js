@@ -73,7 +73,8 @@ module.exports = function(app) {
                             message: 'Already deleted'
                         });
                     } else {
-                        res.send({
+                        res.status(200).send
+                        ({
                             success: true,
                             message: 'User fat data successfully deleted'
                         });
