@@ -76,6 +76,18 @@
       "close": "Close",
       "save": "Save"
     },
+    "adminDialog": {
+      "title": "Change profile information",
+      "success_change": "Administrator profile data changed",
+      "name": "Name",
+      "surname": "Surname",
+      "username": "Username",
+      "email": "Email Address",
+      "password": "New Password",
+      "dialogButton": "Change Account Information",
+      "close": "Close",
+      "save": "Save"
+    },
     "profileTab": "Profile",
     "achievementsTab": "Achievements",
     "name": "Name:",

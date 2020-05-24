@@ -13,9 +13,6 @@
 
 
         <div id="profile_tab" class="tabcontent">
-            <div class="dialog-panel">
-                <ProfileDialog v-bind:currentUsername="this.userData.username" v-on:profileUpdate="fetchUserData"/>
-            </div>
             <v-simple-table>
                 <template v-slot:default>
                     <tbody>
@@ -34,6 +31,9 @@
                     </tbody>
                 </template>
             </v-simple-table>
+            <div class="dialog-panel">
+                <ProfileDialog v-bind:currentUsername="this.userData.username" v-on:profileUpdate="fetchUserData"/>
+            </div>
         </div>
 
         <div id="achievements_tab" class="tabcontent">
@@ -45,7 +45,7 @@
                     <!-- qui ci va il numero di achievements dell'utente al posto del 5 -->
                     <v-expansion-panel-header disable-icon-rotate>
                         <div class="achievement-title">
-                            <v-img src="NewBlood.png" height="70%" width="70%"/>
+                            <v-img src="BurnItBaby.png" height="70%" width="70%"/>
                         </div><span class="achievement-name">New Blood</span>
                     </v-expansion-panel-header>
                     <v-expansion-panel-content >
@@ -141,17 +141,13 @@
         float: left;
         cursor: pointer;
         padding: 3% 5%;
-        font-size: 100%;
+        font: 125% "Lucida Sans", sans-serif;
         width: 50%;
-    }
-
-    .tablink:hover {
-        background-color: #004c8c;
     }
 
     .tabcontent {
         display: none;
-        margin: 18% 5% 0 5%;
+        margin-top: 15%;
     }
 
     .profile_top_card{
@@ -168,12 +164,18 @@
         height: 100%;
     }
 
+    #achievements_tab{
+        margin: 20% 5% 0 5%;
+    }
+
     .username_title {
-        margin-bottom: 1%;
+        margin-bottom: 2%;
+        font: 175% "Lucida Sans", sans-serif;
     }
 
     .dialog-panel{
-        margin-bottom: 3%;
+        margin-top: 5%;
+        margin-bottom: 5%;
     }
 
     .achievement-title{
@@ -182,11 +184,11 @@
     }
 
     .achievement-name{
-        font: 150%  Bitter, serif;
+        font: 125% "Lucida Sans", sans-serif;
     }
 
-    tr {
-        font: 100% Bitter, serif;
+    tr td {
+        font: 110% "Lucida Sans", sans-serif;
     }
 
 </style>

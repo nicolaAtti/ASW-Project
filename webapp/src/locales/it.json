@@ -63,7 +63,7 @@
   "profilePage": {
     "dialog": {
       "title": "Modifica informazioni profilo",
-      "success_change": "Informazioni profilo modificati",
+      "success_change": "Informazioni profilo modificate",
       "name": "Nome",
       "surname": "Cognome",
       "gender": "Sesso",
@@ -72,6 +72,18 @@
       "email": "Indirizzo email",
       "password": "Nuova password",
       "achi_pub": "Mostra achievement pubblicamente.",
+      "dialogButton": "Modifica Informazioni Account",
+      "close": "Chiudi",
+      "save": "Salva"
+    },
+    "adminDialog": {
+      "title": "Modifica informazioni profilo amministratore",
+      "success_change": "Informazioni profilo amministratore modificate",
+      "name": "Nome",
+      "surname": "Cognome",
+      "username": "Username",
+      "email": "Indirizzo email",
+      "password": "Nuova password",
       "dialogButton": "Modifica Informazioni Account",
       "close": "Chiudi",
       "save": "Salva"
