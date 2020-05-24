@@ -1,6 +1,6 @@
 const jsonwebtoken = require('jsonwebtoken');
 const FitnessData = require("../models/fitness-data");
-const JWT_SECRET = process.env.JWT_SECRET
+const JWT_SECRET = process.env.JWT_SECRET;
 
 module.exports = function(app) {
     app.post('/users/:username/fitness', (req, res) => {

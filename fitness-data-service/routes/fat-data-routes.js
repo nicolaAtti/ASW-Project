@@ -1,7 +1,7 @@
 const jsonwebtoken = require('jsonwebtoken');
 const axios = require('axios');
 const FatData = require("../models/fat-data");
-const JWT_SECRET = process.env.JWT_SECRET
+const JWT_SECRET = process.env.JWT_SECRET;
 
 module.exports = function(app) {
     app.post('/users/:username/fat', (req, res) => {
@@ -73,7 +73,8 @@ module.exports = function(app) {
                             message: 'Already deleted'
                         });
                     } else {
-                        res.send({
+                        res.status(200).send
+                        ({
                             success: true,
                             message: 'User fat data successfully deleted'
                         });
