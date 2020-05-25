@@ -45,6 +45,8 @@
     import axios from "axios";
     Vue.use(ChartPlugin);
 
+
+
     export default {
         metaInfo: {
             meta: [
@@ -143,13 +145,13 @@
             },
             loadTotalUsers() {
                 this.totalUsers = 'Loading...';
-                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/admin/total-users', {headers: { Authorization: sessionStorage.token}}).then(response => {
+                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/total-users', {headers: { Authorization: sessionStorage.token}}).then(response => {
                     this.totalUsers = response.data.totalUsers;
                 })
             },
             loadAverageAge() {
                 this.averageAge = 'Loading...';
-                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/admin/average-age', {headers: { Authorization: sessionStorage.token}}).then(response => {
+                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/average-age', {headers: { Authorization: sessionStorage.token}}).then(response => {
                     this.averageAge = response.data.averageAge;
                 })
             }

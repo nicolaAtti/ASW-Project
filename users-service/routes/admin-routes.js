@@ -3,7 +3,7 @@ const User = require("../models/users");
 const JWT_SECRET = process.env.JWT_SECRET;
 
 module.exports = function(app) {
-    app.get('/admin/total-users', (req, res) => {
+    app.get('/total-users', (req, res) => {
         try {
             const token = req.header('Authorization').replace('Bearer ', '');
             const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
@@ -32,7 +32,7 @@ module.exports = function(app) {
         }
     });
 
-    app.get('/admin/average-age', (req, res) => {
+    app.get('/average-age', (req, res) => {
         try {
             const token = req.header('Authorization').replace('Bearer ', '');
             const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
@@ -66,4 +66,5 @@ module.exports = function(app) {
             });
         }
     });
+
 }
