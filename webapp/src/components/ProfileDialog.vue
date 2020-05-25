@@ -39,7 +39,8 @@
                                     <v-text-field :label="this.$t('profilePage.dialog.password')" type="password" v-model="userData.password"/>
                                 </v-col>
                                 <v-col cols="12" sm="6" md="6">
-                                    <v-date-picker :locale="$i18n.locale" v-model="userData.birthday"/>
+                                    <v-date-picker :locale="$i18n.locale" v-model="userData.birthday" :max="new Date().toISOString().substr(0, 10)"
+                                                   min="1920-01-01"/>
                                 </v-col>
                                 <v-col cols="12" sm="6" md="6">
                                     <v-checkbox
