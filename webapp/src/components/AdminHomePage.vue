@@ -12,7 +12,7 @@
                 <h2>{{ $t('adminHomePage.General Data') }}</h2>
                 <ul class="w3-ul w3-large" >
                     <li class="w3-padding-large">{{ $t('adminHomePage.Registered Users') }}<p>{{totalUsers}}</p></li>
-                    <li class="w3-padding-large">{{ $t('adminHomePage.Average Users Age') }}</li>
+                    <li class="w3-padding-large">{{ $t('adminHomePage.Average Users Age') }}<p>{{averageAge}}</p></li>
                 </ul>
             </div>
             <hr class="new5">
@@ -56,6 +56,7 @@
             return {
                 username: sessionStorage.username,
                 totalUsers: '',
+                averageAge: '',
 
                 border: {color: "#107228", width: 1},
 
@@ -131,6 +132,7 @@
         },
         created() {
             this.loadTotalUsers();
+            this.loadAverageAge();
         },
         methods: {
             signOut() {
@@ -141,8 +143,14 @@
             },
             loadTotalUsers() {
                 this.totalUsers = 'Loading...';
-                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.username, {headers: { Authorization: sessionStorage.token}}).then(response => {
-                    console.log('Provo a caricare il totale degli utenti registrati: ' + response.data.username);
+                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/admin/total-users', {headers: { Authorization: sessionStorage.token}}).then(response => {
+                    this.totalUsers = response.data.totalUsers;
+                })
+            },
+            loadAverageAge() {
+                this.averageAge = 'Loading...';
+                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/admin/average-age', {headers: { Authorization: sessionStorage.token}}).then(response => {
+                    this.averageAge = response.data.averageAge;
                 })
             }
         }

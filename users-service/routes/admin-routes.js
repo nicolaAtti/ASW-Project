@@ -15,7 +15,7 @@ module.exports = function(app) {
                             message: 'Internal server error'
                         });
                     } else {
-                        res.send({ 'total-users': result - 1 });
+                        res.send({ 'totalUsers': result - 1 });
                     }
                 })
             } else {
@@ -50,7 +50,7 @@ module.exports = function(app) {
                             return Math.abs(age_dt.getUTCFullYear() - 1970);
                         }).reduce((total, value) => { return total + value }) / result.length;
 
-                        res.send({ 'average-age': Math.round(averageAge) });
+                        res.send({ 'averageAge': Math.round(averageAge) });
                     }
                 })
             } else {
