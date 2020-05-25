@@ -1,9 +1,10 @@
 const jsonwebtoken = require('jsonwebtoken');
-const User = require("../models/users");
+const user = require("../models/users");
+const User = user.model;
 const JWT_SECRET = process.env.JWT_SECRET;
 
 module.exports = function(app) {
-    app.get('/admin/total-users', (req, res) => {
+    app.get('/total-users', (req, res) => {
         try {
             const token = req.header('Authorization').replace('Bearer ', '');
             const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
@@ -32,7 +33,7 @@ module.exports = function(app) {
         }
     });
 
-    app.get('/admin/average-age', (req, res) => {
+    app.get('/average-age', (req, res) => {
         try {
             const token = req.header('Authorization').replace('Bearer ', '');
             const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
@@ -44,12 +45,8 @@ module.exports = function(app) {
                             message: 'Internal server error'
                         });
                     } else {
-                        const averageAge = result.map(entry => {
-                            const diff_ms = Date.now() - entry.birthday;
-                            const age_dt = new Date(diff_ms);
-                            return Math.abs(age_dt.getUTCFullYear() - 1970);
-                        }).reduce((total, value) => { return total + value }) / result.length;
-
+                        const averageAge = result.map(entry => user.age(entry.birthday))
+                                                .reduce((total, value) => { return total + value }) / result.length;
                         res.send({ 'averageAge': Math.round(averageAge) });
                     }
                 })

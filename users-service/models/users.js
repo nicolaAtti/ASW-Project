@@ -51,4 +51,10 @@ const usersSchema = new Schema({
 });
 
 const users = mongoose.model("users", usersSchema);
-module.exports = users;
+module.exports.model = users;
+
+module.exports.age = function(birthday) {
+    const diff_ms = Date.now() - birthday;
+    const age_dt = new Date(diff_ms);
+    return Math.abs(age_dt.getUTCFullYear() - 1970);
+}
