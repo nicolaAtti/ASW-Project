@@ -32,7 +32,7 @@
                 </template>
             </v-simple-table>
             <div class="dialog-panel">
-                <ProfileDialog v-bind:currentUsername="this.userData.username" v-on:profileUpdate="fetchUserData"/>
+                <ProfileDialog v-on:profileUpdate="fetchUserData"/>
             </div>
         </div>
 
