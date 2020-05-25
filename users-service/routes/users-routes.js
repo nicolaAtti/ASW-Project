@@ -1,5 +1,6 @@
 const jsonwebtoken = require('jsonwebtoken');
-const User = require("../models/users");
+const user = require("../models/users");
+const User = user.model;
 const JWT_SECRET = process.env.JWT_SECRET;
 
 module.exports = function(app) {
@@ -176,7 +177,9 @@ module.exports = function(app) {
                             message: 'Resource not found'
                         });
                     } else {
-                        res.send(result);
+                        const response = JSON.parse(JSON.stringify(result));
+                        response.age = user.age(result.birthday);
+                        res.send(response);
                     }
                 })
             } else {
