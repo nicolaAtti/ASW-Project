@@ -21,7 +21,9 @@
                         </v-col>
                         <v-col cols="12" sm="6" md="6">
                             <v-label>{{ $t('registerPage.birthday_date')}}</v-label>
-                            <v-date-picker v-model="birthday" reactive width="100%" :locale="$i18n.locale"/>
+                            <v-date-picker v-model="birthday" reactive width="100%" :locale="$i18n.locale"
+                                           :max="new Date().toISOString().substr(0, 10)"
+                                           min="1920-01-01"/>
                         </v-col>
                         <v-col cols="12" sm="6" md="6">
                             <v-select

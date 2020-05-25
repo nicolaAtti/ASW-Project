@@ -45,7 +45,7 @@
                     <!-- qui ci va il numero di achievements dell'utente al posto del 5 -->
                     <v-expansion-panel-header disable-icon-rotate>
                         <div class="achievement-title">
-                            <v-img src="BurnItBaby.png" height="70%" width="70%"/>
+                            <v-img src="BurnItBaby.PNG" height="70%" width="70%"/>
                         </div><span class="achievement-name">New Blood</span>
                     </v-expansion-panel-header>
                     <v-expansion-panel-content >
