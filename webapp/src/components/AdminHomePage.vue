@@ -24,7 +24,7 @@
             <hr class="new4">
             <ejs-chart id="container2" :title='titleTrainings' :primaryXAxis='primaryXAxis_trainings' :primaryYAxis='primaryYAxis_trainings' :tooltip='tooltip' :border='border' :titleStyle='titleStyle'>
                 <e-series-collection>
-                    <e-series :dataSource='seriesDataTrainings' type='Line' xName='month' yName='trainings' name='Trainings' :marker='marker'> </e-series>
+                    <e-series :dataSource='seriesDataTrainings' type='Line' xName='month' yName='trainingData' name='Trainings' :marker='marker'> </e-series>
                 </e-series-collection>
             </ejs-chart>
             <hr class="new4">
@@ -87,12 +87,12 @@
                 titleUsers: "Registered Users",
 
                 seriesDataTrainings: [
-                    { month: 'January', trainings: 8048 }, { month: 'February', trainings: 16940 },
-                    { month: 'March', trainings: 13040 }, { month: 'April', trainings: 21040 },
-                    { month: 'May', trainings: 6200 }, { month: 'June', trainings: 18580 },
-                    { month: 'July', trainings: 10240 }, { month: 'August', trainings: 13940 },
-                    { month: 'September', trainings: 14200 }, { month: 'October', trainings: 19040 },
-                    { month: 'November', trainings: 8848 }, { month: 'December', trainings: 16580 }
+                    { month: 'January', trainingData: 8048 }, { month: 'February', trainingData: 16940 },
+                    { month: 'March', trainingData: 13040 }, { month: 'April', trainingData: 21040 },
+                    { month: 'May', trainingData: 6200 }, { month: 'June', trainingData: 18580 },
+                    { month: 'July', trainingData: 10240 }, { month: 'August', trainingData: 13940 },
+                    { month: 'September', trainingData: 14200 }, { month: 'October', trainingData: 19040 },
+                    { month: 'November', trainingData: 8848 }, { month: 'December', trainingData: 16580 }
                 ],
                 primaryXAxis_trainings: {
                     valueType: 'Category'

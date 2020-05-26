@@ -21,16 +21,16 @@
             <div class="w3-container">
                 <h2>{{ $t('homePage.Last Training Summary') }}</h2>
                 <ul class="w3-ul">
-                    <li class="w3-padding-large">{{ $t('homePage.Session ID') }}</li>
-                    <li class="w3-padding-large">{{ $t('homePage.Start Time') }}</li>
-                    <li class="w3-padding-large">{{ $t('homePage.End Time') }}</li>
-                    <li class="w3-padding-large">{{ $t('homePage.Calories Burned') }}</li>
-                    <li class="w3-padding-large">{{ $t('homePage.Average Heart Beat') }}</li>
-                    <li class="w3-padding-large">{{ $t('homePage.Kilometers Traveled') }}</li>
-                    <li class="w3-padding-large">{{ $t('homePage.Steps') }}</li>
-                    <li class="w3-padding-large">{{ $t('homePage.Average Altitude') }}</li>
-                    <li class="w3-padding-large">{{ $t('homePage.Average Speed') }}</li>
-                    <li class="w3-padding-large">{{ $t('homePage.Max Speed') }}</li>
+                    <li class="w3-padding-large">{{ $t('homePage.Session ID') }}<p>{{sessionId}}</p></li>
+                    <li class="w3-padding-large">{{ $t('homePage.Start Time') }}<p>{{startTime}}</p></li>
+                    <li class="w3-padding-large">{{ $t('homePage.End Time') }}<p>{{endTime}}</p></li>
+                    <li class="w3-padding-large">{{ $t('homePage.Calories Burned') }}<p>{{caloriesBurned}}</p></li>
+                    <li class="w3-padding-large">{{ $t('homePage.Average Heart Beat') }}<p>{{avgHeartRate}} b/min</p></li>
+                    <li class="w3-padding-large">{{ $t('homePage.Kilometers Traveled') }}<p>{{kilometers}}</p></li>
+                    <li class="w3-padding-large">{{ $t('homePage.Steps') }}<p>{{steps}}</p></li>
+                    <li class="w3-padding-large">{{ $t('homePage.Average Altitude') }}<p>{{avgAltitude}} m</p></li>
+                    <li class="w3-padding-large">{{ $t('homePage.Average Speed') }}<p>{{avgSpeed}} km/h</p></li>
+                    <li class="w3-padding-large">{{ $t('homePage.Max Speed') }}<p>{{maxSpeed}} km/h</p></li>
                 </ul>
             </div>
             <hr class="new5">
@@ -82,6 +82,17 @@
                 age: '',
                 weight: '',
                 height: '',
+                sessionId: '',
+                startTime: '',
+                endTime: '',
+                caloriesBurned: '',
+                avgHeartRate: '',
+                kilometers: '',
+                steps: '',
+                avgAltitude: '',
+                avgSpeed: '',
+                maxSpeed: '',
+
 
                 border: {color: "#107228", width: 1},
 
@@ -167,6 +178,7 @@
             this.loadAge();
             this.loadWeight();
             this.loadHeight();
+            this.loadLastTrainingSummary();
         },
         methods: {
             signOut() {
@@ -181,14 +193,7 @@
             loadAge() {
                 this.age = 'Loading...';
                 axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.username, {headers: { Authorization: sessionStorage.token}}).then(response => {
-                    var today = new Date();
-                    var birthDate = new Date(response.data.birthday);
-                    var age = today.getFullYear() - birthDate.getFullYear();
-                    var m = today.getMonth() - birthDate.getMonth();
-                    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-                        age--;
-                    }
-                    this.age = age
+                    this.age = response.data.age;
                 })
             },
             loadWeight() {
@@ -201,6 +206,41 @@
                 this.height = 'Loading...';
                 axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.username, {headers: { Authorization: sessionStorage.token}}).then(response => {
                     this.height = response.data.height;
+                })
+            },
+            loadLastTrainingSummary() {
+                this.sessionId = 'Loading...';
+                this.startTime = 'Loading...';
+                this.endTime = 'Loading...';
+                this.caloriesBurned = 'Loading...';
+                this.avgHeartRate = 'Loading...';
+                this.kilometers = 'Loading...';
+                this.steps = 'Loading...';
+                this.avgAltitude = 'Loading...';
+                this.avgSpeed = 'Loading...';
+                this.maxSpeed = 'Loading...';
+                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_TRAININGS + '/users/' + this.username + '/training_session/latest', {headers: { Authorization: sessionStorage.token}}).then(response => {
+                    this.sessionId = response.data.sessionId;
+                    this.caloriesBurned = response.data.caloriesBurned;
+                    this.avgHeartRate = response.data.avgHeartRate;
+                    this.kilometers = response.data.kilometers;
+                    this.steps = response.data.steps;
+                    this.avgAltitude = response.data.avgAltitude;
+                    this.avgSpeed = response.data.avgSpeed;
+                    this.maxSpeed = response.data.maxSpeed;
+
+                    var st = new Date(response.data.startTime);
+                    var sty = st.getFullYear();
+                    var stm = st.getUTCMonth();
+                    var sth = st.getUTCHours();
+                    var stmin = st.getUTCMinutes();
+                    this.startTime = '' + sth + ':' + stmin + ' - ' + stm + '/' + sty;
+                    var et = new Date(response.data.endTime);
+                    var ety = et.getFullYear();
+                    var etm = et.getUTCMonth();
+                    var eth = et.getUTCHours();
+                    var etmin = et.getUTCMinutes();
+                    this.endTime = '' + eth + ':' + etmin + ' - ' + etm + '/' + ety;
                 })
             }
         }
