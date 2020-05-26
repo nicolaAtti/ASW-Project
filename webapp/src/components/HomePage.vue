@@ -231,15 +231,15 @@
 
                     var st = new Date(response.data.startTime);
                     var sty = st.getFullYear();
-                    var stm = st.getUTCMonth();
-                    var sth = st.getUTCHours();
-                    var stmin = st.getUTCMinutes();
+                    var stm = st.getMonth();
+                    var sth = st.getHours();
+                    var stmin = st.getMinutes();
                     this.startTime = '' + sth + ':' + stmin + ' - ' + stm + '/' + sty;
                     var et = new Date(response.data.endTime);
                     var ety = et.getFullYear();
-                    var etm = et.getUTCMonth();
-                    var eth = et.getUTCHours();
-                    var etmin = et.getUTCMinutes();
+                    var etm = et.getMonth();
+                    var eth = et.getHours();
+                    var etmin = et.getMinutes();
                     this.endTime = '' + eth + ':' + etmin + ' - ' + etm + '/' + ety;
                 })
             }
