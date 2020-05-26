@@ -51,7 +51,11 @@
     "Average Altitude": "Average Altitude",
     "Average Speed": "Average Speed",
     "Max Speed": "Max Speed",
-    "Trainings Summary": "Trainings Summary"
+    "Trainings Summary": "Trainings Summary",
+    "Loading": "Loading...",
+    "Weight not defined": "Weight not defined",
+    "Height not defined": "Height not defined",
+    "Training not found": "Training not found"
   },
   "adminHomePage": {
     "Profile": "Profile",
