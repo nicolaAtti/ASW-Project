@@ -48,10 +48,6 @@
     export default {
         name: "AdminProfileDialog",
 
-        props: {
-            currentUsername: String
-        },
-
         data () {
             return {
                 dialog: false,
@@ -71,7 +67,7 @@
             sendNewProfileData() {
                 var patchData = this.userData;
                 Object.keys(patchData).forEach((key) => (patchData[key] === "" || patchData[key] === undefined) && delete patchData[key]);
-                axios.patch('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.currentUsername, patchData, {headers: { Authorization: sessionStorage.token } }).then( response => {
+                axios.patch('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + sessionStorage.username, patchData, {headers: { Authorization: sessionStorage.token } }).then( response => {
                     if(response.data.newToken !== undefined){
                         sessionStorage.username = this.userData.username;
                         sessionStorage.token = "Bearer "+response.data.newToken;

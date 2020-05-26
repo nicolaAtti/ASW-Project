@@ -16,7 +16,7 @@
                 </template>
             </v-simple-table>
             <div class="dialog-panel">
-                <AdminProfileDialog v-bind:currentUsername="this.userData.username" v-on:profileUpdate="fetchUserData"/>
+                <AdminProfileDialog v-on:profileUpdate="fetchUserData"/>
             </div>
         </div>
     </div>

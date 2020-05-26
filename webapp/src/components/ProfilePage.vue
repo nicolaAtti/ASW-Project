@@ -32,7 +32,7 @@
                 </template>
             </v-simple-table>
             <div class="dialog-panel">
-                <ProfileDialog v-bind:currentUsername="this.userData.username" v-on:profileUpdate="fetchUserData"/>
+                <ProfileDialog v-on:profileUpdate="fetchUserData"/>
             </div>
         </div>
 
@@ -77,6 +77,7 @@
                     name: "",
                     surname: "",
                     birthday: "",
+                    age: "",
                     email: "",
                     height: "",
                     registerDate: ""
@@ -121,6 +122,7 @@
                     this.userData.surname = response.data.surname;
                     this.userData.email = response.data.email;
                     this.userData.birthday = birthdayDate;
+                    this.userData.age = response.data.age;
                     this.gender = this.$t('profilePage.'+response.data.gender);
                     this.userData.height = response.data.height;
                     this.achi_pub = response.data.publicAchievements ? "Public" : "Private";

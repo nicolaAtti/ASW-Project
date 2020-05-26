@@ -39,7 +39,7 @@
                                     <v-text-field :label="this.$t('profilePage.dialog.password')" type="password" v-model="userData.password"/>
                                 </v-col>
                                 <v-col cols="12" sm="6" md="6">
-                                    <v-date-picker :locale="$i18n.locale" v-model="userData.birthday" :max="new Date().toISOString().substr(0, 10)"
+                                    <v-date-picker reactive :locale="$i18n.locale" v-model="userData.birthday" :max="new Date().toISOString().substr(0, 10)"
                                                    min="1920-01-01"/>
                                 </v-col>
                                 <v-col cols="12" sm="6" md="6">
@@ -69,10 +69,6 @@
     export default {
         name: "ProfileDialog",
 
-        props: {
-            currentUsername: String
-        },
-
         data () {
             return {
                 dialog: false,
@@ -96,7 +92,7 @@
             sendNewProfileData() {
                 var patchData = this.userData;
                 Object.keys(patchData).forEach((key) => (patchData[key] === "" || patchData[key] === undefined) && delete patchData[key]);
-                axios.patch('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.currentUsername, patchData, {headers: { Authorization: sessionStorage.token } }).then( response => {
+                axios.patch('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + sessionStorage.username, patchData, {headers: { Authorization: sessionStorage.token } }).then( response => {
                     if(response.data.newToken !== undefined){
                         sessionStorage.username = this.userData.username;
                         sessionStorage.token = "Bearer "+response.data.newToken;
