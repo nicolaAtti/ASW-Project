@@ -241,15 +241,17 @@
                         var st = new Date(response.data.startTime);
                         var sty = st.getFullYear();
                         var stm = st.getMonth();
+                        var std = st.getDate();
                         var sth = st.getHours();
                         var stmin = st.getMinutes();
-                        this.startTime = '' + sth + ':' + stmin + ' - ' + stm + '/' + sty;
+                        this.startTime = '' + sth + ':' + stmin + ' - ' + std + '/' + stm + '/' + sty;
                         var et = new Date(response.data.endTime);
                         var ety = et.getFullYear();
                         var etm = et.getMonth();
+                        var etd = et.getDate();
                         var eth = et.getHours();
                         var etmin = et.getMinutes();
-                        this.endTime = '' + eth + ':' + etmin + ' - ' + etm + '/' + ety;
+                        this.endTime = '' + eth + ':' + etmin + ' - ' + etd + '/' + etm + '/' + ety;
                     } else {
                         this.sessionId = this.$t('homePage.Training not found');
                     }
