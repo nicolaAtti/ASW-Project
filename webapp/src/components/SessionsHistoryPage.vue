@@ -6,31 +6,66 @@
         <div class="col-9 col-s-4">
             <div class="w3-container">
                 <h2>{{ $t('homePage.Trainings Summary') }}</h2>
-                <ul class="w3-ul" >
-                    <li class="w3-padding-large">{{ $t('homePage.Session ID') }}<p>prova</p></li>
-                    <li class="w3-padding-large">{{ $t('homePage.Start Time') }}</li>
-                    <li class="w3-padding-large">{{ $t('homePage.End Time') }}</li>
-                    <li class="w3-padding-large">{{ $t('homePage.Calories Burned') }}</li>
-                    <li class="w3-padding-large">{{ $t('homePage.Average Heart Beat') }}</li>
-                    <li class="w3-padding-large">{{ $t('homePage.Kilometers Traveled') }}</li>
-                    <li class="w3-padding-large">{{ $t('homePage.Steps') }}</li>
-                    <li class="w3-padding-large">{{ $t('homePage.Average Altitude') }}</li>
-                    <li class="w3-padding-large">{{ $t('homePage.Average Speed') }}</li>
-                    <li class="w3-padding-large">{{ $t('homePage.Max Speed') }}</li>
-                </ul>
+                <template v-for="block in myData">
+                    <TrainingComponent :block="block" :key="block.sessionId"></TrainingComponent>
+                </template>
             </div>
-            <hr class="new5">
         </div>
     </div>
 </template>
 
 <script>
+    import axios from "axios";
+    import TrainingComponent from "./TrainingComponent";
+
     export default {
+        components: {
+            TrainingComponent
+        },
         metaInfo: {
             meta: [
                 { charset: 'utf-8' },
                 { name: 'viewport', content: 'width=device-width, initial-scale=1' }
             ]
+        },
+        data() {
+            return {
+                username: sessionStorage.username,
+                myData: ''
+            }
+        },
+        created() {
+            this.loadTrainingsData();
+        },
+        methods: {
+            loadTrainingsData(){
+                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_TRAININGS + '/users/' + this.username + '/training_session', {headers: { Authorization: sessionStorage.token}}).then(response => {
+                    var i = 0;
+                    for(i=0; i < response.data.length; i++) {
+                        response.data[i].avgHeartRate = response.data[i].avgHeartRate + ' b/min';
+                        response.data[i].avgAltitude = response.data[i].avgAltitude + ' m';
+                        response.data[i].avgSpeed = response.data[i].avgSpeed + ' km/h';
+                        response.data[i].maxSpeed = response.data[i].maxSpeed + ' km/h';
+
+                        var st = new Date(response.data[i].startTime);
+                        var sty = st.getFullYear();
+                        var stm = st.getMonth();
+                        var std = st.getDate();
+                        var sth = st.getHours();
+                        var stmin = st.getMinutes();
+                        response.data[i].startTime = '' + sth + ':' + stmin + ' - ' + std + '/' + stm + '/' + sty;
+
+                        var et = new Date(response.data[i].endTime);
+                        var ety = et.getFullYear();
+                        var etm = et.getMonth();
+                        var etd = et.getDate();
+                        var eth = et.getHours();
+                        var etmin = et.getMinutes();
+                        response.data[i].endTime = '' + eth + ':' + etmin + ' - ' + etd + '/' + etm + '/' + ety;
+                    }
+                    this.myData = response.data;
+                })
+            }
         }
     }
 </script>
@@ -39,17 +74,6 @@
 
     * {
         box-sizing: border-box;
-    }
-
-    li {
-        font-weight: bold;
-    }
-
-    p {
-        text-align: right;
-        font-family: Georgia, serif;
-        font-size: 20px;
-        font-weight: 500;
     }
 
     .row::after {
@@ -65,22 +89,6 @@
 
     html {
         font-family: "Lucida Sans", sans-serif;
-    }
-
-    .w3-ul{
-        border-left: 5px solid #0277bd;
-        background-color: #f1f1f1;
-        list-style-type: none;
-        padding: 10px 20px;
-    }
-
-    .w3-padding-large {
-        text-align: left;
-    }
-
-    hr.new5 {
-        border: 10px solid #0277bd;
-        border-radius: 5px;
     }
 
     [class*="col-"] {
