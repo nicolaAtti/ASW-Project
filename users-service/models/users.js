@@ -43,7 +43,7 @@ const usersSchema = new Schema({
         type: Date,
         required: true
     },
-    achievements: [[String]],
+    achievements: [String],
     avatar: {
         data: Buffer,
         contentType: String
