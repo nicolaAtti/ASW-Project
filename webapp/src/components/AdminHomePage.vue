@@ -79,10 +79,19 @@
                     { month: 'November', users: 954 }, { month: 'December', users: 1465 }
                 ],
                 primaryXAxis_users: {
-                    valueType: 'Category'
+                    valueType: 'Category',
+                    labelIntersectAction: 'Rotate45',
+                    labelStyle: {
+                        size: '12px',
+                        fontFamily : 'Segoe UI', fontWeight : 'bold'
+                    }
                 },
                 primaryYAxis_users:{
-                    labelFormat: '{value}'
+                    labelFormat: '{value}',
+                    labelStyle: {
+                        size: '12px',
+                        fontFamily : 'Segoe UI', fontWeight : 'bold'
+                    }
                 },
                 titleUsers: "Registered Users",
 
@@ -95,10 +104,19 @@
                     { month: 'November', trainingData: 8848 }, { month: 'December', trainingData: 16580 }
                 ],
                 primaryXAxis_trainings: {
-                    valueType: 'Category'
+                    valueType: 'Category',
+                    labelIntersectAction: 'Rotate45',
+                    labelStyle: {
+                        size: '12px',
+                        fontFamily : 'Segoe UI', fontWeight : 'bold'
+                    }
                 },
                 primaryYAxis_trainings:{
-                    labelFormat: '{value}'
+                    labelFormat: '{value}',
+                    labelStyle: {
+                        size: '12px',
+                        fontFamily : 'Segoe UI', fontWeight : 'bold'
+                    }
                 },
                 titleTrainings: "Trainings Done",
 
@@ -111,10 +129,19 @@
                     { month: 'November', timeTraining: 71 }, { month: 'December', timeTraining: 77 }
                 ],
                 primaryXAxis_timeTraining: {
-                    valueType: 'Category'
+                    valueType: 'Category',
+                    labelIntersectAction: 'Rotate45',
+                    labelStyle: {
+                        size: '12px',
+                        fontFamily : 'Segoe UI', fontWeight : 'bold'
+                    }
                 },
                 primaryYAxis_timeTraining:{
-                    labelFormat: '{value} min'
+                    labelFormat: '{value} min',
+                    labelStyle: {
+                        size: '12px',
+                        fontFamily : 'Segoe UI', fontWeight : 'bold'
+                    }
                 },
                 titleTimeTraining: "Average Trainings Duration",
 

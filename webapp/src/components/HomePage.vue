@@ -116,10 +116,19 @@
                     { day: 'Sunday', steps: 900 }
                 ],
                 primaryXAxis_steps: {
-                    valueType: 'Category'
+                    valueType: 'Category',
+                    labelIntersectAction: 'Rotate45',
+                    labelStyle: {
+                        size: '12px',
+                        fontFamily : 'Segoe UI', fontWeight : 'bold'
+                    }
                 },
                 primaryYAxis_steps:{
-                    labelFormat: '{value}'
+                    labelFormat: '{value}',
+                    labelStyle: {
+                        size: '12px',
+                        fontFamily : 'Segoe UI', fontWeight : 'bold'
+                    }
                 },
                 titleSteps: this.$t('homePage.Steps'),
 
@@ -130,10 +139,19 @@
                     { day: 'Sunday', calories: 180 }
                 ],
                 primaryXAxis_calories: {
-                    valueType: 'Category'
+                    valueType: 'Category',
+                    labelIntersectAction: 'Rotate45',
+                    labelStyle: {
+                        size: '12px',
+                        fontFamily : 'Segoe UI', fontWeight : 'bold'
+                    }
                 },
                 primaryYAxis_calories:{
-                    labelFormat: '{value} Kcal'
+                    labelFormat: '{value} Kcal',
+                    labelStyle: {
+                        size: '12px',
+                        fontFamily : 'Segoe UI', fontWeight : 'bold'
+                    }
                 },
                 titleCalories: "Calories",
 
@@ -144,10 +162,19 @@
                     { day: 'Sunday', km: 0.9 }
                 ],
                 primaryXAxis_km: {
-                    valueType: 'Category'
+                    valueType: 'Category',
+                    labelIntersectAction: 'Rotate45',
+                    labelStyle: {
+                        size: '12px',
+                        fontFamily : 'Segoe UI', fontWeight : 'bold'
+                    }
                 },
                 primaryYAxis_km:{
-                    labelFormat: '{value} Km'
+                    labelFormat: '{value} Km',
+                    labelStyle: {
+                        size: '12px',
+                        fontFamily : 'Segoe UI', fontWeight : 'bold'
+                    }
                 },
                 titleKm: "Chilometers",
 
@@ -158,10 +185,19 @@
                     { day: 'Sunday', km_h: 9.9 }
                 ],
                 primaryXAxis_AvgSpeed: {
-                    valueType: 'Category'
+                    valueType: 'Category',
+                    labelIntersectAction: 'Rotate45',
+                    labelStyle: {
+                        size: '12px',
+                        fontFamily : 'Segoe UI', fontWeight : 'bold'
+                    }
                 },
                 primaryYAxis_AvgSpeed:{
-                    labelFormat: '{value} Km/h'
+                    labelFormat: '{value} Km/h',
+                    labelStyle: {
+                        size: '12px',
+                        fontFamily : 'Segoe UI', fontWeight : 'bold'
+                    }
                 },
                 titleAvgSpeed: "Average Speed",
 
