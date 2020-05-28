@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <v-app id="inspire">
-            <v-app-bar dense color="#0277bd">
+            <v-app-bar dense color="#01579b">
                 <v-btn v-if="($route.path!=='/login' && $route.path!=='/home')" icon color="#fff" v-on:click="goBack()">
                     <v-icon>mdi-backspace</v-icon>
                 </v-btn>

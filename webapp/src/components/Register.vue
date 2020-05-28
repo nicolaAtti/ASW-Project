@@ -182,7 +182,7 @@
         margin-bottom: 5%;
     }
     .register-form h1{
-        background: #2A88AD;
+        background: #0277bd;
         padding: 2% 12% 2% 12%;
         margin: -2% -1% 10% -1%;
         color: #fff;
@@ -208,7 +208,7 @@
     }
 
     .register-form .section span {
-        background: #2A88AD;
+        background: #0277bd;
         padding: 1% 2% 1% 2%;
         position: absolute;
         border-radius: 50%;

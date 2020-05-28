@@ -200,8 +200,8 @@
         font-size: 18px;
         padding: 8px;
         margin-bottom: 7px;
-        border: 1.5px solid cornflowerblue;
-        background-color: #33b5e5;
+        border: 1.5px solid #257C9E;
+        background-color: #0277bd;
         color: #ffffff;
         box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
         cursor: pointer;
@@ -212,7 +212,7 @@
     }
 
     .w3-ul{
-        border-left: 5px solid green;
+        border-left: 5px solid #0277bd;
         background-color: #f1f1f1;
         list-style-type: none;
         padding: 10px 20px;
@@ -223,7 +223,7 @@
     }
 
     hr.new5 {
-        border: 10px solid green;
+        border: 10px solid #0277bd;
         border-radius: 5px;
     }
 

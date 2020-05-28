@@ -84,7 +84,7 @@
         padding: 10px;
         margin: -10px -10px 25px 0px;
         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        background: #2A88AD;
+        background: #0277bd;
         font-family: 'Roboto', sans-serif;
         font-style: oblique;
         font-size: 1.3rem;
@@ -150,7 +150,7 @@
     .form button {
         font-family: "Roboto", sans-serif;
         outline: 0;
-        background: #257C9E;
+        background: #0277bd;
         width: 100%;
         border: 0;
         padding: 15px;

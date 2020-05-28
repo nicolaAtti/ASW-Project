@@ -68,7 +68,7 @@
     }
 
     .w3-ul{
-        border-left: 5px solid green;
+        border-left: 5px solid #0277bd;
         background-color: #f1f1f1;
         list-style-type: none;
         padding: 10px 20px;
@@ -79,7 +79,7 @@
     }
 
     hr.new5 {
-        border: 10px solid green;
+        border: 10px solid #0277bd;
         border-radius: 5px;
     }
 

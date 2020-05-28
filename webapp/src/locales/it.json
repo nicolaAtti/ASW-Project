@@ -51,7 +51,11 @@
     "Average Altitude": "Altitudine Media",
     "Average Speed": "Velocità Media",
     "Max Speed": "Velocità Massima",
-    "Trainings Summary": "Riepilogo Allenamenti"
+    "Trainings Summary": "Riepilogo Allenamenti",
+    "Loading": "Caricamento...",
+    "Weight not defined": "Peso non definito",
+    "Height not defined": "Altezza non definita",
+    "Training not found": "Allenamento non trovato"
   },
   "adminHomePage": {
     "Profile": "Profilo",

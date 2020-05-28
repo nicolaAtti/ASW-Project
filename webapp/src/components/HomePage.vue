@@ -13,8 +13,8 @@
                 <h2>{{ $t('homePage.User Data') }}</h2>
                 <ul class="w3-ul w3-large" >
                     <li class="w3-padding-large">{{ $t('homePage.Age') }}<p>{{age}}</p></li>
-                    <li class="w3-padding-large">{{ $t('homePage.Weight') }}<p>{{weight}} kg</p></li>
-                    <li class="w3-padding-large">{{ $t('homePage.Height') }}<p>{{height}} cm</p></li>
+                    <li class="w3-padding-large">{{ $t('homePage.Weight') }}<p>{{weight}} {{kgr}}</p></li>
+                    <li class="w3-padding-large">{{ $t('homePage.Height') }}<p>{{height}} {{cmt}}</p></li>
                 </ul>
             </div>
             <hr class="new5">
@@ -25,12 +25,12 @@
                     <li class="w3-padding-large">{{ $t('homePage.Start Time') }}<p>{{startTime}}</p></li>
                     <li class="w3-padding-large">{{ $t('homePage.End Time') }}<p>{{endTime}}</p></li>
                     <li class="w3-padding-large">{{ $t('homePage.Calories Burned') }}<p>{{caloriesBurned}}</p></li>
-                    <li class="w3-padding-large">{{ $t('homePage.Average Heart Beat') }}<p>{{avgHeartRate}} b/min</p></li>
+                    <li class="w3-padding-large">{{ $t('homePage.Average Heart Beat') }}<p>{{avgHeartRate}} {{bmin}}</p></li>
                     <li class="w3-padding-large">{{ $t('homePage.Kilometers Traveled') }}<p>{{kilometers}}</p></li>
                     <li class="w3-padding-large">{{ $t('homePage.Steps') }}<p>{{steps}}</p></li>
-                    <li class="w3-padding-large">{{ $t('homePage.Average Altitude') }}<p>{{avgAltitude}} m</p></li>
-                    <li class="w3-padding-large">{{ $t('homePage.Average Speed') }}<p>{{avgSpeed}} km/h</p></li>
-                    <li class="w3-padding-large">{{ $t('homePage.Max Speed') }}<p>{{maxSpeed}} km/h</p></li>
+                    <li class="w3-padding-large">{{ $t('homePage.Average Altitude') }}<p>{{avgAltitude}} {{malt}}</p></li>
+                    <li class="w3-padding-large">{{ $t('homePage.Average Speed') }}<p>{{avgSpeed}} {{kmh}}</p></li>
+                    <li class="w3-padding-large">{{ $t('homePage.Max Speed') }}<p>{{maxSpeed}} {{kmh}}</p></li>
                 </ul>
             </div>
             <hr class="new5">
@@ -93,6 +93,11 @@
                 avgSpeed: '',
                 maxSpeed: '',
 
+                kgr: '',
+                cmt: '',
+                bmin: '',
+                malt: '',
+                kmh: '',
 
                 border: {color: "#107228", width: 1},
 
@@ -191,56 +196,65 @@
                 router.push('home/sessions-history')
             },
             loadAge() {
-                this.age = 'Loading...';
+                this.age = this.$t('homePage.Loading');
                 axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.username, {headers: { Authorization: sessionStorage.token}}).then(response => {
                     this.age = response.data.age;
                 })
             },
             loadWeight() {
-                this.weight = 'Loading...';
+                this.weight = this.$t('homePage.Loading');
                 axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_FAT + '/users/' + this.username + '/fat/latest', {headers: { Authorization: sessionStorage.token}}).then(response => {
-                    this.weight = response.data.weight;
+                    if(!(response.data.weight == undefined)){
+                        this.weight = response.data.weight;
+                        this.kgr = 'kg';
+                    } else {
+                        this.weight = this.$t('homePage.Weight not defined');
+                    }
                 })
             },
             loadHeight() {
-                this.height = 'Loading...';
+                this.height = this.$t('homePage.Loading');
                 axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.username, {headers: { Authorization: sessionStorage.token}}).then(response => {
-                    this.height = response.data.height;
+                    if(!(response.data.height == undefined)){
+                        this.height = response.data.height;
+                        this.cmt = 'cm';
+                    } else {
+                        this.height = this.$t('homePage.Height not defined');
+                    }
                 })
             },
             loadLastTrainingSummary() {
-                this.sessionId = 'Loading...';
-                this.startTime = 'Loading...';
-                this.endTime = 'Loading...';
-                this.caloriesBurned = 'Loading...';
-                this.avgHeartRate = 'Loading...';
-                this.kilometers = 'Loading...';
-                this.steps = 'Loading...';
-                this.avgAltitude = 'Loading...';
-                this.avgSpeed = 'Loading...';
-                this.maxSpeed = 'Loading...';
                 axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_TRAININGS + '/users/' + this.username + '/training_session/latest', {headers: { Authorization: sessionStorage.token}}).then(response => {
-                    this.sessionId = response.data.sessionId;
-                    this.caloriesBurned = response.data.caloriesBurned;
-                    this.avgHeartRate = response.data.avgHeartRate;
-                    this.kilometers = response.data.kilometers;
-                    this.steps = response.data.steps;
-                    this.avgAltitude = response.data.avgAltitude;
-                    this.avgSpeed = response.data.avgSpeed;
-                    this.maxSpeed = response.data.maxSpeed;
+                    if(!(response.data.username == undefined)) {
+                        this.sessionId = response.data.sessionId;
+                        this.caloriesBurned = response.data.caloriesBurned;
+                        this.avgHeartRate = response.data.avgHeartRate;
+                        this.bmin = 'b/min'
+                        this.kilometers = response.data.kilometers;
+                        this.steps = response.data.steps;
+                        this.avgAltitude = response.data.avgAltitude;
+                        this.malt = 'm'
+                        this.avgSpeed = response.data.avgSpeed;
+                        this.maxSpeed = response.data.maxSpeed;
+                        this.kmh = 'km/h'
 
-                    var st = new Date(response.data.startTime);
-                    var sty = st.getFullYear();
-                    var stm = st.getMonth();
-                    var sth = st.getHours();
-                    var stmin = st.getMinutes();
-                    this.startTime = '' + sth + ':' + stmin + ' - ' + stm + '/' + sty;
-                    var et = new Date(response.data.endTime);
-                    var ety = et.getFullYear();
-                    var etm = et.getMonth();
-                    var eth = et.getHours();
-                    var etmin = et.getMinutes();
-                    this.endTime = '' + eth + ':' + etmin + ' - ' + etm + '/' + ety;
+                        var st = new Date(response.data.startTime);
+                        var sty = st.getFullYear();
+                        var stm = st.getMonth();
+                        var std = st.getDate();
+                        var sth = st.getHours();
+                        var stmin = st.getMinutes();
+                        this.startTime = '' + sth + ':' + stmin + ' - ' + std + '/' + stm + '/' + sty;
+                        var et = new Date(response.data.endTime);
+                        var ety = et.getFullYear();
+                        var etm = et.getMonth();
+                        var etd = et.getDate();
+                        var eth = et.getHours();
+                        var etmin = et.getMinutes();
+                        this.endTime = '' + eth + ':' + etmin + ' - ' + etd + '/' + etm + '/' + ety;
+                    } else {
+                        this.sessionId = this.$t('homePage.Training not found');
+                    }
                 })
             }
         }
@@ -288,8 +302,8 @@
         font-size: 18px;
         padding: 8px;
         margin-bottom: 7px;
-        border: 1.5px solid cornflowerblue;
-        background-color: #33b5e5;
+        border: 1.5px solid #257C9E;
+        background-color:#0277bd;
         color: #ffffff;
         box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
         cursor: pointer;
@@ -300,7 +314,7 @@
     }
 
     .w3-ul{
-        border-left: 5px solid green;
+        border-left: 5px solid #0277bd;
         background-color: #f1f1f1;
         list-style-type: none;
         padding: 10px 20px;
@@ -311,7 +325,7 @@
     }
 
     hr.new5 {
-        border: 10px solid green;
+        border: 10px solid #0277bd;
         border-radius: 5px;
     }
 
