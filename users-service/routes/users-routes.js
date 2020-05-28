@@ -44,9 +44,60 @@ module.exports = function(app) {
                     success: true,
                     message: 'User successfully created'
                 })
+                
             }
         });
     });
+
+    //Given the username/token pair  and the achievement insert it into the array inside the DB
+    app.patch('/users/:username/:achievement', (res, req) => {
+        try {
+            const token = req.header('Authorization').replace('Bearer ', '');
+            const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
+            const achievement = req.params.achievement;
+            if (req.params.username === decodedJwt.username) {
+                User.findOneAndUpdate({ username: decodedJwt.username }, { $push: {achievements: achievement} }, function (error, result) {
+                    if (error) {
+                        if (error.code === 11000) {
+                            res.status(409).send({
+                                success: false,
+                                message: 'Username or email already present'
+                            })
+                        } else {
+                            if (error.name === "ValidationError") {
+                                res.status(400).send({
+                                    success: false,
+                                    message: 'Wrong parameters'
+                                })
+                            } else {
+                                res.status(500).send({
+                                    success: false,
+                                    message: 'Failed to save user'
+                                })
+                            }
+                        }
+                    } else {
+                        if (result === null) {
+                            res.status(404).send({
+                                success: false,
+                                message: 'Username not found'
+                            });
+                        } else {
+                            res.send({
+                                success: true,
+                                message: 'User successfully updated'
+                            });
+                        }
+                    }
+                });
+            }
+        } catch (e) {
+            res.status(401).send({
+                success: false,
+                message: 'Invalid token'
+            });
+        }
+    })
 
     app.patch('/users/:username', (req, res) => {
         try {
