@@ -5,7 +5,8 @@
         </div>
         <div class="col-9 col-s-4">
             <div class="w3-container">
-                <h2>{{ $t('homePage.Trainings Summary') }}</h2>
+                <h1>{{ $t('homePage.Trainings Summary') }}</h1>
+                <h2>{{trainingNotFound}}</h2>
                 <template v-for="block in myData">
                     <TrainingComponent :block="block" :key="block.sessionId"></TrainingComponent>
                 </template>
@@ -31,7 +32,8 @@
         data() {
             return {
                 username: sessionStorage.username,
-                myData: ''
+                myData: '',
+                trainingNotFound: ''
             }
         },
         created() {
@@ -40,30 +42,34 @@
         methods: {
             loadTrainingsData(){
                 axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_TRAININGS + '/users/' + this.username + '/training_session', {headers: { Authorization: sessionStorage.token}}).then(response => {
-                    var i = 0;
-                    for(i=0; i < response.data.length; i++) {
-                        response.data[i].avgHeartRate = response.data[i].avgHeartRate + ' b/min';
-                        response.data[i].avgAltitude = response.data[i].avgAltitude + ' m';
-                        response.data[i].avgSpeed = response.data[i].avgSpeed + ' km/h';
-                        response.data[i].maxSpeed = response.data[i].maxSpeed + ' km/h';
+                    if(!(response.data[0] == undefined)) {
+                        var i = 0;
+                        for(i=0; i < response.data.length; i++) {
+                            response.data[i].avgHeartRate = response.data[i].avgHeartRate + ' b/min';
+                            response.data[i].avgAltitude = response.data[i].avgAltitude + ' m';
+                            response.data[i].avgSpeed = response.data[i].avgSpeed + ' km/h';
+                            response.data[i].maxSpeed = response.data[i].maxSpeed + ' km/h';
 
-                        var st = new Date(response.data[i].startTime);
-                        var sty = st.getFullYear();
-                        var stm = st.getMonth();
-                        var std = st.getDate();
-                        var sth = st.getHours();
-                        var stmin = st.getMinutes();
-                        response.data[i].startTime = '' + sth + ':' + stmin + ' - ' + std + '/' + stm + '/' + sty;
+                            var st = new Date(response.data[i].startTime);
+                            var sty = st.getFullYear();
+                            var stm = st.getMonth();
+                            var std = st.getDate();
+                            var sth = st.getHours();
+                            var stmin = st.getMinutes();
+                            response.data[i].startTime = '' + sth + ':' + stmin + ' - ' + std + '/' + stm + '/' + sty;
 
-                        var et = new Date(response.data[i].endTime);
-                        var ety = et.getFullYear();
-                        var etm = et.getMonth();
-                        var etd = et.getDate();
-                        var eth = et.getHours();
-                        var etmin = et.getMinutes();
-                        response.data[i].endTime = '' + eth + ':' + etmin + ' - ' + etd + '/' + etm + '/' + ety;
+                            var et = new Date(response.data[i].endTime);
+                            var ety = et.getFullYear();
+                            var etm = et.getMonth();
+                            var etd = et.getDate();
+                            var eth = et.getHours();
+                            var etmin = et.getMinutes();
+                            response.data[i].endTime = '' + eth + ':' + etmin + ' - ' + etd + '/' + etm + '/' + ety;
+                        }
+                        this.myData = response.data;
+                    } else {
+                        this.trainingNotFound = 'No Trainings Found';
                     }
-                    this.myData = response.data;
                 })
             }
         }
@@ -93,6 +99,10 @@
 
     [class*="col-"] {
         width: 100%;
+    }
+
+    h2 {
+        font-style: italic;
     }
 
     @media only screen and (min-width: 480px) {
