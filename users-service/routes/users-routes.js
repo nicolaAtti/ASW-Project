@@ -51,7 +51,7 @@ module.exports = function(app) {
     });
 
     //Given the username/token pair  and the achievement insert it into the array inside the DB
-    app.patch('/users/:username/achievement', (res, req) => {
+    app.patch('/users/:username/achievement', (req, res) => {
         const achievement = req.body.achievements;
         const username = req.params.username;
         console.log(achievement);
