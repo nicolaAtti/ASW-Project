@@ -39,14 +39,13 @@
         <div id="achievements_tab" class="tabcontent">
             <v-expansion-panels>
                 <v-expansion-panel
-                        v-for="(item,i) in 5"
-                        :key="i"
+                        v-for="(achievement,index) in achievements[0]"
+                        :key="index"
                 >
-                    <!-- qui ci va il numero di achievements dell'utente al posto del 5 -->
                     <v-expansion-panel-header disable-icon-rotate>
                         <div class="achievement-title">
-                            <v-img src="BurnItBaby.PNG" height="70%" width="70%"/>
-                        </div><span class="achievement-name">New Blood</span>
+                            <v-img contain :src='achievement+".PNG"' height="85%" width="85%"/>
+                        </div><span class="achievement-name">{{achievement}}</span>
                     </v-expansion-panel-header>
                     <v-expansion-panel-content >
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
