@@ -70,14 +70,7 @@
                     size: '30px'
                 },
 
-                seriesDataUsers: [
-                    { month: 'January', users: 754 }, { month: 'February', users: 1245 },
-                    { month: 'March', users: 1171 }, { month: 'April', users: 1670 },
-                    { month: 'May', users: 1542 }, { month: 'June', users: 1465 },
-                    { month: 'July', users: 779 }, { month: 'August', users: 1245 },
-                    { month: 'September', users: 1100 }, { month: 'October', users: 1670 },
-                    { month: 'November', users: 954 }, { month: 'December', users: 1465 }
-                ],
+                seriesDataUsers: '',
                 primaryXAxis_users: {
                     valueType: 'Category',
                     labelIntersectAction: 'Rotate45',
@@ -162,6 +155,7 @@
         created() {
             this.loadTotalUsers();
             this.loadAverageAge();
+            this.loadUsersDataChart();
         },
         methods: {
             signOut() {
@@ -180,6 +174,11 @@
                 this.averageAge = 'Loading...';
                 axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/average-age', {headers: { Authorization: sessionStorage.token}}).then(response => {
                     this.averageAge = response.data.averageAge;
+                })
+            },
+            loadUsersDataChart() {
+                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/history-users', {headers: { Authorization: sessionStorage.token}}).then(response => {
+                    this.seriesDataUsers = response.data;
                 })
             }
         }
