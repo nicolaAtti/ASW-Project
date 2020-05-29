@@ -17,7 +17,7 @@ module.exports = function(app) {
             password: req.body.password,
             publicAchievements: req.body.publicAchievements,
             registrationDate: new Date(),
-            achievements: []
+            achievements: ['NewBlood']
         });
 
         user.save(function (error) {
@@ -51,51 +51,43 @@ module.exports = function(app) {
     });
 
     //Given the username/token pair  and the achievement insert it into the array inside the DB
-    app.patch('/users/:username/achievement', (req, res) => {
-        const achievement = req.body.achievements;
+    app.patch('/users/:username/:achievement', (req, res) => {
+        const achievement = req.params.achievement;
         const username = req.params.username;
-        console.log(achievement);
-        console.log(username);
-        const token = req.header('Authorization').replace('Bearer ', '');
-        console.log(token);
-        const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
-        console.log(decodedJwt.username);
-        if (req.params.username === decodedJwt.username) {
-            User.findOneAndUpdate({username: decodedJwt.username}, req.body, function (error, result) {
-                if (error) {
-                    if (error.code === 11000) {
-                        res.status(409).send({
+        User.findOneAndUpdate({username: username}, { $push: { achievements: achievement}}, function (error, result) {
+            if (error) {
+                if (error.code === 11000) {
+                    res.status(409).send({
+                        success: false,
+                        message: 'Username or email already present'
+                    })
+                } else {
+                    if (error.name === "ValidationError") {
+                        res.status(400).send({
                             success: false,
-                            message: 'Username or email already present'
+                            message: 'Wrong parameters'
                         })
                     } else {
-                        if (error.name === "ValidationError") {
-                            res.status(400).send({
-                                success: false,
-                                message: 'Wrong parameters'
-                            })
-                        } else {
-                            res.status(500).send({
-                                success: false,
-                                message: 'Failed to save user'
-                            })
-                        }
-                    }
-                } else {
-                    if (result === null) {
-                        res.status(404).send({
+                        res.status(500).send({
                             success: false,
-                            message: 'Username not found'
-                        });
-                    } else {
-                        res.send({
-                            success: true,
-                            message: 'User successfully updated'
-                        });
+                            message: 'Failed to save user'
+                        })
                     }
                 }
-            });
-        }
+            } else {
+                if (result === null) {
+                    res.status(404).send({
+                        success: false,
+                        message: 'Username not found'
+                    });
+                } else {
+                    res.send({
+                        success: true,
+                        message: 'User successfully updated'
+                    });
+                }
+            }
+        });
     });
 
     app.patch('/users/:username', (req, res) => {

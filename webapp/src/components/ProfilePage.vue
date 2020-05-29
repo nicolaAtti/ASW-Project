@@ -39,16 +39,16 @@
         <div id="achievements_tab" class="tabcontent">
             <v-expansion-panels>
                 <v-expansion-panel
-                        v-for="(achievement,index) in achievements[0]"
+                        v-for="(achievement,index) in achievements"
                         :key="index"
                 >
                     <v-expansion-panel-header disable-icon-rotate>
                         <div class="achievement-title">
                             <v-img contain :src='achievement+".PNG"' height="85%" width="85%"/>
-                        </div><span class="achievement-name">{{achievement}}</span>
+                        </div><span class="achievement-name">{{$t('achievements.title.'+achievement)}}</span>
                     </v-expansion-panel-header>
                     <v-expansion-panel-content >
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                       {{ $t('achievements.desc.'+achievement)}}
                     </v-expansion-panel-content>
                 </v-expansion-panel>
             </v-expansion-panels>
