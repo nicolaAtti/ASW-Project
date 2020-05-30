@@ -107,4 +107,38 @@ module.exports = function(app) {
             });
         }
     });
+
+    app.get('/users-ages', (req, res) => {
+        try {
+            const token = req.header('Authorization').replace('Bearer ', '');
+            const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
+            if (decodedJwt.username === 'Admin') {
+                User.find({}, 'username birthday', function (error, result) {
+                    if (error) {
+                        res.status(500).send({
+                            success: false,
+                            message: 'Internal server error'
+                        });
+                    } else {
+                        res.send(result.reduce((obj, item) => {
+                            return {
+                                ...obj,
+                                [item['username']]: user.age(item.birthday)
+                            };
+                        }, {}));
+                    }
+                })
+            } else {
+                res.status(401).send({
+                    success: false,
+                    message: 'Wrong token'
+                });
+            }
+        } catch (e) {
+            res.status(401).send({
+                success: false,
+                message: 'Invalid token'
+            });
+        }
+    });
 }
