@@ -16,19 +16,21 @@
                 </ul>
             </div>
             <hr class="new5">
-            <ejs-chart id="container" :title='titleUsers' :primaryXAxis='primaryXAxis_users' :primaryYAxis='primaryYAxis_users' :tooltip='tooltip' :border='border' :titleStyle='titleStyle'>
+            <ejs-chart id="container" :title='titleUsers' :primaryXAxis='primaryXAxis_users' :primaryYAxis='primaryYAxis_users' :tooltip='tooltip' :border='border' :titleStyle='titleStyle' :legendSettings='legendSettings'>
                 <e-series-collection>
                     <e-series :dataSource='seriesDataUsers' type='Line' xName='month' yName='users' name='Users' :marker='marker'> </e-series>
                 </e-series-collection>
             </ejs-chart>
             <hr class="new4">
-            <ejs-chart id="container2" :title='titleTrainings' :primaryXAxis='primaryXAxis_trainings' :primaryYAxis='primaryYAxis_trainings' :tooltip='tooltip' :border='border' :titleStyle='titleStyle'>
+            <ejs-chart id="container2" :title='titleTrainings' :primaryXAxis='primaryXAxis_trainings' :primaryYAxis='primaryYAxis_trainings' :tooltip='tooltip' :border='border' :titleStyle='titleStyle' :legendSettings='legendSettings'>
                 <e-series-collection>
-                    <e-series :dataSource='seriesDataTrainings' type='Line' xName='month' yName='trainingData' name='Trainings' :marker='marker'> </e-series>
+                    <e-series :dataSource='seriesDataTrainings' type='Column' xName='month' yName='trainingDataUnder30' name='Under 30' :marker='marker'> </e-series>
+                    <e-series :dataSource='seriesDataTrainings' type='Column' xName='month' yName='trainingDataUnder60' name='Under 60' :marker='marker'> </e-series>
+                    <e-series :dataSource='seriesDataTrainings' type='Column' xName='month' yName='trainingDataOver60' name='Over 60' :marker='marker'> </e-series>
                 </e-series-collection>
             </ejs-chart>
             <hr class="new4">
-            <ejs-chart id="container3" :title='titleTimeTraining' :primaryXAxis='primaryXAxis_timeTraining' :primaryYAxis='primaryYAxis_timeTraining' :tooltip='tooltip' :border='border' :titleStyle='titleStyle'>
+            <ejs-chart id="container3" :title='titleTimeTraining' :primaryXAxis='primaryXAxis_timeTraining' :primaryYAxis='primaryYAxis_timeTraining' :tooltip='tooltip' :border='border' :titleStyle='titleStyle' :legendSettings='legendSettings'>
                 <e-series-collection>
                     <e-series :dataSource='seriesDataTimeTraining' type='Line' xName='month' yName='timeTraining' name='TimeTraining' :marker='marker'> </e-series>
                 </e-series-collection>
@@ -40,12 +42,10 @@
 
 <script>
     import Vue from 'vue';
-    import {ChartPlugin, LineSeries, Category, DataLabel, Tooltip} from '@syncfusion/ej2-vue-charts';
+    import {ChartPlugin, ColumnSeries, LineSeries, Category, DataLabel, Tooltip, Legend} from '@syncfusion/ej2-vue-charts';
     import router from "../router";
     import axios from "axios";
     Vue.use(ChartPlugin);
-
-
 
     export default {
         metaInfo: {
@@ -89,12 +89,10 @@
                 titleUsers: "Registered Users",
 
                 seriesDataTrainings: [
-                    { month: 'January', trainingData: 8048 }, { month: 'February', trainingData: 16940 },
-                    { month: 'March', trainingData: 13040 }, { month: 'April', trainingData: 21040 },
-                    { month: 'May', trainingData: 6200 }, { month: 'June', trainingData: 18580 },
-                    { month: 'July', trainingData: 10240 }, { month: 'August', trainingData: 13940 },
-                    { month: 'September', trainingData: 14200 }, { month: 'October', trainingData: 19040 },
-                    { month: 'November', trainingData: 8848 }, { month: 'December', trainingData: 16580 }
+                    { month: 'January', trainingDataUnder30: 402, trainingDataUnder60: 186, trainingDataOver60: 60}, { month: 'February', trainingDataUnder30: 805, trainingDataUnder60: 438, trainingDataOver60: 210 },
+                    { month: 'March', trainingDataUnder30: 752, trainingDataUnder60: 654, trainingDataOver60: 24 }, { month: 'April', trainingDataUnder30: 1070, trainingDataUnder60: 445, trainingDataOver60: 176 },
+                    { month: 'May', trainingDataUnder30: 620, trainingDataUnder60: 310, trainingDataOver60: 132 }, { month: 'June', trainingDataUnder30: 185, trainingDataUnder60: 234, trainingDataOver60: 236 },
+                    { month: 'July', trainingDataUnder30: 102, trainingDataUnder60: 234, trainingDataOver60: 132 }
                 ],
                 primaryXAxis_trainings: {
                     valueType: 'Category',
@@ -139,7 +137,8 @@
                 titleTimeTraining: "Average Trainings Duration",
 
                 legendSettings: {
-                    visible: true
+                    visible: true,
+                    position: 'Top'
                 },
                 marker: {
                     dataLabel:{
@@ -150,7 +149,7 @@
             };
         },
         provide: {
-            chart: [LineSeries, Category, DataLabel, Tooltip]
+            chart: [LineSeries, ColumnSeries, Category, DataLabel, Tooltip, Legend]
         },
         created() {
             this.loadTotalUsers();
