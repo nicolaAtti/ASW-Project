@@ -52,42 +52,49 @@ module.exports = function(app) {
 
     //Given the username/token pair  and the achievement insert it into the array inside the DB
     app.patch('/users/:username/:achievement', (req, res) => {
-        const achievement = req.params.achievement;
-        const username = req.params.username;
-        User.findOneAndUpdate({username: username}, { $push: { achievements: achievement}}, function (error, result) {
-            if (error) {
-                if (error.code === 11000) {
-                    res.status(409).send({
-                        success: false,
-                        message: 'Username or email already present'
-                    })
-                } else {
-                    if (error.name === "ValidationError") {
-                        res.status(400).send({
+        if (req.header('Authorization') === process.env.ACHIEVEMENT_TOKEN) {
+            const achievement = req.params.achievement;
+            const username = req.params.username;
+            User.findOneAndUpdate({username: username}, {$push: {achievements: achievement}}, function (error, result) {
+                if (error) {
+                    if (error.code === 11000) {
+                        res.status(409).send({
                             success: false,
-                            message: 'Wrong parameters'
+                            message: 'Username or email already present'
                         })
                     } else {
-                        res.status(500).send({
+                        if (error.name === "ValidationError") {
+                            res.status(400).send({
+                                success: false,
+                                message: 'Wrong parameters'
+                            })
+                        } else {
+                            res.status(500).send({
+                                success: false,
+                                message: 'Failed to save user'
+                            })
+                        }
+                    }
+                } else {
+                    if (result === null) {
+                        res.status(404).send({
                             success: false,
-                            message: 'Failed to save user'
-                        })
+                            message: 'Username not found'
+                        });
+                    } else {
+                        res.send({
+                            success: true,
+                            message: 'User successfully updated'
+                        });
                     }
                 }
-            } else {
-                if (result === null) {
-                    res.status(404).send({
-                        success: false,
-                        message: 'Username not found'
-                    });
-                } else {
-                    res.send({
-                        success: true,
-                        message: 'User successfully updated'
-                    });
-                }
-            }
-        });
+            });
+        } else {
+            res.status(401).send({
+                success: false,
+                message: 'Wrong token'
+            });
+        }
     });
 
     app.patch('/users/:username', (req, res) => {
