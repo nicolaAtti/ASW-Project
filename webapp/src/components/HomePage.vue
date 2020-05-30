@@ -67,7 +67,7 @@
     import { ChartPlugin, LineSeries, ColumnSeries,  Category, DataLabel, Tooltip} from '@syncfusion/ej2-vue-charts';
     import router from "../router";
     import axios from "axios";
-    import {askForNotificationsPermission} from "../../push-notification";
+    import {askForPermissionToReceiveNotifications} from "../push-notification";
     Vue.use(ChartPlugin);
 
     export default {
@@ -181,7 +181,7 @@
             chart: [LineSeries, ColumnSeries, Category, DataLabel, Tooltip]
         },
         created() {
-            askForNotificationsPermission();
+            askForPermissionToReceiveNotifications();
             this.loadAge();
             this.loadWeight();
             this.loadHeight();
