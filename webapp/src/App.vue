@@ -18,6 +18,9 @@
 <script>
     import router from "./router";
     import VueI18n from "./i18n";
+    import {askForNotificationsPermission} from "../push-notification";
+
+    askForNotificationsPermission();
 
     export default {
         name: 'App',

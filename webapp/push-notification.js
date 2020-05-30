@@ -1,4 +1,4 @@
-import firebase from "firebase";
+import * as firebase from "firebase";
 
 export const initializeFirebase = () => {
     firebase.initializeApp({
@@ -11,7 +11,7 @@ export const askForNotificationsPermission = async () => {
         const messaging = firebase.messaging();
         await messaging.requestPermission();
         const token = await messaging.getToken();
-        console.log('token do usuário:', token);
+        console.log('token of user:', token);
 
         return token;
     } catch (error) {
