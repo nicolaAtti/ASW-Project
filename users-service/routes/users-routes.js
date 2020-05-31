@@ -1,3 +1,4 @@
+const axios = require('axios');
 const jsonwebtoken = require('jsonwebtoken');
 const user = require("../models/users");
 const User = user.model;
@@ -41,21 +42,49 @@ module.exports = function(app) {
                     }
                 }
             } else {
-                res.status(201).send({
-                    success: true,
-                    message: 'User successfully created'
-                })
-                
+                const notificationPayload = {
+                    notification: {
+                        title: "Achievement Earned!",
+                        body: "Congratulations! You earned the achievement New Blood!",
+                        icon: "party_icon.png"
+                    },
+                    to: req.body.firebaseUserToken
+                };
+                axios.post("https://fcm.googleapis.com/fcm/send", notificationPayload,{headers: { Authorization: "key="+process.env.FIREBASE_SENDER_TOKEN, 'Content-Type': "application/json"}}).then(response => {
+                    console.log("Achievement request executed successfully");
+                    res.status(201).send({
+                        success: true,
+                        message: 'User successfully created'
+                    })
+                }).catch(error => {
+                    console.log("Error in reaching firebase server");
+                    console.log(error);
+                    res.status(500).send({
+                        success: false,
+                        message: 'Error in assigning achievement'
+                    })
+                });
             }
         });
     });
 
-    //Given the username/token pair  and the achievement insert it into the array inside the DB
-    app.patch('/users/:username/:achievement', (req, res) => {
+
+    /**
+     * Header of request:
+     * Authorization = ACHIEVEMENT_TOKEN --> sarà dentro l'env di ogni servizio
+     *
+     * Body of request:
+     * achievementFileName = NewBlood
+     * achievementTitle = New Blood
+     * firebaseUserToken = token (deve essere mandato dall'utente durante le altre richieste)
+     *
+     */
+    app.patch('/users/:username/achievement', (req, res) => {
         if (req.header('Authorization') === process.env.ACHIEVEMENT_TOKEN) {
-            const achievement = req.params.achievement;
+            const achievementFileName = req.body.achievementFileName;
+            const achievementTitle = req.body.achievementTitle
             const username = req.params.username;
-            User.findOneAndUpdate({username: username}, {$push: {achievements: achievement}}, function (error, result) {
+            User.findOneAndUpdate({username: username}, {$push: {achievements: achievementFileName}}, function (error, result) {
                 if (error) {
                     if (error.code === 11000) {
                         res.status(409).send({
@@ -82,10 +111,25 @@ module.exports = function(app) {
                             message: 'Username not found'
                         });
                     } else {
-                        res.send({
-                            success: true,
-                            message: 'User successfully updated'
-                        });
+                        const notificationPayload = {
+                            notification: {
+                                title: "Achievement Earned!",
+                                body: "Congratulations! You earned the achievement "+achievementTitle+" !",
+                                icon: "party_icon.png"
+                            },
+                            to: req.body.firebaseUserToken
+                        };
+                        axios.post("https://fcm.googleapis.com/fcm/send", notificationPayload,{headers: { Authorization: "key="+process.env.FIREBASE_SENDER_TOKEN, 'Content-Type': "application/json"}}).then(response => {
+                            res.send({
+                                success: true,
+                                message: 'Achievement successfully assigned'
+                            });
+                        }).catch(error => {
+                            res.status(500).send({
+                                success: false,
+                                message: 'Failed to award achievement:'+error
+                            })
+                        })
                     }
                 }
             });

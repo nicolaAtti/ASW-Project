@@ -111,6 +111,7 @@
                 } else {
                     try {
                         e.preventDefault();
+                        console.log(sessionStorage.firebase_token);
                         const response = await axios.post('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.username, {
                             name: this.name,
                             surname: this.surname,
@@ -120,7 +121,8 @@
                             weight: this.weight,
                             email: this.email,
                             password: this.password,
-                            publicAchievements: this.achi_pub
+                            publicAchievements: this.achi_pub,
+                            firebaseUserToken: sessionStorage.firebase_token
                         });
                         if (response.status === 201) {
                             router.back();

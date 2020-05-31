@@ -64,10 +64,10 @@
 
 <script>
     import Vue from 'vue';
-    import { ChartPlugin, LineSeries, ColumnSeries,  Category, DataLabel, Tooltip} from '@syncfusion/ej2-vue-charts';
+    import {Category, ChartPlugin, ColumnSeries, DataLabel, LineSeries, Tooltip} from '@syncfusion/ej2-vue-charts';
     import router from "../router";
     import axios from "axios";
-    import {askForPermissionToReceiveNotifications} from "../push-notification";
+
     Vue.use(ChartPlugin);
 
     export default {
@@ -181,7 +181,6 @@
             chart: [LineSeries, ColumnSeries, Category, DataLabel, Tooltip]
         },
         created() {
-            askForPermissionToReceiveNotifications();
             this.loadAge();
             this.loadWeight();
             this.loadHeight();

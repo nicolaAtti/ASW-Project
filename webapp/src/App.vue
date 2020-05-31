@@ -18,6 +18,8 @@
 <script>
     import router from "./router";
     import VueI18n from "./i18n";
+    import registerServiceWorker from "./registerServiceWorker";
+    import {initializeFirebase} from "./push-notification";
 
     export default {
         name: 'App',
@@ -27,6 +29,12 @@
         data: () => ({
             language: 'English',
         }),
+
+        created() {
+            registerServiceWorker();
+            initializeFirebase();
+        },
+
         methods: {
             changeLang() {
                 if(this.language === 'English'){
