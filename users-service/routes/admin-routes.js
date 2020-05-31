@@ -81,17 +81,25 @@ module.exports = function(app) {
                         const today = new Date();
                         const year = today.getFullYear();
                         const month = today.getMonth();
-                        const months = result.map(entry => {
-                            if (entry.registrationDate <= new Date(year, 1))
-                                return 0;
-                            else
-                                return entry.registrationDate.getMonth()
-                        });
-                        const returnVal = [];
+                        const initialReduce = [];
                         for (let i = 0; i <= month; i++) {
-                            returnVal.push({ month: monthNames[i], users: months.filter((value) => value <= i).length });
+                            initialReduce.push({ month: monthNames[i], users: 0 });
                         }
-                        res.send(returnVal);
+                        res.send(result
+                            .map(entry => {
+                                if (entry.registrationDate <= new Date(year, 1))
+                                    return 0;
+                                else
+                                    return entry.registrationDate.getMonth()
+                            })
+                            .reduce((obj, item) => {
+                                while(item <= month) {
+                                    obj[item++].users++;
+                                }
+                                return obj;
+                                }, initialReduce
+                            )
+                        );
                     }
                 })
             } else {
