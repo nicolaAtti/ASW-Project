@@ -24,9 +24,9 @@
             <hr class="new4">
             <ejs-chart id="container2" :title='titleTrainings' :primaryXAxis='primaryXAxis_trainings' :primaryYAxis='primaryYAxis_trainings' :tooltip='tooltip' :border='border' :titleStyle='titleStyle' :legendSettings='legendSettings'>
                 <e-series-collection>
-                    <e-series :dataSource='seriesDataTrainings' type='Column' xName='month' yName='trainingDataUnder30' name='Under 30' :marker='marker'> </e-series>
-                    <e-series :dataSource='seriesDataTrainings' type='Column' xName='month' yName='trainingDataUnder60' name='Under 60' :marker='marker'> </e-series>
-                    <e-series :dataSource='seriesDataTrainings' type='Column' xName='month' yName='trainingDataOver60' name='Over 60' :marker='marker'> </e-series>
+                    <e-series :dataSource='seriesDataTrainings' type='Column' xName='month' yName='under30' name='Under 30' :marker='marker'> </e-series>
+                    <e-series :dataSource='seriesDataTrainings' type='Column' xName='month' yName='under60' name='Under 60' :marker='marker'> </e-series>
+                    <e-series :dataSource='seriesDataTrainings' type='Column' xName='month' yName='over60' name='Over 60' :marker='marker'> </e-series>
                 </e-series-collection>
             </ejs-chart>
             <hr class="new4">
@@ -88,12 +88,7 @@
                 },
                 titleUsers: "Registered Users",
 
-                seriesDataTrainings: [
-                    { month: 'January', trainingDataUnder30: 402, trainingDataUnder60: 186, trainingDataOver60: 60}, { month: 'February', trainingDataUnder30: 805, trainingDataUnder60: 438, trainingDataOver60: 210 },
-                    { month: 'March', trainingDataUnder30: 752, trainingDataUnder60: 654, trainingDataOver60: 24 }, { month: 'April', trainingDataUnder30: 1070, trainingDataUnder60: 445, trainingDataOver60: 176 },
-                    { month: 'May', trainingDataUnder30: 620, trainingDataUnder60: 310, trainingDataOver60: 132 }, { month: 'June', trainingDataUnder30: 185, trainingDataUnder60: 234, trainingDataOver60: 236 },
-                    { month: 'July', trainingDataUnder30: 102, trainingDataUnder60: 234, trainingDataOver60: 132 }
-                ],
+                seriesDataTrainings: '',
                 primaryXAxis_trainings: {
                     valueType: 'Category',
                     labelIntersectAction: 'Rotate45',
@@ -155,6 +150,7 @@
             this.loadTotalUsers();
             this.loadAverageAge();
             this.loadUsersDataChart();
+            this.loadTrainingsDataChart();
         },
         methods: {
             signOut() {
@@ -178,6 +174,13 @@
             loadUsersDataChart() {
                 axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/history-users', {headers: { Authorization: sessionStorage.token}}).then(response => {
                     this.seriesDataUsers = response.data;
+                })
+            },
+            loadTrainingsDataChart() {
+                console.log('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_TRAININGS + '/history-trainings')
+                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_TRAININGS + '/history-trainings', {headers: { Authorization: sessionStorage.token}}).then(response => {
+                    console.log('' + response.data)
+                    this.seriesDataTrainings = response.data;
                 })
             }
         }
