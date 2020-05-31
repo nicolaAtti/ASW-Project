@@ -149,12 +149,15 @@ module.exports = function(app) {
                         Training.find({}, 'username startTime', function (error, result) {
                             const today = new Date();
                             const year = today.getFullYear();
-                            console.log(result.map(entry => {
-                                return {
-                                    month: entry.startTime <= new Date(year, 1) ? 1 : entry.startTime.getMonth() + 1,
-                                    age: usersAges.data[entry.username]
-                                };
-                            }));
+                            console.log(result
+                                .filter(entry => entry.startTime.getFullYear() === year)
+                                .map(entry => {
+                                    return {
+                                        month: entry.startTime.getMonth(),
+                                        age: usersAges.data[entry.username]
+                                    };
+                                })
+                            );
                             res.send({ "ciao": 5 });
                         })
                     });
