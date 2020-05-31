@@ -64,9 +64,10 @@
 
 <script>
     import Vue from 'vue';
-    import { ChartPlugin, LineSeries, ColumnSeries,  Category, DataLabel, Tooltip} from '@syncfusion/ej2-vue-charts';
+    import {Category, ChartPlugin, ColumnSeries, DataLabel, LineSeries, Tooltip} from '@syncfusion/ej2-vue-charts';
     import router from "../router";
     import axios from "axios";
+
     Vue.use(ChartPlugin);
 
     export default {

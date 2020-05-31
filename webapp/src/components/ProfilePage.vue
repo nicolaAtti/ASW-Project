@@ -39,17 +39,16 @@
         <div id="achievements_tab" class="tabcontent">
             <v-expansion-panels>
                 <v-expansion-panel
-                        v-for="(item,i) in 5"
-                        :key="i"
+                        v-for="(achievement,index) in achievements"
+                        :key="index"
                 >
-                    <!-- qui ci va il numero di achievements dell'utente al posto del 5 -->
                     <v-expansion-panel-header disable-icon-rotate>
                         <div class="achievement-title">
-                            <v-img src="BurnItBaby.PNG" height="70%" width="70%"/>
-                        </div><span class="achievement-name">New Blood</span>
+                            <v-img contain :src='achievement+".PNG"' height="85%" width="85%"/>
+                        </div><span class="achievement-name">{{$t('achievements.title.'+achievement)}}</span>
                     </v-expansion-panel-header>
                     <v-expansion-panel-content >
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                       {{ $t('achievements.desc.'+achievement)}}
                     </v-expansion-panel-content>
                 </v-expansion-panel>
             </v-expansion-panels>
@@ -115,6 +114,7 @@
 
             fetchUserData() {
                 this.username = sessionStorage.username;
+                console.log(sessionStorage.token);
                 axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.username,{headers: { Authorization: sessionStorage.token}}).then(response => {
                     var birthdayDate = this.formatDate(response.data.birthday);
                     var registerDate = this.formatDate(response.data.registrationDate);

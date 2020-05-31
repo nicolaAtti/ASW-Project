@@ -23,6 +23,7 @@
 <script>
     import axios from "axios";
     import router from "../router";
+    import {askForPermissionToReceiveNotifications} from "../push-notification";
 
     export default {
         name: "LoginPage",
@@ -41,6 +42,10 @@
                 }
 
             }
+        },
+
+        created() {
+            askForPermissionToReceiveNotifications();
         },
 
         methods: {

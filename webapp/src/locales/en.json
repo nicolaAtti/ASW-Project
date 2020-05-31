@@ -100,6 +100,7 @@
     "gender": "Gender:",
     "Male": "Male",
     "Female": "Female",
+    "age": "Age",
     "Maschio": "Male",
     "Femmina": "Female",
     "height": "Height:",
@@ -110,6 +111,28 @@
     "Public": "Public",
     "Privato": "Private",
     "Pubblico": "Public"
+  },
+  "achievements": {
+    "title": {
+      "ASmallStepForMan": "A small step for man...",
+      "AToastToUs": "A toast to us",
+      "AYearWithUs": "A year with us",
+      "BurnItBaby": "Burn it baby!",
+      "ItsGettingHotInHere": "It's getting hot in here!",
+      "MarathonReady": "Marathon ready",
+      "NewBlood": "New Blood",
+      "WayToGo": "Way to go!"
+    },
+    "desc": {
+      "ASmallStepForMan": "",
+      "AToastToUs": "",
+      "AYearWithUs": "",
+      "BurnItBaby": "",
+      "ItsGettingHotInHere": "",
+      "MarathonReady": "",
+      "NewBlood": "Register successfully and login for the first time! Explore the features of the application!",
+      "WayToGo": ""
+    }
   }
 
 }
