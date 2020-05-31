@@ -147,9 +147,16 @@ module.exports = function(app) {
                 axios.get(process.env.USER_SERVICE_URL + '/users-ages', { 'headers': { 'Authorization': req.header('Authorization') } })
                     .then(usersAges => {
                         Training.find({}, 'username startTime', function (error, result) {
+                            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
+                                'September', 'October', 'November', 'December'];
                             const today = new Date();
                             const year = today.getFullYear();
-                            console.log(result
+                            const month = today.getMonth();
+                            const initialReduce = [];
+                            for (let i = 0; i <= month; i++) {
+                                initialReduce.push({ month: monthNames[i], under30: 0, under60: 0, over60:0 });
+                            }
+                            res.send(result
                                 .filter(entry => entry.startTime.getFullYear() === year)
                                 .map(entry => {
                                     return {
@@ -157,8 +164,20 @@ module.exports = function(app) {
                                         age: usersAges.data[entry.username]
                                     };
                                 })
+                                .reduce((obj, item) => {
+                                    if (item.age < 30) {
+                                        obj[item.month].under30++;
+                                    } else {
+                                        if (item.age < 60) {
+                                            obj[item.month].under60++;
+                                        } else {
+                                            obj[item.month].over60++;
+                                        }
+                                    }
+                                    return obj;
+                                    }, initialReduce
+                                )
                             );
-                            res.send({ "ciao": 5 });
                         })
                     });
             } else {
