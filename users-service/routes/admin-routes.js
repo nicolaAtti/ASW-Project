@@ -86,7 +86,7 @@ module.exports = function(app) {
                             initialReduce.push({ month: monthNames[i], users: 0 });
                         }
                         res.send(result
-                            .map(entry => entry.registrationDate <= new Date(year, 1) ? 0 : entry.registrationDate.getMonth())
+                            .map(entry => entry.registrationDate < new Date(year, 1) ? 0 : entry.registrationDate.getMonth())
                             .reduce((obj, item) => {
                                 while(item <= month) {
                                     obj[item++].users++;
