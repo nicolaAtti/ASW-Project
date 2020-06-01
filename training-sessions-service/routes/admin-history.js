@@ -3,6 +3,8 @@ const training = require("../models/training-data");
 const Training = training.model;
 const JWT_SECRET = process.env.JWT_SECRET;
 const axios = require('axios');
+const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
+    'September', 'October', 'November', 'December'];
 
 module.exports = function(app) {
     app.get('/history-trainings', (req, res) => {
@@ -13,8 +15,6 @@ module.exports = function(app) {
                 axios.get(process.env.USER_SERVICE_URL + '/users-ages', { 'headers': { 'Authorization': req.header('Authorization') } })
                     .then(usersAges => {
                         Training.find({}, 'username startTime', function (error, result) {
-                            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
-                                'September', 'October', 'November', 'December'];
                             const today = new Date();
                             const year = today.getFullYear();
                             const month = today.getMonth();
@@ -68,8 +68,6 @@ module.exports = function(app) {
                 axios.get(process.env.USER_SERVICE_URL + '/users-ages', { 'headers': { 'Authorization': req.header('Authorization') } })
                     .then(usersAges => {
                         Training.find({}, 'username startTime endTime', function (error, result) {
-                            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
-                                'September', 'October', 'November', 'December'];
                             const today = new Date();
                             const year = today.getFullYear();
                             const month = today.getMonth();
@@ -94,19 +92,19 @@ module.exports = function(app) {
                                     };
                                 })
                                 .reduce((obj, item) => {
-                                        if (item.age < 30) {
-                                            obj[item.month].under30 += item.duration;
-                                            obj[item.month].under30counter++;
+                                    if (item.age < 30) {
+                                        obj[item.month].under30 += item.duration;
+                                        obj[item.month].under30counter++;
+                                    } else {
+                                        if (item.age < 60) {
+                                            obj[item.month].under60 += item.duration;
+                                            obj[item.month].under60counter++;
                                         } else {
-                                            if (item.age < 60) {
-                                                obj[item.month].under60 += item.duration;
-                                                obj[item.month].under60counter++;
-                                            } else {
-                                                obj[item.month].over60 += item.duration;
-                                                obj[item.month].over60counter++;
-                                            }
+                                            obj[item.month].over60 += item.duration;
+                                            obj[item.month].over60counter++;
                                         }
-                                        return obj;
+                                    }
+                                    return obj;
                                     }, initialReduce
                                 )
                                 .map(entry => {
