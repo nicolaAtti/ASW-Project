@@ -5,10 +5,9 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const axios = require('axios');
 
 module.exports = function(app) {
-    app.post('/users/:username/training_sessions/:sessionId', (req, res) => {
+    app.post('/users/:username/training_sessions', (req, res) => {
         const training = new Training({
             username: req.params.username,
-            sessionId: req.params.sessionId,
             startTime: new Date(),
             endTime: new Date(),
             caloriesBurned: req.body.caloriesBurned,
@@ -22,12 +21,6 @@ module.exports = function(app) {
 
         training.save(function (error) {
             if (error) {
-                if (error.code === 11000) {
-                    res.status(409).send({
-                        success: false,
-                        message: 'SessionId already present'
-                    })
-                } else {
                     if (error.name === "ValidationError") {
                         res.status(400).send({
                             success: false,
@@ -39,7 +32,6 @@ module.exports = function(app) {
                             message: 'Failed to save training'
                         })
                     }
-                }
             } else {
                 
 
@@ -89,12 +81,12 @@ module.exports = function(app) {
         });
     });
 
-    app.delete('/users/:username/training_sessions/:sessionId', (req, res) => {
+    app.delete('/users/:username/training_sessions', (req, res) => {
         try {
             const token = req.header('Authorization').replace('Bearer ', '');
             const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
-            if (req.params.sessionId === decodedJwt.sessionId) {
-                Training.findOneAndDelete({ sessionId: decodedJwt.sessionId }, function (error, result) {
+            if (req.params.username === decodedJwt.username) {
+                Training.deleteMany({ username: decodedJwt.username }, function (error, result) {
                     if (error || result === null) {
                         res.status(404).send({
                             success: false,

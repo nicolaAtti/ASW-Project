@@ -21,7 +21,6 @@
             <div class="w3-container">
                 <h2>{{ $t('homePage.Last Training Summary') }}</h2>
                 <ul class="w3-ul">
-                    <li class="w3-padding-large">{{ $t('homePage.Session ID') }}<p>{{sessionId}}</p></li>
                     <li class="w3-padding-large">{{ $t('homePage.Start Time') }}<p>{{startTime}}</p></li>
                     <li class="w3-padding-large">{{ $t('homePage.End Time') }}<p>{{endTime}}</p></li>
                     <li class="w3-padding-large">{{ $t('homePage.Calories Burned') }}<p>{{caloriesBurned}}</p></li>
@@ -87,7 +86,6 @@
                 age: '',
                 weight: '',
                 height: '',
-                sessionId: '',
                 startTime: '',
                 endTime: '',
                 caloriesBurned: '',
@@ -265,7 +263,6 @@
             loadLastTrainingSummary() {
                 axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_TRAININGS + '/users/' + this.username + '/training_session/latest', {headers: { Authorization: sessionStorage.token}}).then(response => {
                     if(!(response.data.username == undefined)) {
-                        this.sessionId = response.data.sessionId;
                         this.caloriesBurned = response.data.caloriesBurned;
                         this.avgHeartRate = response.data.avgHeartRate;
                         this.bmin = 'b/min'
@@ -292,7 +289,7 @@
                         var etmin = et.getMinutes();
                         this.endTime = '' + eth + ':' + etmin + ' - ' + etd + '/' + etm + '/' + ety;
                     } else {
-                        this.sessionId = this.$t('homePage.Training not found');
+                        this.caloriesBurned = this.$t('homePage.Training not found');
                     }
                 })
             }

@@ -35,7 +35,9 @@
             <h3>{{ $t('homePage.Average Trainings Duration') }}</h3>
             <ejs-chart id="container3" :primaryXAxis='primaryXAxis_timeTraining' :primaryYAxis='primaryYAxis_timeTraining' :tooltip='tooltip' :border='border' :legendSettings='legendSettings'>
                 <e-series-collection>
-                    <e-series :dataSource='seriesDataTimeTraining' type='Line' xName='month' yName='timeTraining' name='TimeTraining' :marker='marker'> </e-series>
+                    <e-series :dataSource='seriesDataTimeTraining' type='Column' xName='month' yName='under30' name='Under 30' :marker='marker'> </e-series>
+                    <e-series :dataSource='seriesDataTimeTraining' type='Column' xName='month' yName='under60' name='Under 60' :marker='marker'> </e-series>
+                    <e-series :dataSource='seriesDataTimeTraining' type='Column' xName='month' yName='over60' name='Over 60' :marker='marker'> </e-series>
                 </e-series-collection>
             </ejs-chart>
             <hr class="new5">
@@ -107,14 +109,7 @@
                     }
                 },
 
-                seriesDataTimeTraining: [
-                    { month: 'January', timeTraining: 62 }, { month: 'February', timeTraining: 51 },
-                    { month: 'March', timeTraining: 74 }, { month: 'April', timeTraining: 63 },
-                    { month: 'May', timeTraining: 86 }, { month: 'June', timeTraining: 47 },
-                    { month: 'July', timeTraining: 44 }, { month: 'August', timeTraining: 39 },
-                    { month: 'September', timeTraining: 56 }, { month: 'October', timeTraining: 67 },
-                    { month: 'November', timeTraining: 71 }, { month: 'December', timeTraining: 77 }
-                ],
+                seriesDataTimeTraining: '',
                 primaryXAxis_timeTraining: {
                     valueType: 'Category',
                     labelIntersectAction: 'Rotate45',
@@ -151,6 +146,7 @@
             this.loadAverageAge();
             this.loadUsersDataChart();
             this.loadTrainingsDataChart();
+            this.loadTrainingsDurationChart();
         },
         methods: {
             signOut() {
@@ -177,10 +173,13 @@
                 })
             },
             loadTrainingsDataChart() {
-                console.log('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_TRAININGS + '/history-trainings')
                 axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_TRAININGS + '/history-trainings', {headers: { Authorization: sessionStorage.token}}).then(response => {
-                    console.log('' + response.data)
                     this.seriesDataTrainings = response.data;
+                })
+            },
+            loadTrainingsDurationChart() {
+                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_TRAININGS + '/history-trainings-duration', {headers: { Authorization: sessionStorage.token}}).then(response => {
+                    this.seriesDataTimeTraining = response.data;
                 })
             }
         }

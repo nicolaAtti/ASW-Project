@@ -1,7 +1,6 @@
 <template lang="html">
     <div class="session">
         <ul class="w3-ul">
-            <li class="w3-padding-large">{{ $t('homePage.Session ID') }}<p>{{block.sessionId}}</p></li>
             <li class="w3-padding-large">{{ $t('homePage.Start Time') }}<p>{{block.startTime}}</p></li>
             <li class="w3-padding-large">{{ $t('homePage.End Time') }}<p>{{block.endTime}}</p></li>
             <li class="w3-padding-large">{{ $t('homePage.Calories Burned') }}<p>{{block.caloriesBurned}}</p></li>

@@ -6,10 +6,6 @@ const trainingsSchema = new Schema({
         type: String,
         required: true
     },
-    sessionId: {
-        type: String,
-        required: true
-    },
     startTime: {
         type: Date,
         required: true
