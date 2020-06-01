@@ -44,11 +44,12 @@
                 >
                     <v-expansion-panel-header disable-icon-rotate>
                         <div class="achievement-title">
-                            <v-img contain :src='achievement+".PNG"' height="85%" width="85%"/>
-                        </div><span class="achievement-name">{{$t('achievements.title.'+achievement)}}</span>
+                            <v-img contain :src='achievement+".PNG"' height="75%" width="75%"/>
+                        </div><span class="achievement-name">     </span>
                     </v-expansion-panel-header>
                     <v-expansion-panel-content >
-                       {{ $t('achievements.desc.'+achievement)}}
+                        <h3>{{ $t('achievements.title.'+achievement)}}</h3>
+                        <p>{{ $t('achievements.desc.'+achievement)}}</p>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
             </v-expansion-panels>
@@ -186,7 +187,7 @@
     }
 
     .achievement-name{
-        font: 125% "Lucida Sans", sans-serif;
+        font: 100% "Lucida Sans", sans-serif;
     }
 
     tr td {
