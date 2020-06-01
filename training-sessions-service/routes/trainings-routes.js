@@ -41,6 +41,46 @@ module.exports = function(app) {
                     }
                 }
             } else {
+                
+
+
+
+                if(req.body.caloriesBurned >= 200){
+                    const notificationBody = {
+                        "achievementFileName": "OnLowFlame",
+                        "achievementTitle": "On low flame",
+                        "firebaseUserToken": req.body.firebaseUserToken
+                    };
+                    axios.patch(process.env.USER_SERVICE_URL+req.params.username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
+                        console.log("Achievement awarded "+response)
+                    }).catch(error => {
+                        console.log("Achievement not awarded "+error)
+                    });
+                }
+                if(req.body.caloriesBurned >= 500){
+                    const notificationBody = {
+                        "achievementFileName": "BurnItBaby",
+                        "achievementTitle": "Burn it baby",
+                        "firebaseUserToken": req.body.firebaseUserToken
+                    };
+                    axios.patch(process.env.USER_SERVICE_URL+req.params.username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
+                        console.log("Achievement awarded "+response)
+                    }).catch(error => {
+                        console.log("Achievement not awarded "+error)
+                    });
+                }
+                if(req.body.caloriesBurned >= 1000){
+                    const notificationBody = {
+                        "achievementFileName": "Flambe",
+                        "achievementTitle": "Flambé",
+                        "firebaseUserToken": req.body.firebaseUserToken
+                    };
+                    axios.patch(process.env.USER_SERVICE_URL+req.params.username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
+                        console.log("Achievement awarded "+response)
+                    }).catch(error => {
+                        console.log("Achievement not awarded "+error)
+                    });
+                }
                 res.status(201).send({
                     success: true,
                     message: 'Training successfully created'

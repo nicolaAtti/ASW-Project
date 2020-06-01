@@ -54,14 +54,14 @@ module.exports = function(app) {
                     console.log("Achievement request executed successfully");
                     res.status(201).send({
                         success: true,
-                        message: 'User successfully created'
+                        message: 'User successfully created and notification sent'
                     })
                 }).catch(error => {
                     console.log("Error in reaching firebase server");
                     console.log(error);
-                    res.status(500).send({
-                        success: false,
-                        message: 'Error in assigning achievement'
+                    res.status(201).send({
+                        success: true,
+                        message: 'User successfully created, but notification not sent'
                     })
                 });
             }
@@ -127,8 +127,8 @@ module.exports = function(app) {
                                 message: 'Achievement successfully assigned'
                             });
                         }).catch(error => {
-                            res.status(500).send({
-                                success: false,
+                            res.send({
+                                success: true,
                                 message: 'Failed to award achievement:'+error
                             })
                         })

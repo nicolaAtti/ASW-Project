@@ -20,6 +20,7 @@ export const askForPermissionToReceiveNotifications = async () => {
         await messaging.requestPermission();
         const token = await messaging.getToken();
         sessionStorage.firebase_token = token;
+        console.log(token);
 
         messaging.onMessage(function(payload) {
             console.log("Message received. ", payload);
