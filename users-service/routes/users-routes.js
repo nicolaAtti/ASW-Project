@@ -84,7 +84,9 @@ module.exports = function(app) {
             const achievementFileName = req.body.achievementFileName;
             const achievementTitle = req.body.achievementTitle
             const username = req.params.username;
-            User.findOneAndUpdate({username: username}, {$push: {achievements: achievementFileName}}, function (error, result) {
+            //Add check for duplicate achievements -- trova un modo decente per gestire i ritorni
+
+            User.findOneAndUpdate({username: username, achievements: {$nin: [achievementFileName]}}, {$push: {achievements: achievementFileName}}, function (error, result) {
                 if (error) {
                     if (error.code === 11000) {
                         res.status(409).send({
