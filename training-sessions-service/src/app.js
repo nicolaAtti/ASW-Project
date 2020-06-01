@@ -23,6 +23,8 @@ db.once("open", function() {
 });
 
 require('../routes/trainings-routes')(app);
+require('../routes/admin-history')(app);
+require('../routes/users-history')(app);
 
 app.use(function (err, req, res, next) {
     res.status(404).send({
