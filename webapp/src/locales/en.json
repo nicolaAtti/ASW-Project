@@ -55,7 +55,10 @@
     "Loading": "Loading...",
     "Weight not defined": "Weight not defined",
     "Height not defined": "Height not defined",
-    "Training not found": "Training not found"
+    "Training not found": "Training not found",
+    "Registered Users": "Registered Users",
+    "Trainings Done": "Trainings Done",
+    "Average Trainings Duration": "Average Trainings Duration"
   },
   "adminHomePage": {
     "Profile": "Profile",

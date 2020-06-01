@@ -34,25 +34,29 @@
                 </ul>
             </div>
             <hr class="new5">
-            <ejs-chart id="container" :title='titleSteps' :primaryXAxis='primaryXAxis_steps' :primaryYAxis='primaryYAxis_steps' :tooltip='tooltip' :border='border' :titleStyle='titleStyle'>
+            <h3>{{ $t('homePage.Steps') }}</h3>
+            <ejs-chart id="container" :primaryXAxis='primaryXAxis_steps' :primaryYAxis='primaryYAxis_steps' :tooltip='tooltip' :border='border' >
                 <e-series-collection>
                     <e-series :dataSource='seriesDataSteps' type='Column' xName='day' yName='steps' name='Steps' :marker='marker'> </e-series>
                 </e-series-collection>
             </ejs-chart>
             <hr class="new4">
-            <ejs-chart id="container2" :title='titleCalories' :primaryXAxis='primaryXAxis_calories' :primaryYAxis='primaryYAxis_calories' :tooltip='tooltip' :border='border' :titleStyle='titleStyle'>
+            <h3>{{ $t('homePage.Calories Burned') }}</h3>
+            <ejs-chart id="container2" :primaryXAxis='primaryXAxis_calories' :primaryYAxis='primaryYAxis_calories' :tooltip='tooltip' :border='border' >
                 <e-series-collection>
                     <e-series :dataSource='seriesDataCalories' type='Column' xName='day' yName='calories' name='Calories' :marker='marker'> </e-series>
                 </e-series-collection>
             </ejs-chart>
             <hr class="new4">
-            <ejs-chart id="container3" :title='titleKm' :primaryXAxis='primaryXAxis_km' :primaryYAxis='primaryYAxis_km' :tooltip='tooltip' :border='border' :titleStyle='titleStyle'>
+            <h3>{{ $t('homePage.Kilometers Traveled') }}</h3>
+            <ejs-chart id="container3" :primaryXAxis='primaryXAxis_km' :primaryYAxis='primaryYAxis_km' :tooltip='tooltip' :border='border' >
                 <e-series-collection>
                     <e-series :dataSource='seriesDataKm' type='Column' xName='day' yName='km' name='Chilometers' :marker='marker'> </e-series>
                 </e-series-collection>
             </ejs-chart>
             <hr class="new4">
-            <ejs-chart id="container4" :title='titleAvgSpeed' :primaryXAxis='primaryXAxis_AvgSpeed' :primaryYAxis='primaryYAxis_AvgSpeed' :tooltip='tooltip' :border='border' :titleStyle='titleStyle'>
+            <h3>{{ $t('homePage.Average Speed') }}</h3>
+            <ejs-chart id="container4" :primaryXAxis='primaryXAxis_AvgSpeed' :primaryYAxis='primaryYAxis_AvgSpeed' :tooltip='tooltip' :border='border' >
                 <e-series-collection>
                     <e-series :dataSource='seriesDataAvgSpeed' type='Column' xName='day' yName='km_h' name='AvgSpeed' :marker='marker'> </e-series>
                 </e-series-collection>
@@ -131,7 +135,6 @@
                         fontFamily : 'Segoe UI', fontWeight : 'bold'
                     }
                 },
-                titleSteps: this.$t('homePage.Steps'),
 
                 seriesDataCalories: [
                     { day: 'Monday', calories: 260 }, { day: 'Tuesday', calories: 248 },
@@ -154,7 +157,6 @@
                         fontFamily : 'Segoe UI', fontWeight : 'bold'
                     }
                 },
-                titleCalories: "Calories",
 
                 seriesDataKm: [
                     { day: 'Monday', km: 1.3 }, { day: 'Tuesday', km: 2.4 },
@@ -177,7 +179,6 @@
                         fontFamily : 'Segoe UI', fontWeight : 'bold'
                     }
                 },
-                titleKm: "Chilometers",
 
                 seriesDataAvgSpeed: [
                     { day: 'Monday', km_h: 10.5 }, { day: 'Tuesday', km_h: 9.4 },
@@ -200,10 +201,10 @@
                         fontFamily : 'Segoe UI', fontWeight : 'bold'
                     }
                 },
-                titleAvgSpeed: "Average Speed",
 
                 legendSettings: {
-                    visible: true
+                    visible: true,
+                    position: 'Top'
                 },
                 marker: {
                     dataLabel:{
@@ -213,6 +214,7 @@
                 tooltip:{ enable: true },
             };
         },
+
         provide: {
             chart: [LineSeries, ColumnSeries, Category, DataLabel, Tooltip]
         },
@@ -312,6 +314,14 @@
         text-align: right;
         font-family: Georgia, serif;
         font-weight: 500;
+    }
+
+    h3 {
+        fontFamily: Arial;
+        fontStyle: italic;
+        fontWeight: bold;
+        color: #1f1913;
+        font-size: 30px;
     }
 
     .row::after {

@@ -16,13 +16,15 @@
                 </ul>
             </div>
             <hr class="new5">
-            <ejs-chart id="container" :title='titleUsers' :primaryXAxis='primaryXAxis_users' :primaryYAxis='primaryYAxis_users' :tooltip='tooltip' :border='border' :titleStyle='titleStyle' :legendSettings='legendSettings'>
+            <h3>{{ $t('homePage.Registered Users') }}</h3>
+            <ejs-chart id="container" :primaryXAxis='primaryXAxis_users' :primaryYAxis='primaryYAxis_users' :tooltip='tooltip' :border='border' :legendSettings='legendSettings'>
                 <e-series-collection>
                     <e-series :dataSource='seriesDataUsers' type='Line' xName='month' yName='users' name='Users' :marker='marker'> </e-series>
                 </e-series-collection>
             </ejs-chart>
             <hr class="new4">
-            <ejs-chart id="container2" :title='titleTrainings' :primaryXAxis='primaryXAxis_trainings' :primaryYAxis='primaryYAxis_trainings' :tooltip='tooltip' :border='border' :titleStyle='titleStyle' :legendSettings='legendSettings'>
+            <h3>{{ $t('homePage.Trainings Done') }}</h3>
+            <ejs-chart id="container2" :primaryXAxis='primaryXAxis_trainings' :primaryYAxis='primaryYAxis_trainings' :tooltip='tooltip' :border='border' :legendSettings='legendSettings'>
                 <e-series-collection>
                     <e-series :dataSource='seriesDataTrainings' type='Column' xName='month' yName='under30' name='Under 30' :marker='marker'> </e-series>
                     <e-series :dataSource='seriesDataTrainings' type='Column' xName='month' yName='under60' name='Under 60' :marker='marker'> </e-series>
@@ -30,7 +32,8 @@
                 </e-series-collection>
             </ejs-chart>
             <hr class="new4">
-            <ejs-chart id="container3" :title='titleTimeTraining' :primaryXAxis='primaryXAxis_timeTraining' :primaryYAxis='primaryYAxis_timeTraining' :tooltip='tooltip' :border='border' :titleStyle='titleStyle' :legendSettings='legendSettings'>
+            <h3>{{ $t('homePage.Average Trainings Duration') }}</h3>
+            <ejs-chart id="container3" :primaryXAxis='primaryXAxis_timeTraining' :primaryYAxis='primaryYAxis_timeTraining' :tooltip='tooltip' :border='border' :legendSettings='legendSettings'>
                 <e-series-collection>
                     <e-series :dataSource='seriesDataTimeTraining' type='Line' xName='month' yName='timeTraining' name='TimeTraining' :marker='marker'> </e-series>
                 </e-series-collection>
@@ -86,7 +89,6 @@
                         fontFamily : 'Segoe UI', fontWeight : 'bold'
                     }
                 },
-                titleUsers: "Registered Users",
 
                 seriesDataTrainings: '',
                 primaryXAxis_trainings: {
@@ -104,7 +106,6 @@
                         fontFamily : 'Segoe UI', fontWeight : 'bold'
                     }
                 },
-                titleTrainings: "Trainings Done",
 
                 seriesDataTimeTraining: [
                     { month: 'January', timeTraining: 62 }, { month: 'February', timeTraining: 51 },
@@ -129,7 +130,6 @@
                         fontFamily : 'Segoe UI', fontWeight : 'bold'
                     }
                 },
-                titleTimeTraining: "Average Trainings Duration",
 
                 legendSettings: {
                     visible: true,
@@ -201,6 +201,14 @@
         text-align: right;
         font-family: Georgia, serif;
         font-weight: 500;
+    }
+
+    h3 {
+        fontFamily: Arial;
+        fontStyle: italic;
+        fontWeight: bold;
+        color: #1f1913;
+        font-size: 30px;
     }
 
     .row::after {

@@ -55,7 +55,10 @@
     "Loading": "Caricamento...",
     "Weight not defined": "Peso non definito",
     "Height not defined": "Altezza non definita",
-    "Training not found": "Allenamento non trovato"
+    "Training not found": "Allenamento non trovato",
+    "Registered Users": "Utenti Registrati",
+    "Trainings Done": "Allenamenti Effettuati",
+    "Average Trainings Duration": "Durata Media Allenamenti"
   },
   "adminHomePage": {
     "Profile": "Profilo",
