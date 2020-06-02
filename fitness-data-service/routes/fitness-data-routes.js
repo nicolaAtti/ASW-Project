@@ -14,8 +14,7 @@ module.exports = function(app) {
                     hearthRate: req.body.hearthRate,
                     steps: req.body.steps,
                     caloriesBurned: req.body.caloriesBurned,
-                    position: req.body.position,
-                    trainingSessionId: req.body.trainingSessionId
+                    position: req.body.position
                 });
                 fitnessData.save(function (error) {
                     if (error) {

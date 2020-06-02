@@ -18,8 +18,7 @@ const fitnessDataSchema = new Schema({
         altitude: Number,
         latitude: Number,
         longitude: Number
-    },
-    trainingSessionId: String
+    }
 });
 
 const fitnessData = mongoose.model("fitness-data", fitnessDataSchema);
