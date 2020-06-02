@@ -36,28 +36,28 @@
             <h3>{{ $t('homePage.Steps') }}</h3>
             <ejs-chart id="container" :primaryXAxis='primaryXAxis_steps' :primaryYAxis='primaryYAxis_steps' :tooltip='tooltip' :border='border' >
                 <e-series-collection>
-                    <e-series :dataSource='seriesDataSteps' type='Column' xName='day' yName='steps' name='Steps' :marker='marker'> </e-series>
+                    <e-series :dataSource='seriesDataSteps' type='Column' xName='month' yName='steps' name='Steps' :marker='marker'> </e-series>
                 </e-series-collection>
             </ejs-chart>
             <hr class="new4">
             <h3>{{ $t('homePage.Calories Burned') }}</h3>
             <ejs-chart id="container2" :primaryXAxis='primaryXAxis_calories' :primaryYAxis='primaryYAxis_calories' :tooltip='tooltip' :border='border' >
                 <e-series-collection>
-                    <e-series :dataSource='seriesDataCalories' type='Column' xName='day' yName='calories' name='Calories' :marker='marker'> </e-series>
+                    <e-series :dataSource='seriesDataCalories' type='Column' xName='month' yName='calories' name='Calories' :marker='marker'> </e-series>
                 </e-series-collection>
             </ejs-chart>
             <hr class="new4">
             <h3>{{ $t('homePage.Kilometers Traveled') }}</h3>
             <ejs-chart id="container3" :primaryXAxis='primaryXAxis_km' :primaryYAxis='primaryYAxis_km' :tooltip='tooltip' :border='border' >
                 <e-series-collection>
-                    <e-series :dataSource='seriesDataKm' type='Column' xName='day' yName='km' name='Chilometers' :marker='marker'> </e-series>
+                    <e-series :dataSource='seriesDataKm' type='Column' xName='month' yName='km' name='Km' :marker='marker'> </e-series>
                 </e-series-collection>
             </ejs-chart>
             <hr class="new4">
             <h3>{{ $t('homePage.Average Speed') }}</h3>
             <ejs-chart id="container4" :primaryXAxis='primaryXAxis_AvgSpeed' :primaryYAxis='primaryYAxis_AvgSpeed' :tooltip='tooltip' :border='border' >
                 <e-series-collection>
-                    <e-series :dataSource='seriesDataAvgSpeed' type='Column' xName='day' yName='km_h' name='AvgSpeed' :marker='marker'> </e-series>
+                    <e-series :dataSource='seriesDataAvgSpeed' type='Column' xName='month' yName='km_h' name='AvgSpeed' :marker='marker'> </e-series>
                 </e-series-collection>
             </ejs-chart>
             <hr class="new5">
@@ -112,12 +112,7 @@
                     size: '30px'
                 },
 
-                seriesDataSteps: [
-                    { day: 'Monday', steps: 1530 }, { day: 'Tuesday', steps: 1245 },
-                    { day: 'Wednesday', steps: 2340 }, { day: 'Thursday', steps: 1670 },
-                    { day: 'Friday', steps: 1200 }, { day: 'Saturday', steps: 1465 },
-                    { day: 'Sunday', steps: 900 }
-                ],
+                seriesDataSteps: '',
                 primaryXAxis_steps: {
                     valueType: 'Category',
                     labelIntersectAction: 'Rotate45',
@@ -134,12 +129,7 @@
                     }
                 },
 
-                seriesDataCalories: [
-                    { day: 'Monday', calories: 260 }, { day: 'Tuesday', calories: 248 },
-                    { day: 'Wednesday', calories: 120 }, { day: 'Thursday', calories: 89 },
-                    { day: 'Friday', calories: 60 }, { day: 'Saturday', calories: 73 },
-                    { day: 'Sunday', calories: 180 }
-                ],
+                seriesDataCalories: '',
                 primaryXAxis_calories: {
                     valueType: 'Category',
                     labelIntersectAction: 'Rotate45',
@@ -156,12 +146,7 @@
                     }
                 },
 
-                seriesDataKm: [
-                    { day: 'Monday', km: 1.3 }, { day: 'Tuesday', km: 2.4 },
-                    { day: 'Wednesday', km: 0.6 }, { day: 'Thursday', km: 1.8 },
-                    { day: 'Friday', km: 1.2 }, { day: 'Saturday', km: 3.4 },
-                    { day: 'Sunday', km: 0.9 }
-                ],
+                seriesDataKm: '',
                 primaryXAxis_km: {
                     valueType: 'Category',
                     labelIntersectAction: 'Rotate45',
@@ -178,12 +163,7 @@
                     }
                 },
 
-                seriesDataAvgSpeed: [
-                    { day: 'Monday', km_h: 10.5 }, { day: 'Tuesday', km_h: 9.4 },
-                    { day: 'Wednesday', km_h: 11.4 }, { day: 'Thursday', km_h: 7.4 },
-                    { day: 'Friday', km_h: 10.8 }, { day: 'Saturday', km_h: 7.9},
-                    { day: 'Sunday', km_h: 9.9 }
-                ],
+                seriesDataAvgSpeed: '',
                 primaryXAxis_AvgSpeed: {
                     valueType: 'Category',
                     labelIntersectAction: 'Rotate45',
@@ -193,6 +173,8 @@
                     }
                 },
                 primaryYAxis_AvgSpeed:{
+                    minimum: 1,
+                    rangePadding: 'Round',
                     labelFormat: '{value} Km/h',
                     labelStyle: {
                         size: '12px',
@@ -221,6 +203,10 @@
             this.loadWeight();
             this.loadHeight();
             this.loadLastTrainingSummary();
+            this.loadStepsSummary();
+            this.loadCaloriesSummary();
+            this.loadKilometersSummary();
+            this.loadAvgSpeedSummary();
         },
         methods: {
             signOut() {
@@ -276,21 +262,41 @@
 
                         var st = new Date(response.data.startTime);
                         var sty = st.getFullYear();
-                        var stm = st.getMonth();
+                        var stm = st.getMonth()+1;
                         var std = st.getDate();
                         var sth = st.getHours();
                         var stmin = st.getMinutes();
                         this.startTime = '' + sth + ':' + stmin + ' - ' + std + '/' + stm + '/' + sty;
                         var et = new Date(response.data.endTime);
                         var ety = et.getFullYear();
-                        var etm = et.getMonth();
+                        var etm = et.getMonth()+1;
                         var etd = et.getDate();
                         var eth = et.getHours();
                         var etmin = et.getMinutes();
                         this.endTime = '' + eth + ':' + etmin + ' - ' + etd + '/' + etm + '/' + ety;
                     } else {
-                        this.caloriesBurned = this.$t('homePage.Training not found');
+                        this.startTime = this.$t('homePage.Training not found');
                     }
+                })
+            },
+            loadStepsSummary() {
+                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_TRAININGS + '/users/' + this.username + '/training_session/history-steps', {headers: {Authorization: sessionStorage.token}}).then(response => {
+                    this.seriesDataSteps = response.data;
+                })
+            },
+            loadCaloriesSummary() {
+                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_TRAININGS + '/users/' + this.username + '/training_session/history-calories', {headers: {Authorization: sessionStorage.token}}).then(response => {
+                    this.seriesDataCalories = response.data;
+                })
+            },
+            loadKilometersSummary() {
+                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_TRAININGS + '/users/' + this.username + '/training_session/history-kilometers', {headers: {Authorization: sessionStorage.token}}).then(response => {
+                    this.seriesDataKm = response.data;
+                })
+            },
+            loadAvgSpeedSummary() {
+                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_TRAININGS + '/users/' + this.username + '/training_session/history-avgspeed', {headers: {Authorization: sessionStorage.token}}).then(response => {
+                    this.seriesDataAvgSpeed = response.data;
                 })
             }
         }
