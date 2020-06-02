@@ -52,7 +52,7 @@
 
                             var st = new Date(response.data[i].startTime);
                             var sty = st.getFullYear();
-                            var stm = st.getMonth();
+                            var stm = st.getMonth()+1;
                             var std = st.getDate();
                             var sth = st.getHours();
                             var stmin = st.getMinutes();
@@ -60,7 +60,7 @@
 
                             var et = new Date(response.data[i].endTime);
                             var ety = et.getFullYear();
-                            var etm = et.getMonth();
+                            var etm = et.getMonth()+1;
                             var etd = et.getDate();
                             var eth = et.getHours();
                             var etmin = et.getMinutes();
