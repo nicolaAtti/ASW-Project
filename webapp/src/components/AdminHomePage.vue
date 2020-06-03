@@ -188,6 +188,13 @@
 
 <style lang="scss" scoped>
 
+    .col-3.col-s-3 {
+        background-image: url("../assets/profile-background-motive.jpg");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+
     * {
         box-sizing: border-box;
     }
@@ -235,8 +242,8 @@
         font-size: 18px;
         padding: 8px;
         margin-bottom: 7px;
-        border: 1.5px solid #257C9E;
-        background-color: #0277bd;
+        border: 0.5px ridge #2c3e50;
+        background-color:#0277bd;
         color: #ffffff;
         box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
         cursor: pointer;
