@@ -19,16 +19,9 @@
                         <td> {{ $t('profilePage.gender') }}</td>
                         <td> {{ $t('profilePage.'+gender) }}</td>
                     </tr>
-                    <tr>
-                        <td> {{ $t('profilePage.achi_pub') }}</td>
-                        <td> {{ $t('profilePage.'+achi_pub) }}</td>
-                    </tr>
                     </tbody>
                 </template>
             </v-simple-table>
-            <div class="dialog-panel">
-                <ProfileDialog v-on:profileUpdate="fetchUserData"/>
-            </div>
         </div>
 
         <div id="achievements_tab" class="tabcontent">
@@ -53,36 +46,35 @@
 </template>
 
 <script>
-    import ProfileDialog from "./ProfileDialog";
-    import axios from "axios";
-
     export default {
-        name: "ProfilePage",
+        name: "OtherUserProfilePage",
 
-        components: {
-            ProfileDialog
+        props: {
+            username: String,
+            gender: String,
+            userData: {
+                name: String,
+                surname: String,
+                birthday: String,
+                age: String,
+                registerData: String
+            },
+            achievements: Array
         },
 
         data: () => {
             return {
-                username: "",
-                gender: "",
-                achi_pub: "",
+                username: this.username, //The first element always generates a warning....for some reason....
+                gender: this.gender,
                 userData: {
-                    name: "",
-                    surname: "",
-                    birthday: "",
-                    age: "",
-                    email: "",
-                    registerDate: ""
+                    name: this.userData.name,
+                    surname: this.userData.surname,
+                    birthday: this.userData.birthday,
+                    age: this.userData.age,
+                    registerDate: this.userData.registerDate
                 },
-                achievements: [],
-                dialog: false,
+                achievements: this.achievements,
             };
-        },
-
-        mounted() {
-            this.fetchUserData()
         },
 
         methods: {
@@ -97,34 +89,6 @@
                     tablinks[i].style.backgroundColor = "";
                 }
                 document.getElementById(pageName).style.display = "block";
-            },
-
-            formatDate(date){
-                let d = new Date(date);
-                let day = d.getDate();
-                let month = d.getMonth()+1;
-                let year = d.getFullYear();
-                return day + '/' + month + '/' + year;
-            },
-
-            fetchUserData() {
-                this.username = sessionStorage.username;
-                console.log(sessionStorage.token);
-                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.username,{headers: { Authorization: sessionStorage.token}}).then(response => {
-                    var birthdayDate = this.formatDate(response.data.birthday);
-                    var registerDate = this.formatDate(response.data.registrationDate);
-                    this.userData.name = response.data.name;
-                    this.userData.surname = response.data.surname;
-                    this.userData.email = response.data.email;
-                    this.userData.birthday = birthdayDate;
-                    this.userData.age = response.data.age;
-                    this.gender = this.$t('profilePage.'+response.data.gender);
-                    this.achi_pub = response.data.publicAchievements ? "Public" : "Private";
-                    this.userData.registerDate = registerDate;
-                    this.achievements = response.data.achievements;
-                }).catch(error => {
-                    console.log(error.response.status)
-                })
             }
         }
     }
@@ -167,11 +131,6 @@
     .username_title {
         margin-bottom: 2%;
         font: 175% "Lucida Sans", sans-serif;
-    }
-
-    .dialog-panel{
-        margin-top: 5%;
-        margin-bottom: 5%;
     }
 
     .achievement-title{

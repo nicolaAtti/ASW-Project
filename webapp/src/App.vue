@@ -7,6 +7,8 @@
                 </v-btn>
 
                 <v-spacer/>
+                <v-text-field v-if="($route.path.includes('/home'))" height="20px" hide-details solo rounded single-line dense v-model="otherUser" placeholder="Search User" append-icon="mdi-account-search-outline" @click:append="searchUser()"/>
+
                 <v-btn rounded color= dark v-on:click="changeLang()">{{language}}</v-btn>
             </v-app-bar>
             <router-view class="pages"/>
@@ -18,6 +20,7 @@
 <script>
     import router from "./router";
     import VueI18n from "./i18n";
+    import axios from "axios";
     import registerServiceWorker from "./registerServiceWorker";
     import {initializeFirebase} from "./push-notification";
 
@@ -28,6 +31,7 @@
         },
         data: () => ({
             language: 'English',
+            otherUser: ''
         }),
 
         created() {
@@ -47,7 +51,43 @@
             },
             goBack() {
                 router.back();
-            }
+            },
+            searchUser(){
+                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/find/' + this.otherUser).then(response => {
+                    console.log(response.data);
+                    router.push({name: 'OtherUserProfilePage', params: {
+                            username: response.data.username,
+                            gender: this.$t('profilePage.'+response.data.gender),
+                            userData: {
+                                name: response.data.name,
+                                surname: response.data.surname,
+                                birthday: this.formatDate(response.data.birthday),
+                                age: response.data.age,
+                                registerDate: this.formatDate(response.data.registrationDate)
+                            },
+                            achievements: response.data.achievements,
+                        }
+                    });
+                    this.otherUser = ''
+                }).catch(error => {
+                    if(error.status === 404){
+                        this.otherUser = '';
+                        const snack = document.getElementById("snackbar");
+                        snack.className = "show";
+                        snack.innerHTML = this.$t('User not found, or profile not public');
+                        setTimeout(() => {
+                            snack.className = snack.className.replace("show","");
+                        }, 3000);
+                    }
+                })
+            },
+            formatDate(date){
+                let d = new Date(date);
+                let day = d.getDate();
+                let month = d.getMonth()+1;
+                let year = d.getFullYear();
+                return day + '/' + month + '/' + year;
+            },
         }
     }
 </script>
@@ -59,6 +99,7 @@
         -moz-osx-font-smoothing: grayscale;
         text-align: center;
         color: #2c3e50;
+        overflow: hidden;
     }
 
     .pages{

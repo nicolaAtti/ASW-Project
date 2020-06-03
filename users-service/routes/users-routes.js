@@ -352,6 +352,22 @@ module.exports = function(app) {
         }
     });
 
+    app.get('/users/find/:username', (req,res) => {
+        User.findOne({ username: req.params.username, publicAchievements: true }, { _id: 0, __v: 0 }, function (error, result) {
+            if (error || result === null) {
+                res.status(404).send({
+                    success: false,
+                    message: 'Resource not found or profile not public'
+                });
+            } else {
+                const response = JSON.parse(JSON.stringify(result));
+                response.age = user.age(result.birthday);
+                console.log(response);
+                res.send(response);
+            }
+        })
+    });
+
     app.get('/users/:username/achievements', (req, res) => {
         try {
             const token = req.header('Authorization').replace('Bearer ', '');

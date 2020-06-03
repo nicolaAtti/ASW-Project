@@ -7,6 +7,7 @@ import ProfilePage from "../components/ProfilePage";
 import AdminHomePage from "../components/AdminHomePage"
 import SessionsHistoryPage from "../components/SessionsHistoryPage";
 import AdminProfilePage from "../components/AdminProfilePage";
+import OtherUserProfilePage from "../components/OtherUserProfilePage";
 
 Vue.use(VueRouter)
 
@@ -45,6 +46,12 @@ Vue.use(VueRouter)
       path: '/home/sessions-history',
       name: 'SessionsHistoryPage',
       component: SessionsHistoryPage
+    },
+    {
+      path: '/home/other-user-profile',
+      name: 'OtherUserProfilePage',
+      component: OtherUserProfilePage,
+      props: true
     }
 ]
 
