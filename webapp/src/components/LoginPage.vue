@@ -53,7 +53,8 @@
                 this.errors = [];
                 e.preventDefault();
                 axios.post('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.input.username + '/authentication',{
-                    password: this.input.password
+                    password: this.input.password,
+                    firebaseUserToken: sessionStorage.firebase_token
                 }).then(response => {
                     console.log(response);
                     sessionStorage.token = "Bearer "+response.data.token;

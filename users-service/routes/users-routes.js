@@ -68,25 +68,13 @@ module.exports = function(app) {
         });
     });
 
-
-    /**
-     * Header of request:
-     * Authorization = ACHIEVEMENT_TOKEN --> sarà dentro l'env di ogni servizio
-     *
-     * Body of request:
-     * achievementFileName = NewBlood
-     * achievementTitle = New Blood
-     * firebaseUserToken = token (deve essere mandato dall'utente durante le altre richieste)
-     *
-     */
     app.patch('/users/:username/achievement', (req, res) => {
         if (req.header('Authorization') === process.env.ACHIEVEMENT_TOKEN) {
             const achievementFileName = req.body.achievementFileName;
-            const achievementTitle = req.body.achievementTitle
+            const achievementTitle = req.body.achievementTitle;
             const username = req.params.username;
-            //Add check for duplicate achievements -- trova un modo decente per gestire i ritorni
 
-            User.findOneAndUpdate({username: username, achievements: {$nin: [achievementFileName]}}, {$push: {achievements: achievementFileName}}, function (error, result) {
+            User.findOneAndUpdate({username: username, achievements: {$nin: [achievementFileName]}}, {$push: {achievements: achievementFileName}}, function (error,result) {
                 if (error) {
                     if (error.code === 11000) {
                         res.status(409).send({
@@ -246,10 +234,83 @@ module.exports = function(app) {
             } else {
                 if (req.body.password === result.password) {
                     const token = jsonwebtoken.sign({ username: req.params.username }, JWT_SECRET);
-                    res.send({
+                    const registrationDate = result.registrationDate;
+                    const today = new Date();
+                    const daysDiff = Math.ceil(Math.abs(today - registrationDate) / (1000*60*60*24));
+                    if(daysDiff >= 180 && daysDiff < 365){
+                        const achievementFileName = "AToastToUs";
+                        const achievementTitle = "A toast to us";
+                        User.findOneAndUpdate({username: req.params.username, achievements: {$nin: [achievementFileName]}}, {$push: {achievements: achievementFileName}}, function(error,result){
+                            if (error) {
+                                if (error.code === 11000) {
+                                    console.log("Failed to add achievement")
+                                } else {
+                                    if (error.name === "ValidationError") {
+                                        console.log("Failed to add achievement")
+                                    } else {
+                                        console.log("Failed to add achievement")
+                                    }
+                                }
+                            } else {
+                                if (result === null) {
+                                    console.log("Achievement already awarded")
+                                } else {
+                                    const notificationPayload = {
+                                        notification: {
+                                            title: "Achievement Earned!",
+                                            body: "Congratulations! You earned the achievement "+achievementTitle+" !",
+                                            icon: "party_icon.png"
+                                        },
+                                        to: req.body.firebaseUserToken
+                                    };
+                                    axios.post("https://fcm.googleapis.com/fcm/send", notificationPayload,{headers: { Authorization: "key="+process.env.FIREBASE_SENDER_TOKEN, 'Content-Type': "application/json"}}).then(response => {
+                                        console.log("Notification Sent" + response)
+                                    }).catch(error => {
+                                        console.log("Notification not sent" +error)
+                                    })
+                                }
+                            }
+                        });
+                    }
+                    if(daysDiff >= 365){
+                        const achievementFileName = "AYearWithUs";
+                        const achievementTitle = "A year with us";
+                        User.findOneAndUpdate({username: req.params.username, achievements: {$nin: [achievementFileName]}}, {$push: {achievements: achievementFileName}}, function(error,result){
+                            if (error) {
+                                if (error.code === 11000) {
+                                    console.log("Failed to add achievement")
+                                } else {
+                                    if (error.name === "ValidationError") {
+                                        console.log("Failed to add achievement")
+                                    } else {
+                                        console.log("Failed to add achievement")
+                                    }
+                                }
+                            } else {
+                                if (result === null) {
+                                    console.log("Achievement already awarded")
+                                } else {
+                                    const notificationPayload = {
+                                        notification: {
+                                            title: "Achievement Earned!",
+                                            body: "Congratulations! You earned the achievement "+achievementTitle+" !",
+                                            icon: "party_icon.png"
+                                        },
+                                        to: req.body.firebaseUserToken
+                                    };
+                                    axios.post("https://fcm.googleapis.com/fcm/send", notificationPayload,{headers: { Authorization: "key="+process.env.FIREBASE_SENDER_TOKEN, 'Content-Type': "application/json"}}).then(response => {
+                                        console.log("Notification Sent" + response)
+                                    }).catch(error => {
+                                        console.log("Notification not Sent" + error)
+                                    })
+                                }
+                            }
+                        });
+                    }
+                    res.status(201).send({
                         success: true,
                         token: token
-                    });
+                    })
                 } else {
                     res.status(401).send({
                         success: false,
@@ -319,4 +380,4 @@ module.exports = function(app) {
             });
         }
     });
-}
+};

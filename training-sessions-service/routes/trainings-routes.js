@@ -33,46 +33,20 @@ module.exports = function(app) {
                         })
                     }
             } else {
-                
-
-
-
-                if(req.body.caloriesBurned >= 200){
-                    const notificationBody = {
-                        "achievementFileName": "OnLowFlame",
-                        "achievementTitle": "On low flame",
-                        "firebaseUserToken": req.body.firebaseUserToken
-                    };
-                    axios.patch(process.env.USER_SERVICE_URL+req.params.username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
-                        console.log("Achievement awarded "+response)
-                    }).catch(error => {
-                        console.log("Achievement not awarded "+error)
-                    });
-                }
-                if(req.body.caloriesBurned >= 500){
-                    const notificationBody = {
-                        "achievementFileName": "BurnItBaby",
-                        "achievementTitle": "Burn it baby",
-                        "firebaseUserToken": req.body.firebaseUserToken
-                    };
-                    axios.patch(process.env.USER_SERVICE_URL+req.params.username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
-                        console.log("Achievement awarded "+response)
-                    }).catch(error => {
-                        console.log("Achievement not awarded "+error)
-                    });
-                }
-                if(req.body.caloriesBurned >= 1000){
-                    const notificationBody = {
-                        "achievementFileName": "Flambe",
-                        "achievementTitle": "Flambé",
-                        "firebaseUserToken": req.body.firebaseUserToken
-                    };
-                    axios.patch(process.env.USER_SERVICE_URL+req.params.username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
-                        console.log("Achievement awarded "+response)
-                    }).catch(error => {
-                        console.log("Achievement not awarded "+error)
-                    });
-                }
+                const notificationBody = {
+                    "achievementFileName": "WayToGo",
+                    "achievementTitle": "Way to go",
+                    "firebaseUserToken": req.body.firebaseUserToken
+                };
+                axios.patch(process.env.USER_SERVICE_URL+req.params.username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
+                    console.log("Achievement awarded "+response)
+                }).catch(error => {
+                    console.log("Achievement not awarded "+error)
+                });
+                checkContinuity(req.params.username,req.body.firebaseUserToken);
+                checkTotalCalories(req.params.username,req.body.firebaseUserToken);
+                checkTrainingCalories(req.params.username,req.body.firebaseUserToken,req.body.caloriesBurned);
+                checkTotalSteps(req.params.username,req.body.firebaseUserToken);
                 res.status(201).send({
                     success: true,
                     message: 'Training successfully created'
@@ -170,4 +144,206 @@ module.exports = function(app) {
             });
         }
     });
+};
+
+
+async function checkTotalCalories(username,firebaseToken) {
+    const result = await Training.aggregate([{
+        $match: {username: username},
+    }, {
+        $group: {
+            _id: null,
+            total: {
+                $sum: "$caloriesBurned"
+            }
+        }
+    }]);
+    if(result[0].total >= 20000){
+        const notificationBody = {
+            "achievementFileName": "ItsGettingHotInHere",
+            "achievementTitle": "It's getting hot in here",
+            "firebaseUserToken": firebaseToken
+        };
+        axios.patch(process.env.USER_SERVICE_URL+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
+            console.log("Achievement awarded "+response)
+        }).catch(error => {
+            console.log("Achievement not awarded "+error)
+        });
+    }
+    if(result[0].total >= 50000){
+        const notificationBody = {
+            "achievementFileName": "HotStuff",
+            "achievementTitle": "Hot Stuff",
+            "firebaseUserToken": firebaseToken
+        };
+        axios.patch(process.env.USER_SERVICE_URL+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
+            console.log("Achievement awarded "+response)
+        }).catch(error => {
+            console.log("Achievement not awarded "+error)
+        });
+    }
+    if(result[0].total >= 100000){
+        const notificationBody = {
+            "achievementFileName": "GrosslyIncandescent",
+            "achievementTitle": "Grossly Incandescent",
+            "firebaseUserToken": firebaseToken
+        };
+        axios.patch(process.env.USER_SERVICE_URL+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
+            console.log("Achievement awarded "+response)
+        }).catch(error => {
+            console.log("Achievement not awarded "+error)
+        });
+    }
 }
+
+function checkTrainingCalories(username,firebaseToken,calories) {
+    if(calories >= 200){
+        const notificationBody = {
+            "achievementFileName": "OnLowFlame",
+            "achievementTitle": "On low flame",
+            "firebaseUserToken": firebaseToken
+        };
+        axios.patch(process.env.USER_SERVICE_URL+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
+            console.log("Achievement awarded "+response)
+        }).catch(error => {
+            console.log("Achievement not awarded "+error)
+        });
+    }
+    if(calories >= 500){
+        const notificationBody = {
+            "achievementFileName": "BurnItBaby",
+            "achievementTitle": "Burn it baby",
+            "firebaseUserToken": firebaseToken
+        };
+        axios.patch(process.env.USER_SERVICE_URL+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
+            console.log("Achievement awarded "+response)
+        }).catch(error => {
+            console.log("Achievement not awarded "+error)
+        });
+    }
+    if(calories >= 1000){
+        const notificationBody = {
+            "achievementFileName": "Flambe",
+            "achievementTitle": "Flambé",
+            "firebaseUserToken": firebaseToken
+        };
+        axios.patch(process.env.USER_SERVICE_URL+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
+            console.log("Achievement awarded "+response)
+        }).catch(error => {
+            console.log("Achievement not awarded "+error)
+        });
+    }
+
+}
+
+async function checkTotalSteps(username,firebaseToken) {
+    const result = await Training.aggregate([{
+        $match: {username: username},
+    }, {
+        $group: {
+            _id: null,
+            total: {
+                $sum: "$steps"
+            }
+        }
+    }]);
+    if(result[0].total >= 50000){
+        const notificationBody = {
+            "achievementFileName": "ASmallStepForMan",
+            "achievementTitle": "A small step for man...",
+            "firebaseUserToken": firebaseToken
+        };
+        axios.patch(process.env.USER_SERVICE_URL+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
+            console.log("Achievement awarded "+response)
+        }).catch(error => {
+            console.log("Achievement not awarded "+error)
+        });
+    }
+    if(result[0].total >= 100000){
+        const notificationBody = {
+            "achievementFileName": "WalkItOff",
+            "achievementTitle": "Walk it off",
+            "firebaseUserToken": firebaseToken
+        };
+        axios.patch(process.env.USER_SERVICE_URL+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
+            console.log("Achievement awarded "+response)
+        }).catch(error => {
+            console.log("Achievement not awarded "+error)
+        });
+    }
+    if(result[0].total >= 500000){
+        const notificationBody = {
+            "achievementFileName": "MarathonReady",
+            "achievementTitle": "Marathon Ready",
+            "firebaseUserToken": firebaseToken
+        };
+        axios.patch(process.env.USER_SERVICE_URL+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
+            console.log("Achievement awarded "+response)
+        }).catch(error => {
+            console.log("Achievement not awarded "+error)
+        });
+    }
+}
+
+function checkContinuity(username,firebaseToken) {
+    Training.find({ username: username }, { _id: 0, __v: 0 }, function (error, result) {
+        if (result === null) {
+            console.log("No training data found")
+        } else {
+            const trainingDateList = result.map(entry => { return entry.startTime});
+            let counter = 0;
+            if(trainingDateList.length > 1){
+                for(let i=0; i<trainingDateList.length-2;i++) {
+                    var examined = new Date();
+                    examined.setDate(trainingDateList[i].getDate()+1);
+                    var examined2 = new Date();
+                    examined2.setDate(trainingDateList[i].getDate()+2);
+                    var next = new Date(trainingDateList[i+1]);
+                    if (examined.getDay() === next.getDay() || examined2.getDay() === next.getDay()) {
+                        counter++;
+                        if(counter > 5 && counter < 10){
+                            const notificationBody = {
+                                "achievementFileName": "SlowAndSteady",
+                                "achievementTitle": "Slow and steady",
+                                "firebaseUserToken": firebaseToken
+                            };
+                            axios.patch(process.env.USER_SERVICE_URL+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
+                                console.log("Achievement awarded "+response)
+                            }).catch(error => {
+                                console.log("Achievement not awarded "+error)
+                            });
+                        }
+                        if(counter > 10 && counter < 22){
+                            const notificationBody = {
+                                "achievementFileName": "KickIntoGear",
+                                "achievementTitle": "Kick into gear",
+                                "firebaseUserToken": firebaseToken
+                            };
+                            axios.patch(process.env.USER_SERVICE_URL+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
+                                console.log("Achievement awarded "+response)
+                            }).catch(error => {
+                                console.log("Achievement not awarded "+error)
+                            });
+                        }
+                        if(counter > 22){
+                            const notificationBody = {
+                                "achievementFileName": "ForceOfHabit",
+                                "achievementTitle": "Force of habit",
+                                "firebaseUserToken": firebaseToken
+                            };
+                            axios.patch(process.env.USER_SERVICE_URL+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
+                                console.log("Achievement awarded "+response)
+                            }).catch(error => {
+                                console.log("Achievement not awarded "+error)
+                            });
+                        }
+                    }else{
+                        counter = 0;
+                    }
+                }
+            }
+
+        }
+    }).limit(30);
+}
+
