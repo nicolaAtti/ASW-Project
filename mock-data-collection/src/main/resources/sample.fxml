@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane alignment="center" hgap="1.0" vgap="1.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+   <children>
+      <TabPane prefHeight="390.0" prefWidth="400.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Fitness data">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="467.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <GridPane>
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label text="Timestamp" />
+                                    <TextField id="timestamp" fx:id="timestamp" onAction="#sendFitnessData" GridPane.columnIndex="1" />
+                                    <Label layoutX="10.0" layoutY="17.0" text="Heart rate" GridPane.rowIndex="1" />
+                                    <TextField id="hearthRate" fx:id="heartRate" layoutX="110.0" layoutY="12.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label layoutX="10.0" layoutY="17.0" text="Steps" GridPane.rowIndex="2" />
+                                    <TextField id="steps" fx:id="steps" layoutX="110.0" layoutY="12.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label layoutX="10.0" layoutY="47.0" text="Calories burned" GridPane.rowIndex="3" />
+                                    <TextField id="caloriesBurned" fx:id="caloriesBurned" layoutX="110.0" layoutY="42.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <Label layoutX="10.0" layoutY="17.0" text="Latitude" GridPane.rowIndex="4" />
+                                    <TextField id="latitude" fx:id="latitude" layoutX="110.0" layoutY="12.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <Label layoutX="10.0" layoutY="47.0" text="Longitude" GridPane.rowIndex="5" />
+                                    <TextField id="longitude" fx:id="longitude" layoutX="110.0" layoutY="42.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <Label layoutX="10.0" layoutY="77.0" text="Altitude" GridPane.rowIndex="6" />
+                                    <TextField id="altitude" fx:id="altitude" layoutX="110.0" layoutY="72.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                 </children>
+                              </GridPane>
+                              <StackPane prefHeight="80.0" prefWidth="200.0">
+                                 <children>
+                                    <Button fx:id="sendFitnessDataButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#sendFitnessData" text="Send fitness data" />
+                                 </children>
+                              </StackPane>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Training data">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="467.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <GridPane>
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Label text="Start time" />
+                                    <TextField id="startTime" fx:id="startTime" GridPane.columnIndex="1" />
+                                    <Label layoutX="10.0" layoutY="17.0" text="End Time" GridPane.rowIndex="1" />
+                                    <TextField id="endTime" fx:id="endTime" layoutX="110.0" layoutY="12.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label layoutX="10.0" layoutY="17.0" text="Steps" GridPane.rowIndex="2" />
+                                    <TextField id="steps" fx:id="trainingSteps" layoutX="110.0" layoutY="12.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label layoutX="10.0" layoutY="47.0" text="Calories burned" GridPane.rowIndex="3" />
+                                    <TextField id="caloriesBurned" fx:id="trainingCaloriesBurned" layoutX="110.0" layoutY="42.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <Label layoutX="10.0" layoutY="17.0" text="Kilometers" GridPane.rowIndex="4" />
+                                    <TextField id="kilometers" fx:id="kilometers" layoutX="110.0" layoutY="12.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                    <Label layoutX="10.0" layoutY="47.0" text="Average speed" GridPane.rowIndex="5" />
+                                    <TextField id="avgSpeed" fx:id="avgSpeed" layoutX="110.0" layoutY="42.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <Label layoutX="10.0" layoutY="77.0" text="Max speed" GridPane.rowIndex="6" />
+                                    <TextField id="maxSpeed" fx:id="maxSpeed" layoutX="110.0" layoutY="72.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                    <Label layoutX="10.0" layoutY="167.0" text="Average heart rate" GridPane.rowIndex="7" />
+                                    <TextField id="avgHeartRate" fx:id="avgHeartRate" layoutX="110.0" layoutY="162.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                    <Label layoutX="10.0" layoutY="197.0" text="Average altitude" GridPane.rowIndex="8" />
+                                    <TextField id="avgAltitude" fx:id="avgAltitude" layoutX="110.0" layoutY="192.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                                 </children>
+                              </GridPane>
+                              <StackPane prefHeight="80.0" prefWidth="200.0">
+                                 <children>
+                                    <Button fx:id="sendTrainingDataButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#sendTrainingData" text="Send training data" />
+                                 </children>
+                              </StackPane>
+                           </children>
+                        </VBox>
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
+</GridPane>
