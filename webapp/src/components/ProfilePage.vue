@@ -1,11 +1,6 @@
 <template>
     <div id="profile_page">
         <div class="profile_top_card">
-            <v-avatar size="70">
-                <img
-                        src="avatar.png"
-                >
-            </v-avatar>
             <h2 class="username_title">{{ this.username }}</h2>
         </div>
         <button class="tablink" v-on:click="openPage('profile_tab')">{{ $t("profilePage.profileTab")}}</button>
