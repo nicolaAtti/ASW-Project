@@ -73,12 +73,10 @@ module.exports = function(app) {
             const achievementFileName = req.body.achievementFileName;
             const achievementTitle = req.body.achievementTitle;
             const username = req.params.username;
-            //Add check for duplicate achievements -- trova un modo decente per gestire i ritorni
 
             User.findOneAndUpdate({username: username, achievements: {$nin: [achievementFileName]}}, {$push: {achievements: achievementFileName}}, function (error,result) {
                 if (error) {
                     if (error.code === 11000) {
-
                         res.status(409).send({
                             success: false,
                             message: 'Username or email already present'
@@ -236,40 +234,26 @@ module.exports = function(app) {
             } else {
                 if (req.body.password === result.password) {
                     const token = jsonwebtoken.sign({ username: req.params.username }, JWT_SECRET);
-                    //controllo achievement --> modify user and send notification
-                    const registationDate = result.registrationDate;
+                    const registrationDate = result.registrationDate;
                     const today = new Date();
-                    const daysDiff = Math.ceil(Math.abs(today - registationDate) / (1000*60*60*24));
-                    if(daysDiff >= 180){
+                    const daysDiff = Math.ceil(Math.abs(today - registrationDate) / (1000*60*60*24));
+                    if(daysDiff >= 180 && daysDiff < 365){
                         const achievementFileName = "AToastToUs";
                         const achievementTitle = "A toast to us";
                         User.findOneAndUpdate({username: req.params.username, achievements: {$nin: [achievementFileName]}}, {$push: {achievements: achievementFileName}}, function(error,result){
                             if (error) {
                                 if (error.code === 11000) {
-
-                                    res.status(409).send({
-                                        success: false,
-                                        message: 'Username or email already present'
-                                    })
+                                    console.log("Failed to add achievement")
                                 } else {
                                     if (error.name === "ValidationError") {
-                                        res.status(400).send({
-                                            success: false,
-                                            message: 'Wrong parameters'
-                                        })
+                                        console.log("Failed to add achievement")
                                     } else {
-                                        res.status(500).send({
-                                            success: false,
-                                            message: 'Failed to save user'
-                                        })
+                                        console.log("Failed to add achievement")
                                     }
                                 }
                             } else {
                                 if (result === null) {
-                                    res.status(404).send({
-                                        success: false,
-                                        message: 'Username not found'
-                                    });
+                                    console.log("Achievement already awarded")
                                 } else {
                                     const notificationPayload = {
                                         notification: {
@@ -294,30 +278,17 @@ module.exports = function(app) {
                         User.findOneAndUpdate({username: req.params.username, achievements: {$nin: [achievementFileName]}}, {$push: {achievements: achievementFileName}}, function(error,result){
                             if (error) {
                                 if (error.code === 11000) {
-
-                                    res.status(409).send({
-                                        success: false,
-                                        message: 'Username or email already present'
-                                    })
+                                    console.log("Failed to add achievement")
                                 } else {
                                     if (error.name === "ValidationError") {
-                                        res.status(400).send({
-                                            success: false,
-                                            message: 'Wrong parameters'
-                                        })
+                                        console.log("Failed to add achievement")
                                     } else {
-                                        res.status(500).send({
-                                            success: false,
-                                            message: 'Failed to save user'
-                                        })
+                                        console.log("Failed to add achievement")
                                     }
                                 }
                             } else {
                                 if (result === null) {
-                                    res.status(404).send({
-                                        success: false,
-                                        message: 'Username not found'
-                                    });
+                                    console.log("Achievement already awarded")
                                 } else {
                                     const notificationPayload = {
                                         notification: {
