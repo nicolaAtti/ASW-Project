@@ -123,14 +123,17 @@
         color: #ffffff;
     }
     .login-page {
-        margin: 5% 5% 5% 5%;
-        width: 90%;
+        width: 100%;
         height: 100%;
         padding: 5%;
-        background: #FFF;
+        //background: #FFF;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.13);
         -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.13);
         -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.13);
+        background-image: url("../assets/profile-background-motive.jpg");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
     }
     .form {
         position: relative;
