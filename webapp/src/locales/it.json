@@ -4,7 +4,7 @@
   "it_lang": "Italiano",
   "en_lang": "Inglese",
   "loginPage": {
-    "app_title": "Titolo App",
+    "app_title": "ADS Training",
     "wrong_pass": "Password errata",
     "wrong_username": "Username non trovato"
   },
@@ -33,6 +33,8 @@
     "pub_achievements": "Mostra achievement pubblicamente."
   },
   "homePage": {
+    "searchText": "Ricerca utente",
+    "searchToast": "Utente non trovato, o profilo privato",
     "Profile": "Profilo",
     "Sessions History": "Riepilogo Allenamenti",
     "Sign Out": "Disconnetti",
@@ -114,6 +116,43 @@
     "Public": "Pubblico",
     "Privato": "Privato",
     "Pubblico": "Pubblico"
+  },
+  "achievements": {
+    "title": {
+      "ASmallStepForMan": "A small step for man...",
+      "AToastToUs": "A toast to us",
+      "AYearWithUs": "A year with us",
+      "BurnItBaby": "Burn it baby!",
+      "Flambe": "Flambé",
+      "ForceOfHabit": "Force of habit",
+      "GrosslyIncandescent": "Grossly incandescent",
+      "HotStuff": "Hot stuff",
+      "ItsGettingHotInHere": "It's getting hot in here!",
+      "KickIntoGear": "Kick into gear",
+      "MarathonReady": "Marathon ready",
+      "NewBlood": "New Blood",
+      "OnLowFlame": "On low flame",
+      "SlowAndSteady": "Slow and steady",
+      "WalkItOff": "Walk it off",
+      "WayToGo": "Way to go!"
+    },
+    "desc": {
+      "ASmallStepForMan": "Hai effettuato un totale di 100'000 passi su tutti i tuoi allenamenti, è solo l'inizio!",
+      "AToastToUs": "Sono passati sei mesi dalla tua registrazione,  ",
+      "AYearWithUs": "E' passato un anno dalla tua registrazione, è un momento da festeggiare!",
+      "BurnItBaby": "Hai bruciato almeno 500 kcal in un singolo allenamento, sento solo io odore di bruciato?",
+      "Flambe": "Hai bruciato più di 1000 kcal in un singolo allenamento, ",
+      "ForceOfHabit": "Hai mantenuto la continuità degli allenamenti in un mese saltando solo otto giornate, hai una disciplina di ferro!",
+      "GrosslyIncandescent": "Hai bruciato un totale di 100'000 kcal su tutti i tuoi allenamenti, ",
+      "HotStuff": "Hai bruciato un totale di 50'000 kcal su tutti i tuoi allenamenti,",
+      "ItsGettingHotInHere": "Hai bruciato un totale di 20'000 kcal su tutti i tuoi allenamenti,",
+      "KickIntoGear": "Hai mantenuto la continuità degli allenamenti nell'arco di due settimane saltando solo quattro giornate",
+      "MarathonReady": "Hai effettuato un totale di X passi su tutti i tuoi allenamenti,",
+      "NewBlood": "Registrati con successo ed accedi per la prima volta!",
+      "OnLowFlame": "Hai bruciato almeno 200 kcal in un singolo allenamento",
+      "SlowAndSteady": "Hai mantenuto la continuità degli allenamenti nell'arco di una settimane saltando solo due giornate",
+      "WalkItOff": "Hai effettuato un totale di X passi su tutti i tuoi allenamenti,",
+      "WayToGo": "Hai effettuato il tuo primo allenamento, sarà il primo di molti?"
+    }
   }
-
 }

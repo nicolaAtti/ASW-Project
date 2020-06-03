@@ -7,7 +7,7 @@
                 </v-btn>
 
                 <v-spacer/>
-                <v-text-field v-if="($route.path.includes('/home'))" height="20px" hide-details solo rounded single-line dense v-model="otherUser" placeholder="Search User" append-icon="mdi-account-search-outline" @click:append="searchUser()"/>
+                <v-text-field v-if="($route.path.includes('/home'))" height="20px" hide-details solo rounded single-line dense v-model="otherUser" :placeholder="this.$t('homePage.searchText')" append-icon="mdi-account-search-outline" @click:append="searchUser()"/>
 
                 <v-btn rounded color= dark v-on:click="changeLang()">{{language}}</v-btn>
             </v-app-bar>
@@ -74,7 +74,7 @@
                         this.otherUser = '';
                         const snack = document.getElementById("snackbar");
                         snack.className = "show";
-                        snack.innerHTML = this.$t('User not found, or profile not public');
+                        snack.innerHTML = this.$t('');
                         setTimeout(() => {
                             snack.className = snack.className.replace("show","");
                         }, 3000);

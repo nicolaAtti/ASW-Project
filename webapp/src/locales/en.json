@@ -4,7 +4,7 @@
   "it_lang": "Italiano",
   "en_lang": "English",
   "loginPage": {
-    "app_title": "App Title",
+    "app_title": "ADS Training",
     "wrong_password": "Wrong password",
     "wrong_username": "Username not found"
   },
@@ -33,6 +33,8 @@
     "pub_achievements": "Display achievements publicly."
   },
   "homePage": {
+    "searchText": "Search user",
+    "searchToast": "User not found, or private profile",
     "Profile": "Profile",
     "Sessions History": "Trainings Summary",
     "Sign Out": "Sign Out",
@@ -121,9 +123,17 @@
       "AToastToUs": "A toast to us",
       "AYearWithUs": "A year with us",
       "BurnItBaby": "Burn it baby!",
+      "Flambe": "Flambé",
+      "ForceOfHabit": "Force of habit",
+      "GrosslyIncandescent": "Grossly incandescent",
+      "HotStuff": "Hot stuff",
       "ItsGettingHotInHere": "It's getting hot in here!",
+      "KickIntoGear": "Kick into gear",
       "MarathonReady": "Marathon ready",
       "NewBlood": "New Blood",
+      "OnLowFlame": "On low flame",
+      "SlowAndSteady": "Slow and steady",
+      "WalkItOff": "Walk it off",
       "WayToGo": "Way to go!"
     },
     "desc": {
@@ -131,9 +141,17 @@
       "AToastToUs": "",
       "AYearWithUs": "",
       "BurnItBaby": "",
+      "Flambe": "",
+      "ForceOfHabit": "",
+      "GrosslyIncandescent": "",
+      "HotStuff": "",
       "ItsGettingHotInHere": "",
+      "KickIntoGear": "",
       "MarathonReady": "",
       "NewBlood": "Register successfully and login for the first time! Explore the features of the application!",
+      "OnLowFlame": "",
+      "SlowAndSteady": "",
+      "WalkItOff": "",
       "WayToGo": ""
     }
   }
