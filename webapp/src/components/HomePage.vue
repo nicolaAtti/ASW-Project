@@ -275,7 +275,7 @@
                         var etmin = et.getMinutes();
                         this.endTime = '' + eth + ':' + etmin + ' - ' + etd + '/' + etm + '/' + ety;
                     } else {
-                        this.startTime = this.$t('homePage.Training not found');
+                        this.startTime = 'Training not found';
                     }
                 })
             },
