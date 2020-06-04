@@ -55,12 +55,14 @@
     "Max Speed": "Velocità Massima",
     "Trainings Summary": "Riepilogo Allenamenti",
     "Loading": "Caricamento...",
-    "Weight not defined": "Peso non definito",
-    "Height not defined": "Altezza non definita",
-    "Training not found": "Allenamento non trovato",
+    "WeightNotDefined": "Peso non definito",
+    "HeightNotDefined": "Altezza non definita",
+    "TrainingNotFound": "Allenamento non trovato",
     "Registered Users": "Utenti Registrati",
     "Trainings Done": "Allenamenti Effettuati",
-    "Average Trainings Duration": "Durata Media Allenamenti"
+    "Average Trainings Duration": "Durata Media Allenamenti",
+    "heightNotDefined": "Altezza non inserita",
+    "weightNotDefined": "Peso non inserito"
   },
   "adminHomePage": {
     "Profile": "Profilo",

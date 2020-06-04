@@ -13,8 +13,8 @@
                 <h2>{{ $t('homePage.User Data') }}</h2>
                 <ul class="w3-ul w3-large" >
                     <li class="w3-padding-large">{{ $t('homePage.Age') }}<p>{{age}}</p></li>
-                    <li class="w3-padding-large">{{ $t('homePage.Weight') }}<p>{{weight}} {{kgr}}</p></li>
-                    <li class="w3-padding-large">{{ $t('homePage.Height') }}<p>{{height}} {{cmt}}</p></li>
+                    <li class="w3-padding-large">{{ $t('homePage.Weight') }}<p>{{ $t('homePage.'+weight) }} {{kgr}}</p></li>
+                    <li class="w3-padding-large">{{ $t('homePage.Height') }}<p>{{ $t('homePage.'+weight) }} {{cmt}}</p></li>
                 </ul>
             </div>
             <hr class="new5">
@@ -231,7 +231,7 @@
                         this.weight = response.data.weight;
                         this.kgr = 'kg';
                     } else {
-                        this.weight = this.$t('homePage.Weight not defined');
+                        this.weight = 'WeightNotDefined';
                     }
                 })
             },
@@ -242,7 +242,7 @@
                         this.height = response.data.height;
                         this.cmt = 'cm';
                     } else {
-                        this.height = this.$t('homePage.Height not defined');
+                        this.height = 'HeightNotDefined';
                     }
                 })
             },

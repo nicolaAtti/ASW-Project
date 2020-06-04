@@ -55,9 +55,9 @@
     "Max Speed": "Max Speed",
     "Trainings Summary": "Trainings Summary",
     "Loading": "Loading...",
-    "Weight not defined": "Weight not defined",
-    "Height not defined": "Height not defined",
-    "Training not found": "Training not found",
+    "WeightNotDefined": "Weight not defined",
+    "HeightNotDefined": "Height not defined",
+    "TrainingNotFound": "Training not found",
     "Registered Users": "Registered Users",
     "Trainings Done": "Trainings Done",
     "Average Trainings Duration": "Average Trainings Duration"

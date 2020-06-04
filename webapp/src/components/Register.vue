@@ -80,6 +80,7 @@
 <script>
     import axios from "axios";
     import router from "../router";
+    import VueI18n from "../i18n";
 
     export default {
         name: "Register",
@@ -112,11 +113,17 @@
                     try {
                         e.preventDefault();
                         console.log(sessionStorage.firebase_token);
+                        var translatedGender;
+                        if(VueI18n.locale !== 'en'){
+                            translatedGender = (this.gender === 'Maschio') ? "Male" : "Female";
+                        }else{
+                            translatedGender = this.gender;
+                        }
                         const response = await axios.post('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.username, {
                             name: this.name,
                             surname: this.surname,
-                            birthday: this.birthday,
-                            gender: this.gender,
+                            birthday: new Date(this.birthday),
+                            gender: translatedGender ,
                             height: this.height,
                             weight: this.weight,
                             email: this.email,
