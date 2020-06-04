@@ -219,13 +219,13 @@
                 router.push('home/sessions-history')
             },
             loadAge() {
-                this.age = this.$t('homePage.Loading');
+                this.age = 'Loading';
                 axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.username, {headers: { Authorization: sessionStorage.token}}).then(response => {
                     this.age = response.data.age;
                 })
             },
             loadWeight() {
-                this.weight = this.$t('homePage.Loading');
+                this.weight = 'Loading';
                 axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_FAT + '/users/' + this.username + '/fat/latest', {headers: { Authorization: sessionStorage.token}}).then(response => {
                     if(!(response.data.weight == undefined)){
                         this.weight = response.data.weight;
@@ -236,7 +236,7 @@
                 })
             },
             loadHeight() {
-                this.height = this.$t('homePage.Loading');
+                this.height = 'Loading';
                 axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.username, {headers: { Authorization: sessionStorage.token}}).then(response => {
                     if(!(response.data.height == undefined)){
                         this.height = response.data.height;

@@ -137,22 +137,22 @@
       "WayToGo": "Way to go!"
     },
     "desc": {
-      "ASmallStepForMan": "",
-      "AToastToUs": "",
-      "AYearWithUs": "",
-      "BurnItBaby": "",
-      "Flambe": "",
-      "ForceOfHabit": "",
-      "GrosslyIncandescent": "",
-      "HotStuff": "",
-      "ItsGettingHotInHere": "",
-      "KickIntoGear": "",
-      "MarathonReady": "",
-      "NewBlood": "Register successfully and login for the first time! Explore the features of the application!",
-      "OnLowFlame": "",
-      "SlowAndSteady": "",
-      "WalkItOff": "",
-      "WayToGo": ""
+      "ASmallStepForMan": "You have made a total of 100'000 steps between all your workouts, and it's just the beginning!",
+      "AToastToUs": "Six months have passed since your registration,  ",
+      "AYearWithUs": "A year has passed since your registration, it's time to celebrate!",
+      "BurnItBaby": "You have burned at least 500 kcal in a single workout, do I just smell burning?",
+      "Flambe": "You have burned at least 1000 kcal in a single workout, ",
+      "ForceOfHabit": "You kept your workout continuity over a month by skipping only eight days, you have an iron discipline!",
+      "GrosslyIncandescent": "You burned a total of 100'000 kcal between all your workouts, ",
+      "HotStuff": "You burned a total of 50'000 kcal between all your workouts,",
+      "ItsGettingHotInHere": "You burned a total of 20'000 kcal between all your workouts,",
+      "KickIntoGear": "You kept your workout continuity over two weeks by skipping just four days, ",
+      "MarathonReady": "You have made a total of X steps between all your workouts,",
+      "NewBlood": "Register successfully and log in for the first time!",
+      "OnLowFlame": "You have burned at least 200 kcal in a single workout",
+      "SlowAndSteady": "You kept your workout continuity over the course of a week by skipping just two days",
+      "WalkItOff": "You have made a total of Y steps between all your workouts,",
+      "WayToGo": "You completed your first workout, will it be the first of many?"
     }
   }
 

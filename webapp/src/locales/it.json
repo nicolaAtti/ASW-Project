@@ -121,22 +121,22 @@
   },
   "achievements": {
     "title": {
-      "ASmallStepForMan": "A small step for man...",
-      "AToastToUs": "A toast to us",
-      "AYearWithUs": "A year with us",
-      "BurnItBaby": "Burn it baby!",
+      "ASmallStepForMan": "Un piccolo passo per l'uomo...",
+      "AToastToUs": "Un brindisi a noi",
+      "AYearWithUs": "Un anno con noi",
+      "BurnItBaby": "Brucialo baby!",
       "Flambe": "Flambé",
-      "ForceOfHabit": "Force of habit",
+      "ForceOfHabit": "Forza dell'abitudine",
       "GrosslyIncandescent": "Grossly incandescent",
-      "HotStuff": "Hot stuff",
-      "ItsGettingHotInHere": "It's getting hot in here!",
-      "KickIntoGear": "Kick into gear",
-      "MarathonReady": "Marathon ready",
-      "NewBlood": "New Blood",
-      "OnLowFlame": "On low flame",
-      "SlowAndSteady": "Slow and steady",
-      "WalkItOff": "Walk it off",
-      "WayToGo": "Way to go!"
+      "HotStuff": "Roba calda",
+      "ItsGettingHotInHere": "Si sta facendo caldo qui",
+      "KickIntoGear": "Ingranare la marcia",
+      "MarathonReady": "Pronto per la maratona",
+      "NewBlood": "Nuovo sangue",
+      "OnLowFlame": "A fiamma bassa",
+      "SlowAndSteady": "Lento e costante",
+      "WalkItOff": "Cammina che ti passa",
+      "WayToGo": "Così si fa!"
     },
     "desc": {
       "ASmallStepForMan": "Hai effettuato un totale di 100'000 passi su tutti i tuoi allenamenti, è solo l'inizio!",
@@ -154,7 +154,7 @@
       "OnLowFlame": "Hai bruciato almeno 200 kcal in un singolo allenamento",
       "SlowAndSteady": "Hai mantenuto la continuità degli allenamenti nell'arco di una settimane saltando solo due giornate",
       "WalkItOff": "Hai effettuato un totale di X passi su tutti i tuoi allenamenti,",
-      "WayToGo": "Hai effettuato il tuo primo allenamento, sarà il primo di molti?"
+      "WayToGo": "Hai completato il tuo primo allenamento, sarà il primo di molti?"
     }
   }
 }
