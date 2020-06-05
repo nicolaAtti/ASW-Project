@@ -62,6 +62,9 @@
     "Trainings Done": "Trainings Done",
     "Average Trainings Duration": "Average Trainings Duration"
   },
+  "sessionHistoryPage":{
+    "NoTrainingsFound": "No Trainings Found"
+  },
   "adminHomePage": {
     "Profile": "Profile",
     "Sign Out": "Sign Out",

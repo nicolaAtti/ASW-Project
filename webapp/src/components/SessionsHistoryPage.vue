@@ -6,7 +6,7 @@
         <div class="col-9 col-s-4">
             <div class="w3-container">
                 <h1>{{ $t('homePage.Trainings Summary') }}</h1>
-                <h2>{{trainingNotFound}}</h2>
+                <h2>{{$t(trainingNotFound)}}</h2>
                 <template v-for="block in myData">
                     <TrainingComponent :block="block" :key="block.sessionId"></TrainingComponent>
                 </template>
@@ -68,7 +68,7 @@
                         }
                         this.myData = response.data;
                     } else {
-                        this.trainingNotFound = 'No Trainings Found';
+                        this.trainingNotFound = 'sessionHistoryPage.NoTrainingsFound';
                     }
                 })
             }

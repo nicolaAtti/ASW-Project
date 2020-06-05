@@ -21,7 +21,7 @@
             <div class="w3-container">
                 <h2>{{ $t('homePage.Last Training Summary') }}</h2>
                 <ul class="w3-ul">
-                    <li class="w3-padding-large">{{ $t('homePage.Start Time') }}<p>{{startTime}}</p></li>
+                    <li class="w3-padding-large">{{ $t('homePage.Start Time') }}<p>{{ $t(startTime) }}</p></li>
                     <li class="w3-padding-large">{{ $t('homePage.End Time') }}<p>{{endTime}}</p></li>
                     <li class="w3-padding-large">{{ $t('homePage.Calories Burned') }}<p>{{caloriesBurned}}</p></li>
                     <li class="w3-padding-large">{{ $t('homePage.Average Heart Beat') }}<p>{{avgHeartRate}} {{bmin}}</p></li>
@@ -36,7 +36,7 @@
             <h3>{{ $t('homePage.Steps') }}</h3>
             <ejs-chart id="container" :primaryXAxis='primaryXAxis_steps' :primaryYAxis='primaryYAxis_steps' :tooltip='tooltip' :border='border' >
                 <e-series-collection>
-                    <e-series :dataSource='seriesDataSteps' type='Column' xName='month' yName='steps' name='Steps' :marker='marker'> </e-series>
+                    <e-series :dataSource='seriesDataSteps' type='Column' xName= 'month' yName='steps' name='Steps' :marker='marker'> </e-series>
                 </e-series-collection>
             </ejs-chart>
             <hr class="new4">
@@ -231,7 +231,7 @@
                         this.weight = response.data.weight;
                         this.kgr = 'kg';
                     } else {
-                        this.weight = this.$t('homePage.WeightNotDefined');
+                        this.weight = 'homePage.WeightNotDefined';
                     }
                 })
             },
@@ -242,7 +242,7 @@
                         this.height = response.data.height;
                         this.cmt = 'cm';
                     } else {
-                        this.height = this.$t('homePage.HeightNotDefined');
+                        this.height = 'homePage.HeightNotDefined';
                     }
                 })
             },
@@ -275,7 +275,7 @@
                         var etmin = et.getMinutes();
                         this.endTime = '' + eth + ':' + etmin + ' - ' + etd + '/' + etm + '/' + ety;
                     } else {
-                        this.startTime = 'Training not found';
+                        this.startTime = 'homePage.TrainingNotFound';
                     }
                 })
             },
