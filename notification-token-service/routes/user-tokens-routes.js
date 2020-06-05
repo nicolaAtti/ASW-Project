@@ -1,50 +1,33 @@
-const user = require("../models/user-tokens");
-const User = user.model;
+const User = require("../models/user-tokens");
 
 module.exports = function(app) {
     app.post('/users/:username/notification-token', (req, res) => {
         if (req.header('Authorization') === process.env.NOTIFICATION_TOKEN) {
-            User.findOneAndUpdate({username: req.params.username, tokens: {$nin: [req.body.firebaseUserToken]}}, {$push: {tokens: req.body.firebaseUserToken}}, function (error,result) {
-                if(result){
-                    console.log(result);
+            User.findOneAndUpdate({username: req.params.username, tokens: {$nin: [req.body.firebaseUserToken]}}, {$push: {tokens: req.body.firebaseUserToken}},{upsert: true},function (error, result) {
+                if (error) {
+                    if (error.code === 11000) {
+                        res.status(409).send({
+                            success: false,
+                            message: 'Username or email already present'
+                        })
+                    }else{
+                        res.status(500).send({
+                            success: false,
+                            message: 'Failed to update token list'
+                        })
+                    }
+                } else {
                     res.status(200).send({
                         success: true,
                         message: 'Token added to user'
-                    })
-                }else{
-                    var user = new User({
-                        username: req.params.username,
-                        tokens: [req.body.firebaseUserToken]
-                    });
-                    user.save(function (error){
-                        if (error) {
-                            if (error.code === 11000) {
-                                res.status(409).send({
-                                    success: false,
-                                    message: 'Username or email already present'
-                                })
-                            } else {
-                                if (error.name === "ValidationError") {
-                                    res.status(400).send({
-                                        success: false,
-                                        message: 'Wrong parameters'
-                                    })
-                                } else {
-                                    res.status(500).send({
-                                        success: false,
-                                        message: 'Failed to save user'
-                                    })
-                                }
-                            }
-                        } else {
-                            res.status(200).send({
-                                success: true,
-                                message: 'User added to token databse'
-                            })
-                        }
                     });
                 }
-            })
+            });
+        }else{
+            res.status(401).send({
+                success: false,
+                message: 'Wrong token'
+            });
         }
     });
 

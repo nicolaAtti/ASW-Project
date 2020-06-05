@@ -125,19 +125,37 @@
                             birthday: new Date(this.birthday),
                             gender: translatedGender ,
                             height: this.height,
-                            weight: this.weight,
                             email: this.email,
                             password: this.password,
                             publicAchievements: this.achi_pub,
                             firebaseUserToken: sessionStorage.firebase_token
                         });
                         if (response.status === 201) {
-                            router.back();
-                            const snack = document.getElementById("snackbar");
-                            snack.className = "show";
-                            setTimeout(() => {
-                                snack.className = snack.className.replace("show", "");
-                            }, 3000)
+                            axios.post()
+                            console.log("Effettuo la login dopo la register");
+                            axios.post('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.username + '/authentication',{
+                                password: this.password,
+                                firebaseUserToken: sessionStorage.firebase_token
+                            }).then(response => {
+                                sessionStorage.token = "Bearer "+response.data.token;
+                                sessionStorage.username = this.username;
+                                if(this.weight !== undefined){
+                                    axios.post('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_FAT + '/users/' + this.username + '/fat', { weight: this.weight, timestamp: new Date()}, { headers: {Authorization: sessionStorage.token}}).then( () => {
+                                        console.log("Username register "+sessionStorage.username);
+                                        const snack = document.getElementById("snackbar");
+                                        snack.className = "show";
+                                        setTimeout(() => {
+                                            snack.className = snack.className.replace("show", "");
+                                        }, 3000);
+                                        router.push('home');
+                                    }).catch(error => {
+                                        console.log("Error in saving fat value "+error)
+                                    })
+                                }
+                            }, error => {
+                                console.log(error);
+                                this.errors = [];
+                            });
                         }
                     } catch (err) {
                         if (err.response.status === 409) {

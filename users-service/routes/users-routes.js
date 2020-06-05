@@ -42,7 +42,6 @@ module.exports = function(app) {
                     }
                 }
             } else {
-                axios.get(process.env.USER_SERVICE_URL+username+'/achievement').then()
                 const notificationPayload = {
                     notification: {
                         title: "Achievement Earned!",
@@ -51,7 +50,12 @@ module.exports = function(app) {
                     },
                     to: req.body.firebaseUserToken
                 };
-                axios.post("https://fcm.googleapis.com/fcm/send", notificationPayload,{headers: { Authorization: "key="+process.env.FIREBASE_SENDER_TOKEN, 'Content-Type': "application/json"}}).then(response => {
+                axios.post("https://fcm.googleapis.com/fcm/send", notificationPayload, {
+                    headers: {
+                        Authorization: "key=" + process.env.FIREBASE_SENDER_TOKEN,
+                        'Content-Type': "application/json"
+                    }
+                }).then(response => {
                     console.log("Achievement request executed successfully");
                     res.status(201).send({
                         success: true,
@@ -102,25 +106,31 @@ module.exports = function(app) {
                             message: 'Username not found'
                         });
                     } else {
-                        const notificationPayload = {
-                            notification: {
-                                title: "Achievement Earned!",
-                                body: "Congratulations! You earned the achievement "+achievementTitle+" !",
-                                icon: "party_icon.png"
-                            },
-                            to: req.body.firebaseUserToken
-                        };
-                        axios.post("https://fcm.googleapis.com/fcm/send", notificationPayload,{headers: { Authorization: "key="+process.env.FIREBASE_SENDER_TOKEN, 'Content-Type': "application/json"}}).then(response => {
-                            res.send({
-                                success: true,
-                                message: 'Achievement successfully assigned'
-                            });
-                        }).catch(error => {
-                            res.send({
-                                success: true,
-                                message: 'Failed to award achievement:'+error
+                        axios.get(process.env.NOTIFICATION_SERVICE_URL+username+'/notification-token',{headers: { Authorization: process.env.NOTIFICATION_TOKEN}}).then(response => {
+                            response.body.tokens.forEach(token => {
+                                const notificationPayload = {
+                                    notification: {
+                                        title: "Achievement Earned!",
+                                        body: "Congratulations! You earned the achievement "+achievementTitle+" !",
+                                        icon: "party_icon.png"
+                                    },
+                                    to: token
+                                };
+                                axios.post("https://fcm.googleapis.com/fcm/send", notificationPayload,{headers: { Authorization: "key="+process.env.FIREBASE_SENDER_TOKEN, 'Content-Type': "application/json"}}).then(response => {
+                                    res.send({
+                                        success: true,
+                                        message: 'Achievement successfully assigned'
+                                    });
+                                }).catch(error => {
+                                    res.send({
+                                        success: true,
+                                        message: 'Failed to award achievement:'+error
+                                    })
+                                })
                             })
-                        })
+                        }).catch(error => {
+                            console.log("Error in getting tokens "+error);
+                        });
                     }
                 }
             });
@@ -235,10 +245,19 @@ module.exports = function(app) {
             } else {
                 if (req.body.password === result.password) {
                     const token = jsonwebtoken.sign({ username: req.params.username }, JWT_SECRET);
+
+                    //Post firebaseToken
+                    console.log("Firebase    "+req.body.firebaseUserToken);
+                    axios.post(process.env.NOTIFICATION_SERVICE_URL+req.params.username+'/notification-token', {firebaseUserToken: req.body.firebaseUserToken},{headers: { Authorization: process.env.NOTIFICATION_TOKEN}}).then(() => {
+                        console.log("New token added")
+                    }).catch(() => {
+                        console.log("Token already present")
+                    });
                     const registrationDate = result.registrationDate;
                     const today = new Date();
                     const daysDiff = Math.ceil(Math.abs(today - registrationDate) / (1000*60*60*24));
                     if(daysDiff >= 180 && daysDiff < 365){
+
                         const achievementFileName = "AToastToUs";
                         const achievementTitle = "A toast to us";
                         User.findOneAndUpdate({username: req.params.username, achievements: {$nin: [achievementFileName]}}, {$push: {achievements: achievementFileName}}, function(error,result){
@@ -256,18 +275,21 @@ module.exports = function(app) {
                                 if (result === null) {
                                     console.log("Achievement already awarded")
                                 } else {
-                                    const notificationPayload = {
-                                        notification: {
-                                            title: "Achievement Earned!",
-                                            body: "Congratulations! You earned the achievement "+achievementTitle+" !",
-                                            icon: "party_icon.png"
-                                        },
-                                        to: req.body.firebaseUserToken
-                                    };
-                                    axios.post("https://fcm.googleapis.com/fcm/send", notificationPayload,{headers: { Authorization: "key="+process.env.FIREBASE_SENDER_TOKEN, 'Content-Type': "application/json"}}).then(response => {
-                                        console.log("Notification Sent" + response)
-                                    }).catch(error => {
-                                        console.log("Notification not sent" +error)
+
+                                    result.body.tokens.forEach(token => {
+                                        const notificationPayload = {
+                                            notification: {
+                                                title: "Achievement Earned!",
+                                                body: "Congratulations! You earned the achievement "+achievementTitle+" !",
+                                                icon: "party_icon.png"
+                                            },
+                                            to: token
+                                        };
+                                        axios.post("https://fcm.googleapis.com/fcm/send", notificationPayload,{headers: { Authorization: "key="+process.env.FIREBASE_SENDER_TOKEN, 'Content-Type': "application/json"}}).then(response => {
+                                            console.log("Notification Sent" + response)
+                                        }).catch(error => {
+                                            console.log("Notification not sent" +error)
+                                        })
                                     })
                                 }
                             }
@@ -291,18 +313,20 @@ module.exports = function(app) {
                                 if (result === null) {
                                     console.log("Achievement already awarded")
                                 } else {
-                                    const notificationPayload = {
-                                        notification: {
-                                            title: "Achievement Earned!",
-                                            body: "Congratulations! You earned the achievement "+achievementTitle+" !",
-                                            icon: "party_icon.png"
-                                        },
-                                        to: req.body.firebaseUserToken
-                                    };
-                                    axios.post("https://fcm.googleapis.com/fcm/send", notificationPayload,{headers: { Authorization: "key="+process.env.FIREBASE_SENDER_TOKEN, 'Content-Type': "application/json"}}).then(response => {
-                                        console.log("Notification Sent" + response)
-                                    }).catch(error => {
-                                        console.log("Notification not Sent" + error)
+                                    response.body.tokens.forEach(token => {
+                                        const notificationPayload = {
+                                            notification: {
+                                                title: "Achievement Earned!",
+                                                body: "Congratulations! You earned the achievement "+achievementTitle+" !",
+                                                icon: "party_icon.png"
+                                            },
+                                            to: token
+                                        };
+                                        axios.post("https://fcm.googleapis.com/fcm/send", notificationPayload,{headers: { Authorization: "key="+process.env.FIREBASE_SENDER_TOKEN, 'Content-Type': "application/json"}}).then(response => {
+                                            console.log("Notification Sent" + response)
+                                        }).catch(error => {
+                                            console.log("Notification not Sent" + error)
+                                        })
                                     })
                                 }
                             }

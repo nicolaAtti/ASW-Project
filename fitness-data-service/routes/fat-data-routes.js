@@ -130,8 +130,8 @@ module.exports = function(app) {
             if (req.params.username === decodedJwt.username) {
                 FatData.findOne({ username: decodedJwt.username }, { _id: 0, __v: 0 }, { sort: { 'timestamp' : -1 } }, function (error, result) {
                     if (result === null) {
-                        res.send({
-                            success: true,
+                        res.status(404).send({
+                            success: false,
                             message: 'No fat data found'
                         });
                     } else {
