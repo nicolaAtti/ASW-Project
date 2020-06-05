@@ -17,14 +17,14 @@
             </div>
             <hr class="new5">
             <h3>{{ $t('homePage.Registered Users') }}</h3>
-            <ejs-chart id="container" :primaryXAxis='primaryXAxis_users' :primaryYAxis='primaryYAxis_users' :tooltip='tooltip' :border='border' :legendSettings='legendSettings'>
+            <ejs-chart id="container" :primaryXAxis='primaryXAxis_users' :primaryYAxis='primaryYAxis_users' :tooltip='tooltip' :border='border' :legendSettings='legendSettings' :zoomSettings='zoom'>
                 <e-series-collection>
                     <e-series :dataSource='seriesDataUsers' type='Line' xName='month' yName='users' name='Users' :marker='marker'> </e-series>
                 </e-series-collection>
             </ejs-chart>
             <hr class="new4">
             <h3>{{ $t('homePage.Trainings Done') }}</h3>
-            <ejs-chart id="container2" :primaryXAxis='primaryXAxis_trainings' :primaryYAxis='primaryYAxis_trainings' :tooltip='tooltip' :border='border' :legendSettings='legendSettings'>
+            <ejs-chart id="container2" :primaryXAxis='primaryXAxis_trainings' :primaryYAxis='primaryYAxis_trainings' :tooltip='tooltip' :border='border' :legendSettings='legendSettings' :zoomSettings='zoom'>
                 <e-series-collection>
                     <e-series :dataSource='seriesDataTrainings' type='Column' xName='month' yName='under30' name='Under 30' :marker='marker'> </e-series>
                     <e-series :dataSource='seriesDataTrainings' type='Column' xName='month' yName='under60' name='Under 60' :marker='marker'> </e-series>
@@ -33,7 +33,7 @@
             </ejs-chart>
             <hr class="new4">
             <h3>{{ $t('homePage.Average Trainings Duration') }}</h3>
-            <ejs-chart id="container3" :primaryXAxis='primaryXAxis_timeTraining' :primaryYAxis='primaryYAxis_timeTraining' :tooltip='tooltip' :border='border' :legendSettings='legendSettings'>
+            <ejs-chart id="container3" :primaryXAxis='primaryXAxis_timeTraining' :primaryYAxis='primaryYAxis_timeTraining' :tooltip='tooltip' :border='border' :legendSettings='legendSettings' :zoomSettings='zoom'>
                 <e-series-collection>
                     <e-series :dataSource='seriesDataTimeTraining' type='Column' xName='month' yName='under30' name='Under 30' :marker='marker'> </e-series>
                     <e-series :dataSource='seriesDataTimeTraining' type='Column' xName='month' yName='under60' name='Under 60' :marker='marker'> </e-series>
@@ -47,7 +47,7 @@
 
 <script>
     import Vue from 'vue';
-    import {ChartPlugin, ColumnSeries, LineSeries, Category, DataLabel, Tooltip, Legend} from '@syncfusion/ej2-vue-charts';
+    import {ChartPlugin, ColumnSeries, LineSeries, Category, DataLabel, Tooltip, Legend, Zoom} from '@syncfusion/ej2-vue-charts';
     import router from "../router";
     import axios from "axios";
     Vue.use(ChartPlugin);
@@ -136,10 +136,14 @@
                     }
                 },
                 tooltip:{ enable: true },
+                zoom: {
+                    enableMouseWheelZooming: true,
+                    enablePinchZooming: true
+                }
             };
         },
         provide: {
-            chart: [LineSeries, ColumnSeries, Category, DataLabel, Tooltip, Legend]
+            chart: [LineSeries, ColumnSeries, Category, DataLabel, Tooltip, Legend, Zoom]
         },
         created() {
             this.loadTotalUsers();

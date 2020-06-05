@@ -34,28 +34,28 @@
             </div>
             <hr class="new5">
             <h3>{{ $t('homePage.Steps') }}</h3>
-            <ejs-chart id="container" :primaryXAxis='primaryXAxis_steps' :primaryYAxis='primaryYAxis_steps' :tooltip='tooltip' :border='border' >
+            <ejs-chart id="container" :primaryXAxis='primaryXAxis_steps' :primaryYAxis='primaryYAxis_steps' :tooltip='tooltip' :border='border' :zoomSettings='zoom'>
                 <e-series-collection>
-                    <e-series :dataSource='seriesDataSteps' type='Column' xName= 'month' yName='steps' name='Steps' :marker='marker'> </e-series>
+                    <e-series :dataSource= 'seriesDataSteps' type='Column' xName= 'month' yName='steps' name='Steps' :marker='marker'> </e-series>
                 </e-series-collection>
             </ejs-chart>
             <hr class="new4">
             <h3>{{ $t('homePage.Calories Burned') }}</h3>
-            <ejs-chart id="container2" :primaryXAxis='primaryXAxis_calories' :primaryYAxis='primaryYAxis_calories' :tooltip='tooltip' :border='border' >
+            <ejs-chart id="container2" :primaryXAxis='primaryXAxis_calories' :primaryYAxis='primaryYAxis_calories' :tooltip='tooltip' :border='border' :zoomSettings='zoom' >
                 <e-series-collection>
                     <e-series :dataSource='seriesDataCalories' type='Column' xName='month' yName='calories' name='Calories' :marker='marker'> </e-series>
                 </e-series-collection>
             </ejs-chart>
             <hr class="new4">
             <h3>{{ $t('homePage.Kilometers Traveled') }}</h3>
-            <ejs-chart id="container3" :primaryXAxis='primaryXAxis_km' :primaryYAxis='primaryYAxis_km' :tooltip='tooltip' :border='border' >
+            <ejs-chart id="container3" :primaryXAxis='primaryXAxis_km' :primaryYAxis='primaryYAxis_km' :tooltip='tooltip' :border='border' :zoomSettings='zoom'>
                 <e-series-collection>
                     <e-series :dataSource='seriesDataKm' type='Column' xName='month' yName='km' name='Km' :marker='marker'> </e-series>
                 </e-series-collection>
             </ejs-chart>
             <hr class="new4">
             <h3>{{ $t('homePage.Average Speed') }}</h3>
-            <ejs-chart id="container4" :primaryXAxis='primaryXAxis_AvgSpeed' :primaryYAxis='primaryYAxis_AvgSpeed' :tooltip='tooltip' :border='border' >
+            <ejs-chart id="container4" :primaryXAxis='primaryXAxis_AvgSpeed' :primaryYAxis='primaryYAxis_AvgSpeed' :tooltip='tooltip' :border='border' :zoomSettings='zoom'>
                 <e-series-collection>
                     <e-series :dataSource='seriesDataAvgSpeed' type='Column' xName='month' yName='km_h' name='AvgSpeed' :marker='marker'> </e-series>
                 </e-series-collection>
@@ -67,7 +67,7 @@
 
 <script>
     import Vue from 'vue';
-    import {Category, ChartPlugin, ColumnSeries, DataLabel, LineSeries, Tooltip} from '@syncfusion/ej2-vue-charts';
+    import {Category, ChartPlugin, ColumnSeries, DataLabel, LineSeries, Tooltip, Zoom} from '@syncfusion/ej2-vue-charts';
     import router from "../router";
     import axios from "axios";
 
@@ -191,11 +191,15 @@
                     }
                 },
                 tooltip:{ enable: true },
+                zoom: {
+                        enableMouseWheelZooming: true,
+                        enablePinchZooming: true
+                }
             };
         },
 
         provide: {
-            chart: [LineSeries, ColumnSeries, Category, DataLabel, Tooltip]
+            chart: [LineSeries, ColumnSeries, Category, DataLabel, Tooltip, Zoom]
         },
         created() {
             this.loadAge();
