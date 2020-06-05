@@ -43,7 +43,7 @@
             <h3>{{ $t('homePage.Calories Burned') }}</h3>
             <ejs-chart id="container2" :primaryXAxis='primaryXAxis_calories' :primaryYAxis='primaryYAxis_calories' :tooltip='tooltip' :border='border' :zoomSettings='zoom' >
                 <e-series-collection>
-                    <e-series :dataSource='seriesDataCalories' type='Column' xName='month' yName='calories' name='Calories' :marker='marker'> </e-series>
+                    <e-series :dataSource='seriesDataCalories' type='Column' xName= 'month' yName='calories' name='Calories' :marker='marker'> </e-series>
                 </e-series-collection>
             </ejs-chart>
             <hr class="new4">
@@ -70,6 +70,7 @@
     import {Category, ChartPlugin, ColumnSeries, DataLabel, LineSeries, Tooltip, Zoom} from '@syncfusion/ej2-vue-charts';
     import router from "../router";
     import axios from "axios";
+    import VueI18n from "../i18n";
 
     Vue.use(ChartPlugin);
 
@@ -210,6 +211,39 @@
             this.loadCaloriesSummary();
             this.loadKilometersSummary();
             this.loadAvgSpeedSummary();
+        },
+        beforeUpdate() {
+            const monthNamesEnglish = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
+                'September', 'October', 'November', 'December'];
+            const monthNamesItalian = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto',
+                'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
+            if(VueI18n.locale === 'en') {
+                for(let i = 0; i < this.seriesDataSteps.length; i++) {
+                    this.seriesDataSteps[i].month = monthNamesEnglish[i];
+                }
+                for(let i = 0; i < this.seriesDataCalories.length; i++) {
+                    this.seriesDataCalories[i].month = monthNamesEnglish[i];
+                }
+                for(let i = 0; i < this.seriesDataKm.length; i++) {
+                    this.seriesDataKm[i].month = monthNamesEnglish[i];
+                }
+                for(let i = 0; i < this.seriesDataAvgSpeed.length; i++) {
+                    this.seriesDataAvgSpeed[i].month = monthNamesEnglish[i];
+                }
+            } else if(VueI18n.locale === 'it') {
+                for(let j = 0; j < this.seriesDataSteps.length; j++) {
+                    this.seriesDataSteps[j].month = monthNamesItalian[j];
+                }
+                for(let j = 0; j < this.seriesDataCalories.length; j++) {
+                    this.seriesDataCalories[j].month = monthNamesItalian[j];
+                }
+                for(let j = 0; j < this.seriesDataKm.length; j++) {
+                    this.seriesDataKm[j].month = monthNamesItalian[j];
+                }
+                for(let j = 0; j < this.seriesDataAvgSpeed.length; j++) {
+                    this.seriesDataAvgSpeed[j].month = monthNamesItalian[j];
+                }
+            }
         },
         methods: {
             signOut() {

@@ -50,6 +50,7 @@
     import {ChartPlugin, ColumnSeries, LineSeries, Category, DataLabel, Tooltip, Legend, Zoom} from '@syncfusion/ej2-vue-charts';
     import router from "../router";
     import axios from "axios";
+    import VueI18n from "../i18n";
     Vue.use(ChartPlugin);
 
     export default {
@@ -151,6 +152,33 @@
             this.loadUsersDataChart();
             this.loadTrainingsDataChart();
             this.loadTrainingsDurationChart();
+        },
+        beforeUpdate() {
+            const monthNamesEnglish = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
+                'September', 'October', 'November', 'December'];
+            const monthNamesItalian = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto',
+                'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
+            if(VueI18n.locale === 'en') {
+                for(let i = 0; i < this.seriesDataUsers.length; i++) {
+                    this.seriesDataUsers[i].month = monthNamesEnglish[i];
+                }
+                for(let i = 0; i < this.seriesDataTrainings.length; i++) {
+                    this.seriesDataTrainings[i].month = monthNamesEnglish[i];
+                }
+                for(let i = 0; i < this.seriesDataTimeTraining.length; i++) {
+                    this.seriesDataTimeTraining[i].month = monthNamesEnglish[i];
+                }
+            } else if(VueI18n.locale === 'it') {
+                for(let j = 0; j < this.seriesDataUsers.length; j++) {
+                    this.seriesDataUsers[j].month = monthNamesItalian[j];
+                }
+                for(let j = 0; j < this.seriesDataTrainings.length; j++) {
+                    this.seriesDataTrainings[j].month = monthNamesItalian[j];
+                }
+                for(let j = 0; j < this.seriesDataTimeTraining.length; j++) {
+                    this.seriesDataTimeTraining[j].month = monthNamesItalian[j];
+                }
+            }
         },
         methods: {
             signOut() {
