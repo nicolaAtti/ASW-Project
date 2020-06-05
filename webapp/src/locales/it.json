@@ -64,6 +64,9 @@
     "heightNotDefined": "Altezza non inserita",
     "weightNotDefined": "Peso non inserito"
   },
+  "sessionHistoryPage":{
+    "NoTrainingsFound": "Allenamenti Non Trovati"
+  },
   "adminHomePage": {
     "Profile": "Profilo",
     "Sign Out": "Disconnetti",
