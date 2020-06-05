@@ -42,6 +42,7 @@ module.exports = function(app) {
                     }
                 }
             } else {
+                axios.get(process.env.USER_SERVICE_URL+username+'/achievement').then()
                 const notificationPayload = {
                     notification: {
                         title: "Achievement Earned!",
