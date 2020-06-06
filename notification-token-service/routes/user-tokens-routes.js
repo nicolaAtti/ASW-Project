@@ -54,6 +54,29 @@ module.exports = function(app) {
         }
     });
 
+    app.delete('/users/:username/notification-token/all', (req, res) => {
+        if (req.header('Authorization') === process.env.NOTIFICATION_TOKEN) {
+            User.deleteOne({ username: req.params.username }, function (error, result) {
+                if (error || result === null) {
+                    res.status(404).send({
+                        success: false,
+                        message: 'User not present'
+                    });
+                } else {
+                    res.send({
+                        success: true,
+                        message: 'Tokens successfully deleted'
+                    });
+                }
+            })
+        } else {
+            res.status(401).send({
+                success: false,
+                message: 'Invalid token'
+            });
+        }
+    });
+
     app.get('/users/:username/notification-token', (req, res) => {
         //dato username ritorna la lista dei suoi token
         if (req.header('Authorization') === process.env.NOTIFICATION_TOKEN) {

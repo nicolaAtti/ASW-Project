@@ -215,6 +215,29 @@ module.exports = function(app) {
                             message: 'Already deleted'
                         });
                     } else {
+                        axios.delete(process.env.NOTIFICATION_SERVICE_URL + req.params.username + '/notification-token/all', {headers: {Authorization: process.env.NOTIFICATION_TOKEN}}).then(response => {
+                            console.log("All tokens successfully removed")
+                        }).catch(error => {
+                            console.log("Error in deleting tokens "+error)
+                        });
+                        //remove training datas
+                        axios.delete(process.env.TRAINING_SERVICE_URL + req.params.username + '/training_sessions', {headers: {Authorization: req.header('Authorization')}}).then(response => {
+                            console.log("All training sessions successfully removed")
+                        }).catch(error => {
+                            console.log("Error in deleting training sessions "+error)
+                        });
+                        //fitness
+                        axios.delete(process.env.FITNESS_SERVICE_URL + req.params.username + '/fitness', {headers: {Authorization: req.header('Authorization')}}).then(response => {
+                            console.log("All fitness data successfully removed")
+                        }).catch(error => {
+                            console.log("Error in deleting  "+error)
+                        });
+                        //fat
+                        axios.delete(process.env.FITNESS_SERVICE_URL + req.params.username + '/fat', {headers: {Authorization: req.header('Authorization')}}).then(response => {
+                            console.log("All fat datas successfully removed")
+                        }).catch(error => {
+                            console.log("Error in deleting fat datas "+error)
+                        });
                         res.send({
                             success: true,
                             message: 'User successfully deleted'

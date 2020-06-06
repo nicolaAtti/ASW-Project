@@ -10,7 +10,7 @@
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn text @click="dialog = false">{{$t('unregisterDialog.reject')}}</v-btn>
-                    <v-btn color="red" text @click="dialog = false">{{$t('unregisterDialog.accept')}}</v-btn>
+                    <v-btn color="red" text @click="deleteUser">{{$t('unregisterDialog.accept')}}</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -18,6 +18,9 @@
 </template>
 
 <script>
+    import axios from 'axios'
+    import router from "../router";
+
     export default {
         name: "ProfileDialog",
 
@@ -29,7 +32,13 @@
 
         methods: {
             deleteUser(){
-
+                axios.delete('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + sessionStorage.username, {headers: { Authorization: sessionStorage.token } }).then(response => {
+                    console.log("User removed "+response);
+                    this.dialog = false;
+                    router.push("/login");
+                }).catch(error => {
+                    console.log("Error in deleting user "+error)
+                });
             }
         }
     }
