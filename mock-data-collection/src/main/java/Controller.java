@@ -85,7 +85,7 @@ public class Controller extends Application {
                 body.add("position", position);
             }
             try {
-                Response response = Request.Post("http://localhost:3001/users/" + "John" + "/fitness")
+                Response response = Request.Post("https://asw-fitness-service.herokuapp.com/users/" + "John" + "/fitness")
                         .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkpvaG4iLCJpYXQiOjE1OTExMDc2NDB9.fzmCbGk603lcw4wJBfgoHDzuJ31C0Ng5BjpVlWxJQpA")
                         .bodyString(body.toString(), ContentType.APPLICATION_JSON)
                         .execute();
@@ -125,7 +125,7 @@ public class Controller extends Application {
                 }
             });
             try {
-                Response response = Request.Post("http://localhost:3002/users/" + "John" + "/training_sessions")
+                Response response = Request.Post("https://asw-training-sessions-service.herokuapp.com/users/" + "John" + "/training_sessions")
                         .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkpvaG4iLCJpYXQiOjE1OTExMDc2NDB9.fzmCbGk603lcw4wJBfgoHDzuJ31C0Ng5BjpVlWxJQpA")
                         .bodyString(body.toString(), ContentType.APPLICATION_JSON)
                         .execute();
