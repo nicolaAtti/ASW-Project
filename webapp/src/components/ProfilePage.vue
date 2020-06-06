@@ -42,7 +42,7 @@
                 >
                     <v-expansion-panel-header disable-icon-rotate>
                         <div class="achievement-title">
-                            <v-img contain :src='achievement+".PNG"' height="75%" width="75%"/>
+                            <v-img contain :src='achievement+".PNG"' height="50%" width="50%"/>
                         </div><span class="achievement-name">     </span>
                     </v-expansion-panel-header>
                     <v-expansion-panel-content >
