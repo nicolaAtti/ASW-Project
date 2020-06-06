@@ -250,9 +250,6 @@ module.exports = function(app) {
                     console.log("Firebase    "+req.body.firebaseUserToken);
                     axios.post(process.env.NOTIFICATION_SERVICE_URL+req.params.username+'/notification-token', {firebaseUserToken: req.body.firebaseUserToken},{headers: { Authorization: process.env.NOTIFICATION_TOKEN}}).then(response => {
                         console.log("New token added")
-
-
-
                     }).catch(() => {
                         console.log("Token already present")
                     });
