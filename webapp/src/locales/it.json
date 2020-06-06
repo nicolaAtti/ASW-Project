@@ -159,5 +159,12 @@
       "WalkItOff": "Hai effettuato un totale di X passi su tutti i tuoi allenamenti,",
       "WayToGo": "Hai completato il tuo primo allenamento, sarà il primo di molti?"
     }
+  },
+  "unregisterDialog": {
+    "button": "Cancella Account",
+    "title": "Sei sicuro?",
+    "content": "Se procedi saranno rimossi tutti i dati del tuo account e non sarà possibile recuperarli, sei assolutamente sicuro di voler procedere?",
+    "reject": "No, torna indietro",
+    "accept": "Si, sono sicuro"
   }
 }

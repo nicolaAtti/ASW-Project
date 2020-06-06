@@ -157,6 +157,13 @@
       "WalkItOff": "You have made a total of Y steps between all your workouts,",
       "WayToGo": "You completed your first workout, will it be the first of many?"
     }
+  },
+  "unregisterDialog": {
+    "button": "Delete Account",
+    "title": "Are you sure?",
+    "content": "Doing this will remove all your account data and it will be impossible to retrieve them, are you absolutely sure you want to do this?",
+    "reject": "No, go back",
+    "accept": "Yes, i'm sure"
   }
 
 }

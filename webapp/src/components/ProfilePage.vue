@@ -8,6 +8,9 @@
 
 
         <div id="profile_tab" class="tabcontent">
+            <div class="dialog-panel">
+                <ProfileDialog v-on:profileUpdate="fetchUserData"/>
+            </div>
             <v-simple-table>
                 <template v-slot:default>
                     <tbody>
@@ -26,8 +29,8 @@
                     </tbody>
                 </template>
             </v-simple-table>
-            <div class="dialog-panel">
-                <ProfileDialog v-on:profileUpdate="fetchUserData"/>
+            <div>
+                <UnregisterDialog class="dialog-panel"/>
             </div>
         </div>
 
@@ -54,13 +57,15 @@
 
 <script>
     import ProfileDialog from "./ProfileDialog";
+    import UnregisterDialog from "./UnregisterDialog";
     import axios from "axios";
 
     export default {
         name: "ProfilePage",
 
         components: {
-            ProfileDialog
+            ProfileDialog,
+            UnregisterDialog
         },
 
         data: () => {
@@ -165,7 +170,7 @@
     }
 
     .username_title {
-        margin-bottom: 2%;
+        margin-bottom: 1%;
         font: 175% "Lucida Sans", sans-serif;
     }
 
