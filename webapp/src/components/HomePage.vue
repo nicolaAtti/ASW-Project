@@ -271,7 +271,7 @@
             loadWeight() {
                 this.weight = 'Loading';
                 axios.get(process.env.VUE_APP_FITNESS_SERVICE + '/users/' + sessionStorage.username + '/fat/latest', {headers: { Authorization: sessionStorage.token}}).then(response => {
-                    if(response.status === 200){
+                    if(!(response.data.weight === undefined)){
                         this.weight = response.data.weight;
                         this.kgr = 'kg';
                     } else {
