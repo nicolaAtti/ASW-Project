@@ -1,9 +1,12 @@
 plugins {
     id 'java'
     id 'idea'
+    id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.8'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
 }
 
+mainClassName = "Main"
 group 'it.unibo.asw'
 version '1.0-SNAPSHOT'
 
@@ -22,4 +25,10 @@ dependencies {
 javafx {
     version = "14"
     modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+shadowJar {
+    baseName = rootProject.name
+    version = 1.0
+    destinationDir = file(rootDir.path + '/production')
 }
