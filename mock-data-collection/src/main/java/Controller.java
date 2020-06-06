@@ -1,8 +1,13 @@
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import javafx.application.Application;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import org.apache.http.StatusLine;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.fluent.Response;
@@ -11,7 +16,7 @@ import org.apache.http.entity.ContentType;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Controller {
+public class Controller extends Application {
     @FXML private TextField timestamp;
     @FXML private TextField heartRate;
     @FXML private TextField steps;
@@ -31,6 +36,17 @@ public class Controller {
     private ArrayList<TextField> fitnessFields;
     private ArrayList<TextField> trainingFields;
 
+    @Override
+    public void start(Stage primaryStage) throws Exception{
+        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        primaryStage.setTitle("Hello World");
+        primaryStage.setScene(new Scene(root, 390, 400));
+        primaryStage.show();
+    }
+
+    public static void launchApplication(String[] args) {
+        launch(args);
+    }
 
     @FXML
     public void initialize() {
@@ -50,8 +66,6 @@ public class Controller {
         trainingFields.add(maxSpeed);
         trainingFields.add(avgHeartRate);
         trainingFields.add(avgAltitude);
-
-        // Obtain firebase token and add it to the following requests
     }
 
     @FXML
