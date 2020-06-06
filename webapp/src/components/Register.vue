@@ -119,7 +119,7 @@
                         }else{
                             translatedGender = this.gender;
                         }
-                        const response = await axios.post('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.username, {
+                        const response = await axios.post(process.env.VUE_APP_USERS_SERVICE + '/users/' + this.username, {
                             name: this.name,
                             surname: this.surname,
                             birthday: new Date(this.birthday),
@@ -133,14 +133,14 @@
                         if (response.status === 201) {
                             axios.post()
                             console.log("Effettuo la login dopo la register");
-                            axios.post('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.username + '/authentication',{
+                            axios.post(process.env.VUE_APP_USERS_SERVICE + '/users/' + this.username + '/authentication',{
                                 password: this.password,
                                 firebaseUserToken: sessionStorage.firebase_token
                             }).then(response => {
                                 sessionStorage.token = "Bearer "+response.data.token;
                                 sessionStorage.username = this.username;
                                 if(this.weight !== undefined){
-                                    axios.post('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_FAT + '/users/' + this.username + '/fat', { weight: this.weight, timestamp: new Date()}, { headers: {Authorization: sessionStorage.token}}).then( () => {
+                                    axios.post(process.env.VUE_APP_FITNESS_SERVICE + '/users/' + this.username + '/fat', { weight: this.weight, timestamp: new Date()}, { headers: {Authorization: sessionStorage.token}}).then( () => {
                                         console.log("Username register "+sessionStorage.username);
                                         const snack = document.getElementById("snackbar");
                                         snack.className = "show";

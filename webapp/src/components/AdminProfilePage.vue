@@ -62,7 +62,7 @@
 
             fetchUserData() {
                 this.username = sessionStorage.username;
-                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.username,{headers: { Authorization: sessionStorage.token}}).then(response => {
+                axios.get(process.env.VUE_APP_USERS_SERVICE + '/users/' + this.username,{headers: { Authorization: sessionStorage.token}}).then(response => {
                     var registerDate = this.formatDate(response.data.registrationDate);
                     this.userData.name = response.data.name;
                     this.userData.surname = response.data.surname;

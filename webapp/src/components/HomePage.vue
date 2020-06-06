@@ -247,7 +247,7 @@
         },
         methods: {
             signOut() {
-                axios.delete('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + sessionStorage.username+"/delete/notification-token", {data: {firebaseUserToken: sessionStorage.firebase_token}, headers: { Authorization: sessionStorage.token}}).then(response => {
+                axios.delete(process.env.VUE_APP_USERS_SERVICE + '/users/' + sessionStorage.username+"/delete/notification-token", {data: {firebaseUserToken: sessionStorage.firebase_token}, headers: { Authorization: sessionStorage.token}}).then(response => {
                     console.log("Successfully removed device token "+response);
                     router.push('login')
                 }).catch(error => {
@@ -264,13 +264,13 @@
             loadAge() {
                 this.age = 'Loading';
                 console.log("load age "+ sessionStorage.username);
-                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + sessionStorage.username, {headers: { Authorization: sessionStorage.token}}).then(response => {
+                axios.get(process.env.VUE_APP_USERS_SERVICE + '/users/' + sessionStorage.username, {headers: { Authorization: sessionStorage.token}}).then(response => {
                     this.age = response.data.age;
                 })
             },
             loadWeight() {
                 this.weight = 'Loading';
-                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_FAT + '/users/' + sessionStorage.username + '/fat/latest', {headers: { Authorization: sessionStorage.token}}).then(response => {
+                axios.get(process.env.VUE_APP_FITNESS_SERVICE + '/users/' + sessionStorage.username + '/fat/latest', {headers: { Authorization: sessionStorage.token}}).then(response => {
                     if(response.status === 200){
                         this.weight = response.data.weight;
                         this.kgr = 'kg';
@@ -281,7 +281,7 @@
             },
             loadHeight() {
                 this.height = 'Loading';
-                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + sessionStorage.username, {headers: { Authorization: sessionStorage.token}}).then(response => {
+                axios.get(process.env.VUE_APP_USERS_SERVICE + '/users/' + sessionStorage.username, {headers: { Authorization: sessionStorage.token}}).then(response => {
                     if(!(response.data.height === undefined)){
                         this.height = response.data.height;
                         this.cmt = 'cm';
@@ -291,7 +291,7 @@
                 })
             },
             loadLastTrainingSummary() {
-                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_TRAININGS + '/users/' + sessionStorage.username + '/training_session/latest', {headers: { Authorization: sessionStorage.token}}).then(response => {
+                axios.get(process.env.VUE_APP_TRAININGS_SERVICE + '/users/' + sessionStorage.username + '/training_session/latest', {headers: { Authorization: sessionStorage.token}}).then(response => {
                     if(!(response.data.username === undefined)) {
                         this.caloriesBurned = response.data.caloriesBurned;
                         this.avgHeartRate = response.data.avgHeartRate;
@@ -324,22 +324,22 @@
                 })
             },
             loadStepsSummary() {
-                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_TRAININGS + '/users/' + sessionStorage.username + '/training_session/history-steps', {headers: {Authorization: sessionStorage.token}}).then(response => {
+                axios.get(process.env.VUE_APP_TRAININGS_SERVICE + '/users/' + sessionStorage.username + '/training_session/history-steps', {headers: {Authorization: sessionStorage.token}}).then(response => {
                     this.seriesDataSteps = response.data;
                 })
             },
             loadCaloriesSummary() {
-                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_TRAININGS + '/users/' + sessionStorage.username + '/training_session/history-calories', {headers: {Authorization: sessionStorage.token}}).then(response => {
+                axios.get(process.env.VUE_APP_TRAININGS_SERVICE + '/users/' + sessionStorage.username + '/training_session/history-calories', {headers: {Authorization: sessionStorage.token}}).then(response => {
                     this.seriesDataCalories = response.data;
                 })
             },
             loadKilometersSummary() {
-                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_TRAININGS + '/users/' + sessionStorage.username + '/training_session/history-kilometers', {headers: {Authorization: sessionStorage.token}}).then(response => {
+                axios.get(process.env.VUE_APP_TRAININGS_SERVICE + '/users/' + sessionStorage.username + '/training_session/history-kilometers', {headers: {Authorization: sessionStorage.token}}).then(response => {
                     this.seriesDataKm = response.data;
                 })
             },
             loadAvgSpeedSummary() {
-                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_TRAININGS + '/users/' + sessionStorage.username + '/training_session/history-avgspeed', {headers: {Authorization: sessionStorage.token}}).then(response => {
+                axios.get(process.env.VUE_APP_TRAININGS_SERVICE + '/users/' + sessionStorage.username + '/training_session/history-avgspeed', {headers: {Authorization: sessionStorage.token}}).then(response => {
                     this.seriesDataAvgSpeed = response.data;
                 })
             }

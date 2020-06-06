@@ -100,7 +100,7 @@
                     translatedGender = this.userData.gender;
                 }
                 patchData.gender = translatedGender;
-                axios.patch('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + sessionStorage.username, patchData, {headers: { Authorization: sessionStorage.token } }).then( response => {
+                axios.patch(process.env.VUE_APP_USERS_SERVICE + '/users/' + sessionStorage.username, patchData, {headers: { Authorization: sessionStorage.token } }).then( response => {
                     if(response.data.newToken !== undefined){
                         sessionStorage.username = this.userData.username;
                         sessionStorage.token = "Bearer "+response.data.newToken;

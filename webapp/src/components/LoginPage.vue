@@ -52,7 +52,7 @@
             sendDataLogin(e) {
                 this.errors = [];
                 e.preventDefault();
-                axios.post('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + this.input.username + '/authentication',{
+                axios.post(process.env.VUE_APP_USERS_SERVICE + '/users/' + this.input.username + '/authentication',{
                     password: this.input.password,
                     firebaseUserToken: sessionStorage.firebase_token
                 }).then(response => {

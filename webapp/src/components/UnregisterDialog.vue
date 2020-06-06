@@ -32,7 +32,7 @@
 
         methods: {
             deleteUser(){
-                axios.delete('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + sessionStorage.username, {headers: { Authorization: sessionStorage.token } }).then(response => {
+                axios.delete(process.env.VUE_APP_USERS_SERVICE + '/users/' + sessionStorage.username, {headers: { Authorization: sessionStorage.token } }).then(response => {
                     console.log("User removed "+response);
                     this.dialog = false;
                     router.push("/login");

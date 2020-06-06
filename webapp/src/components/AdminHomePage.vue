@@ -189,28 +189,28 @@
             },
             loadTotalUsers() {
                 this.totalUsers = 'Loading...';
-                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/total-users', {headers: { Authorization: sessionStorage.token}}).then(response => {
+                axios.get(process.env.VUE_APP_USERS_SERVICE + '/total-users', {headers: { Authorization: sessionStorage.token}}).then(response => {
                     this.totalUsers = response.data.totalUsers;
                 })
             },
             loadAverageAge() {
                 this.averageAge = 'Loading...';
-                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/average-age', {headers: { Authorization: sessionStorage.token}}).then(response => {
+                axios.get(process.env.VUE_APP_USERS_SERVICE + '/average-age', {headers: { Authorization: sessionStorage.token}}).then(response => {
                     this.averageAge = response.data.averageAge;
                 })
             },
             loadUsersDataChart() {
-                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/history-users', {headers: { Authorization: sessionStorage.token}}).then(response => {
+                axios.get(process.env.VUE_APP_USERS_SERVICE + '/history-users', {headers: { Authorization: sessionStorage.token}}).then(response => {
                     this.seriesDataUsers = response.data;
                 })
             },
             loadTrainingsDataChart() {
-                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_TRAININGS + '/history-trainings', {headers: { Authorization: sessionStorage.token}}).then(response => {
+                axios.get(process.env.VUE_APP_TRAININGS_SERVICE + '/history-trainings', {headers: { Authorization: sessionStorage.token}}).then(response => {
                     this.seriesDataTrainings = response.data;
                 })
             },
             loadTrainingsDurationChart() {
-                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_TRAININGS + '/history-trainings-duration', {headers: { Authorization: sessionStorage.token}}).then(response => {
+                axios.get(process.env.VUE_APP_TRAININGS_SERVICE + '/history-trainings-duration', {headers: { Authorization: sessionStorage.token}}).then(response => {
                     this.seriesDataTimeTraining = response.data;
                 })
             }

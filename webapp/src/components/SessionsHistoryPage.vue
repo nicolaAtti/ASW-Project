@@ -41,7 +41,7 @@
         },
         methods: {
             loadTrainingsData(){
-                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_TRAININGS + '/users/' + this.username + '/training_session', {headers: { Authorization: sessionStorage.token}}).then(response => {
+                axios.get(process.env.VUE_APP_TRAININGS_SERVICE + '/users/' + this.username + '/training_session', {headers: { Authorization: sessionStorage.token}}).then(response => {
                     if(!(response.data[0] == undefined)) {
                         var i = 0;
                         for(i=0; i < response.data.length; i++) {
