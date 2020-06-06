@@ -8,7 +8,7 @@ module.exports = function(app) {
                     if (error.code === 11000) {
                         res.status(409).send({
                             success: false,
-                            message: 'Username or email already present'
+                            message: 'Username or token already present'
                         })
                     }else{
                         res.status(500).send({
@@ -32,9 +32,8 @@ module.exports = function(app) {
     });
 
     app.delete('/users/:username/notification-token', (req, res) => {
-        //dato username e token cancella quel token
         if (req.header('Authorization') === process.env.NOTIFICATION_TOKEN) {
-            User.findOneAndUpdate({ username: req.params.username }, { $pull: {tokens: [req.body.firebaseUserToken] }}, function (error, result) {
+            User.findOneAndUpdate({ username: req.params.username }, { $pullAll: {tokens: [req.body.firebaseUserToken] }}, function (error, result) {
                 if (error || result === null) {
                     res.status(404).send({
                         success: false,

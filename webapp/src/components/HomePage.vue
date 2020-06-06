@@ -209,7 +209,12 @@
         },
         methods: {
             signOut() {
-                router.push('login')
+                axios.delete('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/' + sessionStorage.username+"/delete/notification-token", {data: {firebaseUserToken: sessionStorage.firebase_token}, headers: { Authorization: sessionStorage.token}}).then(response => {
+                    console.log("Successfully removed device token "+response)
+                    router.push('login')
+                }).catch(error => {
+                    console.log("Error in removing token "+error)
+                })
             },
             goToProfile() {
                 router.push('home/profile')

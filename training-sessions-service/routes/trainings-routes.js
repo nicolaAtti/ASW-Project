@@ -36,17 +36,17 @@ module.exports = function(app) {
                 const notificationBody = {
                     "achievementFileName": "WayToGo",
                     "achievementTitle": "Way to go",
-                    "firebaseUserToken": req.body.firebaseUserToken
                 };
-                axios.patch(process.env.USER_SERVICE_URL+req.params.username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
+                axios.patch(process.env.USER_SERVICE_URL+'/users/'+req.params.username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
                     console.log("Achievement awarded "+response)
                 }).catch(error => {
                     console.log("Achievement not awarded "+error)
                 });
-                checkContinuity(req.params.username,req.body.firebaseUserToken);
-                checkTotalCalories(req.params.username,req.body.firebaseUserToken);
-                checkTrainingCalories(req.params.username,req.body.firebaseUserToken,req.body.caloriesBurned);
-                checkTotalSteps(req.params.username,req.body.firebaseUserToken);
+                console.log(process.env.USER_SERVICE_URL+req.params.username+'/achievement');
+                checkContinuity(req.params.username);
+                checkTotalCalories(req.params.username);
+                checkTrainingCalories(req.params.username,req.body.caloriesBurned);
+                checkTotalSteps(req.params.username);
                 res.status(201).send({
                     success: true,
                     message: 'Training successfully created'
@@ -147,7 +147,7 @@ module.exports = function(app) {
 };
 
 
-async function checkTotalCalories(username,firebaseToken) {
+async function checkTotalCalories(username) {
     const result = await Training.aggregate([{
         $match: {username: username},
     }, {
@@ -162,9 +162,8 @@ async function checkTotalCalories(username,firebaseToken) {
         const notificationBody = {
             "achievementFileName": "ItsGettingHotInHere",
             "achievementTitle": "It's getting hot in here",
-            "firebaseUserToken": firebaseToken
         };
-        axios.patch(process.env.USER_SERVICE_URL+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
+        axios.patch(process.env.USER_SERVICE_URL+'/users/'+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
             console.log("Achievement awarded "+response)
         }).catch(error => {
             console.log("Achievement not awarded "+error)
@@ -174,9 +173,8 @@ async function checkTotalCalories(username,firebaseToken) {
         const notificationBody = {
             "achievementFileName": "HotStuff",
             "achievementTitle": "Hot Stuff",
-            "firebaseUserToken": firebaseToken
         };
-        axios.patch(process.env.USER_SERVICE_URL+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
+        axios.patch(process.env.USER_SERVICE_URL+'/users/'+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
             console.log("Achievement awarded "+response)
         }).catch(error => {
             console.log("Achievement not awarded "+error)
@@ -185,10 +183,9 @@ async function checkTotalCalories(username,firebaseToken) {
     if(result[0].total >= 100000){
         const notificationBody = {
             "achievementFileName": "GrosslyIncandescent",
-            "achievementTitle": "Grossly Incandescent",
-            "firebaseUserToken": firebaseToken
+            "achievementTitle": "Grossly Incandescent"
         };
-        axios.patch(process.env.USER_SERVICE_URL+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
+        axios.patch(process.env.USER_SERVICE_URL+'/users/'+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
             console.log("Achievement awarded "+response)
         }).catch(error => {
             console.log("Achievement not awarded "+error)
@@ -196,14 +193,13 @@ async function checkTotalCalories(username,firebaseToken) {
     }
 }
 
-function checkTrainingCalories(username,firebaseToken,calories) {
+function checkTrainingCalories(username,calories) {
     if(calories >= 200){
         const notificationBody = {
             "achievementFileName": "OnLowFlame",
-            "achievementTitle": "On low flame",
-            "firebaseUserToken": firebaseToken
+            "achievementTitle": "On low flame"
         };
-        axios.patch(process.env.USER_SERVICE_URL+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
+        axios.patch(process.env.USER_SERVICE_URL+'/users/'+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
             console.log("Achievement awarded "+response)
         }).catch(error => {
             console.log("Achievement not awarded "+error)
@@ -212,10 +208,9 @@ function checkTrainingCalories(username,firebaseToken,calories) {
     if(calories >= 500){
         const notificationBody = {
             "achievementFileName": "BurnItBaby",
-            "achievementTitle": "Burn it baby",
-            "firebaseUserToken": firebaseToken
+            "achievementTitle": "Burn it baby"
         };
-        axios.patch(process.env.USER_SERVICE_URL+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
+        axios.patch(process.env.USER_SERVICE_URL+'/users/'+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
             console.log("Achievement awarded "+response)
         }).catch(error => {
             console.log("Achievement not awarded "+error)
@@ -224,10 +219,9 @@ function checkTrainingCalories(username,firebaseToken,calories) {
     if(calories >= 1000){
         const notificationBody = {
             "achievementFileName": "Flambe",
-            "achievementTitle": "Flambé",
-            "firebaseUserToken": firebaseToken
+            "achievementTitle": "Flambé"
         };
-        axios.patch(process.env.USER_SERVICE_URL+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
+        axios.patch(process.env.USER_SERVICE_URL+'/users/'+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
             console.log("Achievement awarded "+response)
         }).catch(error => {
             console.log("Achievement not awarded "+error)
@@ -236,7 +230,7 @@ function checkTrainingCalories(username,firebaseToken,calories) {
 
 }
 
-async function checkTotalSteps(username,firebaseToken) {
+async function checkTotalSteps(username) {
     const result = await Training.aggregate([{
         $match: {username: username},
     }, {
@@ -250,10 +244,9 @@ async function checkTotalSteps(username,firebaseToken) {
     if(result[0].total >= 50000){
         const notificationBody = {
             "achievementFileName": "ASmallStepForMan",
-            "achievementTitle": "A small step for man...",
-            "firebaseUserToken": firebaseToken
+            "achievementTitle": "A small step for man..."
         };
-        axios.patch(process.env.USER_SERVICE_URL+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
+        axios.patch(process.env.USER_SERVICE_URL+'/users/'+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
             console.log("Achievement awarded "+response)
         }).catch(error => {
             console.log("Achievement not awarded "+error)
@@ -262,10 +255,9 @@ async function checkTotalSteps(username,firebaseToken) {
     if(result[0].total >= 100000){
         const notificationBody = {
             "achievementFileName": "WalkItOff",
-            "achievementTitle": "Walk it off",
-            "firebaseUserToken": firebaseToken
+            "achievementTitle": "Walk it off"
         };
-        axios.patch(process.env.USER_SERVICE_URL+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
+        axios.patch(process.env.USER_SERVICE_URL+'/users/'+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
             console.log("Achievement awarded "+response)
         }).catch(error => {
             console.log("Achievement not awarded "+error)
@@ -274,10 +266,9 @@ async function checkTotalSteps(username,firebaseToken) {
     if(result[0].total >= 500000){
         const notificationBody = {
             "achievementFileName": "MarathonReady",
-            "achievementTitle": "Marathon Ready",
-            "firebaseUserToken": firebaseToken
+            "achievementTitle": "Marathon Ready"
         };
-        axios.patch(process.env.USER_SERVICE_URL+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
+        axios.patch(process.env.USER_SERVICE_URL+'/users/'+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
             console.log("Achievement awarded "+response)
         }).catch(error => {
             console.log("Achievement not awarded "+error)
@@ -285,7 +276,7 @@ async function checkTotalSteps(username,firebaseToken) {
     }
 }
 
-function checkContinuity(username,firebaseToken) {
+function checkContinuity(username) {
     Training.find({ username: username }, { _id: 0, __v: 0 }, function (error, result) {
         if (result === null) {
             console.log("No training data found")
@@ -304,10 +295,9 @@ function checkContinuity(username,firebaseToken) {
                         if(counter > 5 && counter < 10){
                             const notificationBody = {
                                 "achievementFileName": "SlowAndSteady",
-                                "achievementTitle": "Slow and steady",
-                                "firebaseUserToken": firebaseToken
+                                "achievementTitle": "Slow and steady"
                             };
-                            axios.patch(process.env.USER_SERVICE_URL+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
+                            axios.patch(process.env.USER_SERVICE_URL+'/users/'+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
                                 console.log("Achievement awarded "+response)
                             }).catch(error => {
                                 console.log("Achievement not awarded "+error)
@@ -316,10 +306,9 @@ function checkContinuity(username,firebaseToken) {
                         if(counter > 10 && counter < 22){
                             const notificationBody = {
                                 "achievementFileName": "KickIntoGear",
-                                "achievementTitle": "Kick into gear",
-                                "firebaseUserToken": firebaseToken
+                                "achievementTitle": "Kick into gear"
                             };
-                            axios.patch(process.env.USER_SERVICE_URL+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
+                            axios.patch(process.env.USER_SERVICE_URL+'/users/'+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
                                 console.log("Achievement awarded "+response)
                             }).catch(error => {
                                 console.log("Achievement not awarded "+error)
@@ -328,10 +317,9 @@ function checkContinuity(username,firebaseToken) {
                         if(counter > 22){
                             const notificationBody = {
                                 "achievementFileName": "ForceOfHabit",
-                                "achievementTitle": "Force of habit",
-                                "firebaseUserToken": firebaseToken
+                                "achievementTitle": "Force of habit"
                             };
-                            axios.patch(process.env.USER_SERVICE_URL+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
+                            axios.patch(process.env.USER_SERVICE_URL+'/users/'+username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
                                 console.log("Achievement awarded "+response)
                             }).catch(error => {
                                 console.log("Achievement not awarded "+error)
@@ -342,7 +330,6 @@ function checkContinuity(username,firebaseToken) {
                     }
                 }
             }
-
         }
     }).limit(30);
 }
