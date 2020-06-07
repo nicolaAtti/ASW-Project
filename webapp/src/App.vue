@@ -21,8 +21,6 @@
     import router from "./router";
     import VueI18n from "./i18n";
     import axios from "axios";
-    import registerServiceWorker from "./registerServiceWorker";
-    import {initializeFirebase} from "./push-notification";
 
     export default {
         name: 'App',
@@ -33,11 +31,6 @@
             language: 'English',
             otherUser: ''
         }),
-
-        created() {
-            registerServiceWorker();
-            initializeFirebase();
-        },
 
         methods: {
             changeLang() {
@@ -74,10 +67,10 @@
                         this.otherUser = '';
                         const snack = document.getElementById("snackbar");
                         snack.className = "show";
-                        snack.innerHTML = this.$t('');
+                        snack.innerHTML = this.$t('userNotFound');
                         setTimeout(() => {
                             snack.className = snack.className.replace("show","");
-                        }, 3000);
+                        }, 5000);
                     }
                 })
             },

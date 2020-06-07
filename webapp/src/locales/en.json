@@ -3,6 +3,7 @@
   "signIn": "Sign In",
   "it_lang": "Italiano",
   "en_lang": "English",
+  "userNotFound" : "User not found",
   "loginPage": {
     "app_title": "ADS Training",
     "wrong_password": "Wrong password",

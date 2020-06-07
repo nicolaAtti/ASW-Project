@@ -266,6 +266,8 @@
                 console.log("load age "+ sessionStorage.username);
                 axios.get(process.env.VUE_APP_USERS_SERVICE + '/users/' + sessionStorage.username, {headers: { Authorization: sessionStorage.token}}).then(response => {
                     this.age = response.data.age;
+                }).catch( () => {
+                    console.log("Filed to load age")
                 })
             },
             loadWeight() {
@@ -277,6 +279,8 @@
                     } else {
                         this.weight = 'homePage.WeightNotDefined';
                     }
+                }).catch( () => {
+                    this.weight = 'homePage.WeightNotDefined';
                 })
             },
             loadHeight() {
