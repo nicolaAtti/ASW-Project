@@ -271,7 +271,7 @@
             loadWeight() {
                 this.weight = 'Loading';
                 axios.get(process.env.VUE_APP_FITNESS_SERVICE + '/users/' + sessionStorage.username + '/fat/latest', {headers: { Authorization: sessionStorage.token}}).then(response => {
-                    if(!(response.data.weight === undefined)){
+                    if(response.status === 200){
                         this.weight = response.data.weight;
                         this.kgr = 'kg';
                     } else {
@@ -400,14 +400,19 @@
     }
 
     .menu li {
-        font-size: 18px;
-        padding: 8px;
-        margin-bottom: 7px;
+        position: relative;
+        width: 100%;
+        font-size: 15px;
+        padding: 10px;
+        margin: -10px -10px 25px 0px;
         border: 0.5px ridge #2c3e50;
         background-color:#0277bd;
         color: #ffffff;
         box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
         cursor: pointer;
+        align-items: center;
+        justify-content: center;
+        display: flex;
     }
 
     .menu li:hover {
@@ -469,6 +474,9 @@
         .col-11 {width: 91.66%;}
         .col-12 {width: 100%;}
         .col-3 {flex: 0 0 10%}
+        .menu li {
+            font-size: 18px;
+        }
     }
 
 </style>
