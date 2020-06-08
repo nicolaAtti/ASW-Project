@@ -42,6 +42,10 @@ module.exports = function(app) {
                     }
                 }
             } else {
+                res.status(201).send({
+                    success: true,
+                    message: 'User successfully created'
+                })
                 const notificationPayload = {
                     notification: {
                         title: "Achievement Earned!",
@@ -55,19 +59,10 @@ module.exports = function(app) {
                         Authorization: "key=" + process.env.FIREBASE_SENDER_TOKEN,
                         'Content-Type': "application/json"
                     }
-                }).then(response => {
+                }).then(() => {
                     console.log("Achievement request executed successfully");
-                    res.status(201).send({
-                        success: true,
-                        message: 'User successfully created and notification sent'
-                    })
                 }).catch(error => {
-                    console.log("Error in reaching firebase server");
-                    console.log(error);
-                    res.status(201).send({
-                        success: true,
-                        message: 'User successfully created, but notification not sent'
-                    })
+                    console.log("Error in reaching firebase server. " + error);
                 });
             }
         });
@@ -84,7 +79,7 @@ module.exports = function(app) {
                     if (error.code === 11000) {
                         res.status(409).send({
                             success: false,
-                            message: 'Username or email already present'
+                            message: 'Achievement already present'
                         })
                     } else {
                         if (error.name === "ValidationError") {
@@ -95,7 +90,7 @@ module.exports = function(app) {
                         } else {
                             res.status(500).send({
                                 success: false,
-                                message: 'Failed to save user'
+                                message: 'Failed to save achievement'
                             })
                         }
                     }
@@ -106,6 +101,10 @@ module.exports = function(app) {
                             message: 'Username not found'
                         });
                     } else {
+                        res.send({
+                            success: true,
+                            message: 'Achievement successfully assigned'
+                        });
                         axios.get(process.env.NOTIFICATION_SERVICE_URL+username+'/notification-token',{headers: { Authorization: process.env.NOTIFICATION_TOKEN}}).then(response => {
                             response.data.tokens.forEach(token => {
                                 const notificationPayload = {
@@ -116,20 +115,14 @@ module.exports = function(app) {
                                     },
                                     to: token
                                 };
-                                axios.post("https://fcm.googleapis.com/fcm/send", notificationPayload,{headers: { Authorization: "key="+process.env.FIREBASE_SENDER_TOKEN, 'Content-Type': "application/json"}}).then(response => {
-                                    res.send({
-                                        success: true,
-                                        message: 'Achievement successfully assigned'
-                                    });
+                                axios.post("https://fcm.googleapis.com/fcm/send", notificationPayload,{headers: { Authorization: "key="+process.env.FIREBASE_SENDER_TOKEN, 'Content-Type': "application/json"}}).then(() => {
+                                    console.log("Notification successfully sent");
                                 }).catch(error => {
-                                    res.send({
-                                        success: true,
-                                        message: 'Failed to award achievement:'+error
-                                    })
+                                    console.log("Error in sending notification. " + error);
                                 })
                             })
                         }).catch(error => {
-                            console.log("Error in getting tokens "+error);
+                            console.log("Error in getting tokens " + error);
                         });
                     }
                 }
@@ -209,12 +202,23 @@ module.exports = function(app) {
             const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
             if (req.params.username === decodedJwt.username) {
                 User.findOneAndDelete({ username: decodedJwt.username }, function (error, result) {
-                    if (error || result === null) {
-                        res.status(404).send({
-                            success: false,
-                            message: 'Already deleted'
-                        });
+                    if (error) {
+                        if (result === null) {
+                            res.status(404).send({
+                                success: false,
+                                message: 'Already deleted'
+                            });
+                        } else {
+                            res.status(500).send({
+                                success: false,
+                                message: 'Internal server error'
+                            });
+                        }
                     } else {
+                        res.send({
+                            success: true,
+                            message: 'User successfully deleted'
+                        });
                         axios.delete(process.env.NOTIFICATION_SERVICE_URL + req.params.username + '/notification-token/all', {headers: {Authorization: process.env.NOTIFICATION_TOKEN}}).then(response => {
                             console.log("All tokens successfully removed")
                         }).catch(error => {
@@ -238,10 +242,6 @@ module.exports = function(app) {
                         }).catch(error => {
                             console.log("Error in deleting fat datas "+error)
                         });
-                        res.send({
-                            success: true,
-                            message: 'User successfully deleted'
-                        });
                     }
                 })
             } else {
@@ -261,16 +261,21 @@ module.exports = function(app) {
     app.post('/users/:username/authentication', (req, res) => {
         User.findOne({ username: req.params.username }, function (error, result) {
             if (error || result === null) {
-                res.status(404).send({
-                    success: false,
-                    message: 'Resource not found'
-                });
+                if (result === null) {
+                    res.status(404).send({
+                        success: false,
+                        message: 'Already deleted'
+                    });
+                } else {
+                    res.status(500).send({
+                        success: false,
+                        message: 'Internal server error'
+                    });
+                }
             } else {
                 if (req.body.password === result.password) {
                     const token = jsonwebtoken.sign({ username: req.params.username }, JWT_SECRET);
 
-                    //Post firebaseToken
-                    console.log("Firebase    "+req.body.firebaseUserToken);
                     axios.post(process.env.NOTIFICATION_SERVICE_URL+req.params.username+'/notification-token', {firebaseUserToken: req.body.firebaseUserToken},{headers: { Authorization: process.env.NOTIFICATION_TOKEN}}).then(response => {
                         console.log("New token added")
                     }).catch(() => {
