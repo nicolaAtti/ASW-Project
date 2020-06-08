@@ -61,7 +61,8 @@
     "TrainingNotFound": "Training not found",
     "Registered Users": "Registered Users",
     "Trainings Done": "Trainings Done",
-    "Average Trainings Duration": "Average Trainings Duration"
+    "Average Trainings Duration": "Average Trainings Duration",
+    "AgeNotDefined": "Age not defined"
   },
   "sessionHistoryPage":{
     "NoTrainingsFound": "No Trainings Found"
@@ -109,7 +110,7 @@
     "gender": "Gender:",
     "Male": "Male",
     "Female": "Female",
-    "age": "Age",
+    "age": "Age:",
     "Maschio": "Male",
     "Femmina": "Female",
     "height": "Height:",

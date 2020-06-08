@@ -263,11 +263,10 @@
             },
             loadAge() {
                 this.age = 'Loading';
-                console.log("load age "+ sessionStorage.username);
                 axios.get(process.env.VUE_APP_USERS_SERVICE + '/users/' + sessionStorage.username, {headers: { Authorization: sessionStorage.token}}).then(response => {
                     this.age = response.data.age;
                 }).catch( () => {
-                    console.log("Filed to load age")
+                    this.age = 'homePage.AgeNotDefined'
                 })
             },
             loadWeight() {
@@ -286,17 +285,19 @@
             loadHeight() {
                 this.height = 'Loading';
                 axios.get(process.env.VUE_APP_USERS_SERVICE + '/users/' + sessionStorage.username, {headers: { Authorization: sessionStorage.token}}).then(response => {
-                    if(!(response.data.height === undefined)){
+                    if(response.status === 200){
                         this.height = response.data.height;
                         this.cmt = 'cm';
                     } else {
                         this.height = 'homePage.HeightNotDefined';
                     }
+                }).catch( () => {
+                    this.height = 'homePage.HeightNotDefined';
                 })
             },
             loadLastTrainingSummary() {
                 axios.get(process.env.VUE_APP_TRAININGS_SERVICE + '/users/' + sessionStorage.username + '/training_session/latest', {headers: { Authorization: sessionStorage.token}}).then(response => {
-                    if(!(response.data.username === undefined)) {
+                    if(response.status === 200) {
                         this.caloriesBurned = response.data.caloriesBurned;
                         this.avgHeartRate = response.data.avgHeartRate;
                         this.bmin = 'b/min'
@@ -325,6 +326,8 @@
                     } else {
                         this.startTime = 'homePage.TrainingNotFound';
                     }
+                }).catch( () => {
+                    this.startTime = 'homePage.TrainingNotFound';
                 })
             },
             loadStepsSummary() {

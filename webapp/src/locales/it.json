@@ -63,7 +63,8 @@
     "Trainings Done": "Allenamenti Effettuati",
     "Average Trainings Duration": "Durata Media Allenamenti",
     "heightNotDefined": "Altezza non inserita",
-    "weightNotDefined": "Peso non inserito"
+    "weightNotDefined": "Peso non inserito",
+    "AgeNotDefined": "Età non definita"
   },
   "sessionHistoryPage":{
     "NoTrainingsFound": "Allenamenti Non Trovati"
@@ -109,7 +110,7 @@
     "surname": "Cognome:",
     "birthday": "Data di nascita:",
     "gender": "Sesso:",
-    "age": "Età",
+    "age": "Età:",
     "Male": "Maschio",
     "Female": "Femmina",
     "Maschio": "Maschio",
