@@ -12,27 +12,34 @@ module.exports = function(app) {
             const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
             if (req.params.username === decodedJwt.username) {
                 Training.find({ username: decodedJwt.username }, function (error, result) {
-                    const today = new Date();
-                    const year = today.getFullYear();
-                    const month = today.getMonth();
-                    const initialReduce = [];
-                    for (let i = 0; i <= month; i++) {
-                        initialReduce.push({ month: monthNames[i], steps: 0 });
+                    if (error) {
+                        res.status(500).send({
+                            success: false,
+                            message: 'Internal server error'
+                        });
+                    } else {
+                        const today = new Date();
+                        const year = today.getFullYear();
+                        const month = today.getMonth();
+                        const initialReduce = [];
+                        for (let i = 0; i <= month; i++) {
+                            initialReduce.push({month: monthNames[i], steps: 0});
+                        }
+                        res.send(result
+                            .filter(entry => entry.startTime.getFullYear() === year)
+                            .map(entry => {
+                                return {
+                                    month: entry.startTime.getMonth(),
+                                    steps: entry.steps
+                                };
+                            })
+                            .reduce((obj, item) => {
+                                    obj[item.month].steps += item.steps;
+                                    return obj;
+                                }, initialReduce
+                            )
+                        );
                     }
-                    res.send(result
-                        .filter(entry => entry.startTime.getFullYear() === year)
-                        .map(entry => {
-                            return {
-                                month: entry.startTime.getMonth(),
-                                steps: entry.steps
-                            };
-                        })
-                        .reduce((obj, item) => {
-                            obj[item.month].steps += item.steps;
-                            return obj;
-                        }, initialReduce
-                        )
-                    );
                 })
             } else {
                 res.status(401).send({
@@ -54,27 +61,34 @@ module.exports = function(app) {
             const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
             if (req.params.username === decodedJwt.username) {
                 Training.find({ username: decodedJwt.username }, function (error, result) {
-                    const today = new Date();
-                    const year = today.getFullYear();
-                    const month = today.getMonth();
-                    const initialReduce = [];
-                    for (let i = 0; i <= month; i++) {
-                        initialReduce.push({ month: monthNames[i], calories: 0 });
+                    if (error) {
+                        res.status(500).send({
+                            success: false,
+                            message: 'Internal server error'
+                        });
+                    } else {
+                        const today = new Date();
+                        const year = today.getFullYear();
+                        const month = today.getMonth();
+                        const initialReduce = [];
+                        for (let i = 0; i <= month; i++) {
+                            initialReduce.push({month: monthNames[i], calories: 0});
+                        }
+                        res.send(result
+                            .filter(entry => entry.startTime.getFullYear() === year)
+                            .map(entry => {
+                                return {
+                                    month: entry.startTime.getMonth(),
+                                    calories: entry.caloriesBurned
+                                };
+                            })
+                            .reduce((obj, item) => {
+                                    obj[item.month].calories += item.calories;
+                                    return obj;
+                                }, initialReduce
+                            )
+                        );
                     }
-                    res.send(result
-                        .filter(entry => entry.startTime.getFullYear() === year)
-                        .map(entry => {
-                            return {
-                                month: entry.startTime.getMonth(),
-                                calories: entry.caloriesBurned
-                            };
-                        })
-                        .reduce((obj, item) => {
-                                obj[item.month].calories += item.calories;
-                                return obj;
-                            }, initialReduce
-                        )
-                    );
                 })
             } else {
                 res.status(401).send({
@@ -96,27 +110,34 @@ module.exports = function(app) {
             const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
             if (req.params.username === decodedJwt.username) {
                 Training.find({ username: decodedJwt.username }, function (error, result) {
-                    const today = new Date();
-                    const year = today.getFullYear();
-                    const month = today.getMonth();
-                    const initialReduce = [];
-                    for (let i = 0; i <= month; i++) {
-                        initialReduce.push({ month: monthNames[i], km: 0 });
+                    if (error) {
+                        res.status(500).send({
+                            success: false,
+                            message: 'Internal server error'
+                        });
+                    } else {
+                        const today = new Date();
+                        const year = today.getFullYear();
+                        const month = today.getMonth();
+                        const initialReduce = [];
+                        for (let i = 0; i <= month; i++) {
+                            initialReduce.push({month: monthNames[i], km: 0});
+                        }
+                        res.send(result
+                            .filter(entry => entry.startTime.getFullYear() === year)
+                            .map(entry => {
+                                return {
+                                    month: entry.startTime.getMonth(),
+                                    km: entry.kilometers
+                                };
+                            })
+                            .reduce((obj, item) => {
+                                    obj[item.month].km += item.km;
+                                    return obj;
+                                }, initialReduce
+                            )
+                        );
                     }
-                    res.send(result
-                        .filter(entry => entry.startTime.getFullYear() === year)
-                        .map(entry => {
-                            return {
-                                month: entry.startTime.getMonth(),
-                                km: entry.kilometers
-                            };
-                        })
-                        .reduce((obj, item) => {
-                                obj[item.month].km += item.km;
-                                return obj;
-                            }, initialReduce
-                        )
-                    );
                 })
             } else {
                 res.status(401).send({
@@ -138,33 +159,40 @@ module.exports = function(app) {
             const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
             if (req.params.username === decodedJwt.username) {
                 Training.find({ username: decodedJwt.username }, function (error, result) {
-                    const today = new Date();
-                    const year = today.getFullYear();
-                    const month = today.getMonth();
-                    const initialReduce = [];
-                    for (let i = 0; i <= month; i++) {
-                        initialReduce.push({ month: monthNames[i], km_h: 0, counter: 0 });
+                    if (error) {
+                        res.status(500).send({
+                            success: false,
+                            message: 'Internal server error'
+                        });
+                    } else {
+                        const today = new Date();
+                        const year = today.getFullYear();
+                        const month = today.getMonth();
+                        const initialReduce = [];
+                        for (let i = 0; i <= month; i++) {
+                            initialReduce.push({month: monthNames[i], km_h: 0, counter: 0});
+                        }
+                        res.send(result
+                            .filter(entry => entry.startTime.getFullYear() === year)
+                            .map(entry => {
+                                return {
+                                    month: entry.startTime.getMonth(),
+                                    km_h: entry.avgSpeed
+                                };
+                            })
+                            .reduce((obj, item) => {
+                                    obj[item.month].km_h += item.km_h;
+                                    obj[item.month].counter++;
+                                    return obj;
+                                }, initialReduce
+                            )
+                            .map(entry => {
+                                entry.km_h = Math.round(entry.km_h / entry.counter);
+                                delete entry.counter;
+                                return entry;
+                            })
+                        );
                     }
-                    res.send(result
-                        .filter(entry => entry.startTime.getFullYear() === year)
-                        .map(entry => {
-                            return {
-                                month: entry.startTime.getMonth(),
-                                km_h: entry.avgSpeed
-                            };
-                        })
-                        .reduce((obj, item) => {
-                                obj[item.month].km_h += item.km_h;
-                                obj[item.month].counter++;
-                                return obj;
-                            }, initialReduce
-                        )
-                        .map(entry => {
-                            entry.km_h = Math.round(entry.km_h /entry.counter);
-                            delete entry.counter;
-                            return entry;
-                        })
-                    );
                 })
             } else {
                 res.status(401).send({

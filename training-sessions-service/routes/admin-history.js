@@ -15,35 +15,42 @@ module.exports = function(app) {
                 axios.get(process.env.USER_SERVICE_URL + '/users-ages', { 'headers': { 'Authorization': req.header('Authorization') } })
                     .then(usersAges => {
                         Training.find({}, 'username startTime', function (error, result) {
-                            const today = new Date();
-                            const year = today.getFullYear();
-                            const month = today.getMonth();
-                            const initialReduce = [];
-                            for (let i = 0; i <= month; i++) {
-                                initialReduce.push({ month: monthNames[i], under30: 0, under60: 0, over60:0 });
+                            if (error) {
+                                res.status(500).send({
+                                    success: false,
+                                    message: 'Internal server error'
+                                });
+                            } else {
+                                const today = new Date();
+                                const year = today.getFullYear();
+                                const month = today.getMonth();
+                                const initialReduce = [];
+                                for (let i = 0; i <= month; i++) {
+                                    initialReduce.push({month: monthNames[i], under30: 0, under60: 0, over60: 0});
+                                }
+                                res.send(result
+                                    .filter(entry => entry.startTime.getFullYear() === year)
+                                    .map(entry => {
+                                        return {
+                                            month: entry.startTime.getMonth(),
+                                            age: usersAges.data[entry.username]
+                                        };
+                                    })
+                                    .reduce((obj, item) => {
+                                            if (item.age < 30) {
+                                                obj[item.month].under30++;
+                                            } else {
+                                                if (item.age < 60) {
+                                                    obj[item.month].under60++;
+                                                } else {
+                                                    obj[item.month].over60++;
+                                                }
+                                            }
+                                            return obj;
+                                        }, initialReduce
+                                    )
+                                );
                             }
-                            res.send(result
-                                .filter(entry => entry.startTime.getFullYear() === year)
-                                .map(entry => {
-                                    return {
-                                        month: entry.startTime.getMonth(),
-                                        age: usersAges.data[entry.username]
-                                    };
-                                })
-                                .reduce((obj, item) => {
-                                    if (item.age < 30) {
-                                        obj[item.month].under30++;
-                                    } else {
-                                        if (item.age < 60) {
-                                            obj[item.month].under60++;
-                                        } else {
-                                            obj[item.month].over60++;
-                                        }
-                                    }
-                                    return obj;
-                                    }, initialReduce
-                                )
-                            );
                         })
                     });
             } else {
@@ -68,61 +75,69 @@ module.exports = function(app) {
                 axios.get(process.env.USER_SERVICE_URL + '/users-ages', { 'headers': { 'Authorization': req.header('Authorization') } })
                     .then(usersAges => {
                         Training.find({}, 'username startTime endTime', function (error, result) {
-                            const today = new Date();
-                            const year = today.getFullYear();
-                            const month = today.getMonth();
-                            const initialReduce = [];
-                            for (let i = 0; i <= month; i++) {
-                                initialReduce.push({
-                                    month: monthNames[i],
-                                    under30: 0,
-                                    under60: 0,
-                                    over60:0,
-                                    under30counter: 0,
-                                    under60counter: 0,
-                                    over60counter:0 });
-                            }
-                            res.send(result
-                                .filter(entry => entry.startTime.getFullYear() === year)
-                                .map(entry => {
-                                    return {
-                                        month: entry.startTime.getMonth(),
-                                        duration: (entry.endTime - entry.startTime) / 60000,
-                                        age: usersAges.data[entry.username]
-                                    };
-                                })
-                                .reduce((obj, item) => {
-                                    if (item.age < 30) {
-                                        obj[item.month].under30 += item.duration;
-                                        obj[item.month].under30counter++;
-                                    } else {
-                                        if (item.age < 60) {
-                                            obj[item.month].under60 += item.duration;
-                                            obj[item.month].under60counter++;
-                                        } else {
-                                            obj[item.month].over60 += item.duration;
-                                            obj[item.month].over60counter++;
+                            if (error) {
+                                res.status(500).send({
+                                    success: false,
+                                    message: 'Internal server error'
+                                });
+                            } else {
+                                const today = new Date();
+                                const year = today.getFullYear();
+                                const month = today.getMonth();
+                                const initialReduce = [];
+                                for (let i = 0; i <= month; i++) {
+                                    initialReduce.push({
+                                        month: monthNames[i],
+                                        under30: 0,
+                                        under60: 0,
+                                        over60: 0,
+                                        under30counter: 0,
+                                        under60counter: 0,
+                                        over60counter: 0
+                                    });
+                                }
+                                res.send(result
+                                    .filter(entry => entry.startTime.getFullYear() === year)
+                                    .map(entry => {
+                                        return {
+                                            month: entry.startTime.getMonth(),
+                                            duration: (entry.endTime - entry.startTime) / 60000,
+                                            age: usersAges.data[entry.username]
+                                        };
+                                    })
+                                    .reduce((obj, item) => {
+                                            if (item.age < 30) {
+                                                obj[item.month].under30 += item.duration;
+                                                obj[item.month].under30counter++;
+                                            } else {
+                                                if (item.age < 60) {
+                                                    obj[item.month].under60 += item.duration;
+                                                    obj[item.month].under60counter++;
+                                                } else {
+                                                    obj[item.month].over60 += item.duration;
+                                                    obj[item.month].over60counter++;
+                                                }
+                                            }
+                                            return obj;
+                                        }, initialReduce
+                                    )
+                                    .map(entry => {
+                                        if (entry.under30counter !== 0) {
+                                            entry.under30 = Math.round(entry.under30 / entry.under30counter);
                                         }
-                                    }
-                                    return obj;
-                                    }, initialReduce
-                                )
-                                .map(entry => {
-                                    if (entry.under30counter !== 0) {
-                                        entry.under30 = Math.round(entry.under30 /entry.under30counter);
-                                    }
-                                    if (entry.under60counter !== 0) {
-                                        entry.under60 = Math.round(entry.under60 / entry.under60counter);
-                                    }
-                                    if (entry.over60counter !== 0) {
-                                        entry.over60 = Math.round(entry.over60 / entry.over60counter);
-                                    }
-                                    delete entry.under30counter;
-                                    delete entry.under60counter;
-                                    delete entry.over60counter;
-                                    return entry;
-                                })
-                            );
+                                        if (entry.under60counter !== 0) {
+                                            entry.under60 = Math.round(entry.under60 / entry.under60counter);
+                                        }
+                                        if (entry.over60counter !== 0) {
+                                            entry.over60 = Math.round(entry.over60 / entry.over60counter);
+                                        }
+                                        delete entry.under30counter;
+                                        delete entry.under60counter;
+                                        delete entry.over60counter;
+                                        return entry;
+                                    })
+                                );
+                            }
                         })
                     });
             } else {

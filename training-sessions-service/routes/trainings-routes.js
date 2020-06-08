@@ -6,53 +6,63 @@ const axios = require('axios');
 
 module.exports = function(app) {
     app.post('/users/:username/training_sessions', (req, res) => {
-        const training = new Training({
-            username: req.params.username,
-            startTime: new Date(),
-            endTime: new Date(),
-            caloriesBurned: req.body.caloriesBurned,
-            avgHeartRate: req.body.avgHeartRate,
-            kilometers: req.body.kilometers,
-            steps: req.body.steps,
-            avgAltitude: req.body.avgAltitude,
-            avgSpeed: req.body.avgSpeed,
-            maxSpeed: req.body.maxSpeed
-        });
-
-        training.save(function (error) {
-            if (error) {
-                    if (error.name === "ValidationError") {
-                        res.status(400).send({
-                            success: false,
-                            message: 'Wrong parameters'
-                        })
-                    } else {
-                        res.status(500).send({
-                            success: false,
-                            message: 'Failed to save training'
-                        })
-                    }
-            } else {
-                const notificationBody = {
-                    "achievementFileName": "WayToGo",
-                    "achievementTitle": "Way to go",
-                };
-                axios.patch(process.env.USER_SERVICE_URL+'/users/'+req.params.username+'/achievement',notificationBody,{headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
-                    console.log("Achievement awarded "+response)
-                }).catch(error => {
-                    console.log("Achievement not awarded "+error)
+        try {
+            const token = req.header('Authorization').replace('Bearer ', '');
+            const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
+            if (req.params.username === decodedJwt.username) {
+                const training = new Training({
+                    username: req.params.username,
+                    startTime: new Date(),
+                    endTime: new Date(),
+                    caloriesBurned: req.body.caloriesBurned,
+                    avgHeartRate: req.body.avgHeartRate,
+                    kilometers: req.body.kilometers,
+                    steps: req.body.steps,
+                    avgAltitude: req.body.avgAltitude,
+                    avgSpeed: req.body.avgSpeed,
+                    maxSpeed: req.body.maxSpeed
                 });
-                console.log(process.env.USER_SERVICE_URL+req.params.username+'/achievement');
-                checkContinuity(req.params.username);
-                checkTotalCalories(req.params.username);
-                checkTrainingCalories(req.params.username,req.body.caloriesBurned);
-                checkTotalSteps(req.params.username);
-                res.status(201).send({
-                    success: true,
-                    message: 'Training successfully created'
-                })
+
+                training.save(function (error) {
+                    if (error) {
+                        if (error.name === "ValidationError") {
+                            res.status(400).send({
+                                success: false,
+                                message: 'Wrong parameters'
+                            })
+                        } else {
+                            res.status(500).send({
+                                success: false,
+                                message: 'Failed to save training'
+                            })
+                        }
+                    } else {
+                        res.status(201).send({
+                            success: true,
+                            message: 'Training successfully created'
+                        });
+                        const notificationBody = {
+                            "achievementFileName": "WayToGo",
+                            "achievementTitle": "Way to go",
+                        };
+                        axios.patch(process.env.USER_SERVICE_URL + '/users/' + req.params.username + '/achievement', notificationBody, {headers: {Authorization: process.env.ACHIEVEMENT_TOKEN}}).then(response => {
+                            console.log("Achievement awarded " + response)
+                        }).catch(error => {
+                            console.log("Achievement not awarded " + error)
+                        });
+                        checkContinuity(req.params.username);
+                        checkTotalCalories(req.params.username);
+                        checkTrainingCalories(req.params.username, req.body.caloriesBurned);
+                        checkTotalSteps(req.params.username);
+                    }
+                });
             }
-        });
+        } catch (e) {
+            res.status(401).send({
+                success: false,
+                message: 'Invalid token'
+            });
+        }
     });
 
     app.delete('/users/:username/training_sessions', (req, res) => {
@@ -61,16 +71,23 @@ module.exports = function(app) {
             const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
             if (req.params.username === decodedJwt.username) {
                 Training.deleteMany({ username: decodedJwt.username }, function (error, result) {
-                    if (error || result === null) {
-                        res.status(404).send({
+                    if (error) {
+                        res.status(500).send({
                             success: false,
-                            message: 'Already deleted'
+                            message: 'Internal server error'
                         });
                     } else {
-                        res.send({
-                            success: true,
-                            message: 'Training successfully deleted'
-                        });
+                        if (result === null) {
+                            res.status(404).send({
+                                success: false,
+                                message: 'Already deleted'
+                            });
+                        } else {
+                            res.send({
+                                success: true,
+                                message: 'Training successfully deleted'
+                            });
+                        }
                     }
                 })
             } else {
@@ -93,13 +110,20 @@ module.exports = function(app) {
             const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
             if (req.params.username === decodedJwt.username) {
                 Training.find({ username: decodedJwt.username }, { _id: 0, __v: 0 }, function (error, result) {
-                    if (result === null) {
-                        res.send({
-                            success: true,
-                            message: 'No training data found'
+                    if (error) {
+                        res.status(500).send({
+                            success: false,
+                            message: 'Internal server error'
                         });
                     } else {
-                        res.send(result);
+                        if (result === null) {
+                            res.status(404).send({
+                                success: false,
+                                message: 'No training data found'
+                            });
+                        } else {
+                            res.send(result);
+                        }
                     }
                 })
             } else {
@@ -122,13 +146,20 @@ module.exports = function(app) {
             const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
             if (req.params.username === decodedJwt.username) {
                 Training.findOne({ username: decodedJwt.username }, { _id: 0, __v: 0 }, { sort: { 'startTime' : -1 } }, function (error, result) {
-                    if (result === null) {
-                        res.send({
-                            success: true,
-                            message: 'No training data found'
+                    if (error) {
+                        res.status(500).send({
+                            success: false,
+                            message: 'Internal server error'
                         });
                     } else {
-                        res.send(result);
+                        if (result === null) {
+                            res.status(404).send({
+                                success: false,
+                                message: 'No training data found'
+                            });
+                        } else {
+                            res.send(result);
+                        }
                     }
                 })
             } else {
