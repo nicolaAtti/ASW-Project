@@ -203,45 +203,45 @@ module.exports = function(app) {
             if (req.params.username === decodedJwt.username) {
                 User.findOneAndDelete({ username: decodedJwt.username }, function (error, result) {
                     if (error) {
+                        res.status(500).send({
+                            success: false,
+                            message: 'Internal server error'
+                        });
+                    } else {
                         if (result === null) {
                             res.status(404).send({
                                 success: false,
                                 message: 'Already deleted'
                             });
                         } else {
-                            res.status(500).send({
-                                success: false,
-                                message: 'Internal server error'
+                            res.send({
+                                success: true,
+                                message: 'User successfully deleted'
+                            });
+                            axios.delete(process.env.NOTIFICATION_SERVICE_URL + req.params.username + '/notification-token/all', {headers: {Authorization: process.env.NOTIFICATION_TOKEN}}).then(response => {
+                                console.log("All tokens successfully removed")
+                            }).catch(error => {
+                                console.log("Error in deleting tokens "+error)
+                            });
+                            //remove training datas
+                            axios.delete(process.env.TRAINING_SERVICE_URL + req.params.username + '/training_sessions', {headers: {Authorization: req.header('Authorization')}}).then(response => {
+                                console.log("All training sessions successfully removed")
+                            }).catch(error => {
+                                console.log("Error in deleting training sessions "+error)
+                            });
+                            //fitness
+                            axios.delete(process.env.FITNESS_SERVICE_URL + req.params.username + '/fitness', {headers: {Authorization: req.header('Authorization')}}).then(response => {
+                                console.log("All fitness data successfully removed")
+                            }).catch(error => {
+                                console.log("Error in deleting  "+error)
+                            });
+                            //fat
+                            axios.delete(process.env.FITNESS_SERVICE_URL + req.params.username + '/fat', {headers: {Authorization: req.header('Authorization')}}).then(response => {
+                                console.log("All fat datas successfully removed")
+                            }).catch(error => {
+                                console.log("Error in deleting fat datas "+error)
                             });
                         }
-                    } else {
-                        res.send({
-                            success: true,
-                            message: 'User successfully deleted'
-                        });
-                        axios.delete(process.env.NOTIFICATION_SERVICE_URL + req.params.username + '/notification-token/all', {headers: {Authorization: process.env.NOTIFICATION_TOKEN}}).then(response => {
-                            console.log("All tokens successfully removed")
-                        }).catch(error => {
-                            console.log("Error in deleting tokens "+error)
-                        });
-                        //remove training datas
-                        axios.delete(process.env.TRAINING_SERVICE_URL + req.params.username + '/training_sessions', {headers: {Authorization: req.header('Authorization')}}).then(response => {
-                            console.log("All training sessions successfully removed")
-                        }).catch(error => {
-                            console.log("Error in deleting training sessions "+error)
-                        });
-                        //fitness
-                        axios.delete(process.env.FITNESS_SERVICE_URL + req.params.username + '/fitness', {headers: {Authorization: req.header('Authorization')}}).then(response => {
-                            console.log("All fitness data successfully removed")
-                        }).catch(error => {
-                            console.log("Error in deleting  "+error)
-                        });
-                        //fat
-                        axios.delete(process.env.FITNESS_SERVICE_URL + req.params.username + '/fat', {headers: {Authorization: req.header('Authorization')}}).then(response => {
-                            console.log("All fat datas successfully removed")
-                        }).catch(error => {
-                            console.log("Error in deleting fat datas "+error)
-                        });
                     }
                 })
             } else {
@@ -260,55 +260,53 @@ module.exports = function(app) {
 
     app.post('/users/:username/authentication', (req, res) => {
         User.findOne({ username: req.params.username }, function (error, result) {
-            if (error || result === null) {
+            if (error) {
+                res.status(500).send({
+                    success: false,
+                    message: 'Internal server error'
+                });
+            } else {
                 if (result === null) {
                     res.status(404).send({
                         success: false,
-                        message: 'Already deleted'
+                        message: 'Username not found'
                     });
                 } else {
-                    res.status(500).send({
-                        success: false,
-                        message: 'Internal server error'
-                    });
-                }
-            } else {
-                if (req.body.password === result.password) {
-                    const token = jsonwebtoken.sign({ username: req.params.username }, JWT_SECRET);
+                    if (req.body.password === result.password) {
+                        const token = jsonwebtoken.sign({ username: req.params.username }, JWT_SECRET);
 
-                    res.status(201).send({
-                        success: true,
-                        token: token
-                    })
-
-                    const registrationDate = result.registrationDate;
-                    const today = new Date();
-                    const daysDiff = Math.ceil(Math.abs(today - registrationDate) / (1000*60*60*24));
-                    let achievementFileName;
-                    let achievementTitle;
-
-                    //Post firebaseToken
-                    console.log("Firebase    "+req.body.firebaseUserToken);
-                    axios.post(process.env.NOTIFICATION_SERVICE_URL+req.params.username+'/notification-token', {firebaseUserToken: req.body.firebaseUserToken},{headers: { Authorization: process.env.NOTIFICATION_TOKEN}}).then(response => {
-                        console.log("New token added")
-                        if(daysDiff >= 180){
-                            achievementFileName = "AToastToUs";
-                            achievementTitle = "A toast to us";
-                            awardAchievement(achievementTitle, achievementFileName, req.body.firebaseUserToken)
-                        }
-                        if(daysDiff >= 365) {
-                            achievementFileName = "AYearWithUs";
-                            achievementTitle = "A year with us";
-                           awardAchievement(achievementTitle, achievementFileName, req.body.firebaseUserToken)
-                        }
-                    }).catch(() => {
-                        console.log("Token already present")
-                    });
-                } else {
-                    res.status(401).send({
-                        success: false,
-                        message: 'Wrong password'
-                    });
+                        res.status(201).send({
+                            success: true,
+                            token: token
+                        })
+                        const registrationDate = result.registrationDate;
+                        const today = new Date();
+                        const daysDiff = Math.ceil(Math.abs(today - registrationDate) / (1000*60*60*24));
+                        let achievementFileName;
+                        let achievementTitle;
+                        //Post firebaseToken
+                        console.log("Firebase    "+req.body.firebaseUserToken);
+                        axios.post(process.env.NOTIFICATION_SERVICE_URL+req.params.username+'/notification-token', {firebaseUserToken: req.body.firebaseUserToken},{headers: { Authorization: process.env.NOTIFICATION_TOKEN}}).then(response => {
+                            console.log("New token added")
+                            if(daysDiff >= 180){
+                                achievementFileName = "AToastToUs";
+                                achievementTitle = "A toast to us";
+                                awardAchievement(achievementTitle, achievementFileName, req.body.firebaseUserToken)
+                            }
+                            if(daysDiff >= 365) {
+                                achievementFileName = "AYearWithUs";
+                                achievementTitle = "A year with us";
+                               awardAchievement(achievementTitle, achievementFileName, req.body.firebaseUserToken)
+                            }
+                        }).catch(() => {
+                            console.log("Token already present")
+                        });
+                    } else {
+                        res.status(401).send({
+                            success: false,
+                            message: 'Wrong password'
+                        });
+                    }
                 }
             }
         })
@@ -320,15 +318,22 @@ module.exports = function(app) {
             const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
             if (req.params.username === decodedJwt.username) {
                 User.findOne({ username: decodedJwt.username }, { _id: 0, __v: 0 }, function (error, result) {
-                    if (error || result === null) {
-                        res.status(404).send({
+                    if (error) {
+                        res.status(500).send({
                             success: false,
-                            message: 'Resource not found'
+                            message: 'Internal server error'
                         });
                     } else {
-                        const response = JSON.parse(JSON.stringify(result));
-                        response.age = user.age(result.birthday);
-                        res.send(response);
+                        if (result === null) {
+                            res.status(404).send({
+                                success: false,
+                                message: 'Username not found'
+                            });
+                        } else {
+                            const response = JSON.parse(JSON.stringify(result));
+                            response.age = user.age(result.birthday);
+                            res.send(response);
+                        }
                     }
                 })
             } else {
@@ -347,16 +352,23 @@ module.exports = function(app) {
 
     app.get('/users/find/:username', (req,res) => {
         User.findOne({ username: req.params.username, publicAchievements: true }, { _id: 0, __v: 0 }, function (error, result) {
-            if (error || result === null) {
-                res.status(404).send({
+            if (error) {
+                res.status(500).send({
                     success: false,
-                    message: 'Resource not found or profile not public'
+                    message: 'Internal server error'
                 });
             } else {
-                const response = JSON.parse(JSON.stringify(result));
-                response.age = user.age(result.birthday);
-                console.log(response);
-                res.send(response);
+                if (result === null) {
+                    res.status(404).send({
+                        success: false,
+                        message: 'Resource not found or profile not public'
+                    });
+                } else {
+                    const response = JSON.parse(JSON.stringify(result));
+                    response.age = user.age(result.birthday);
+                    console.log(response);
+                    res.send(response);
+                }
             }
         })
     });
@@ -367,13 +379,20 @@ module.exports = function(app) {
             const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
             if (req.params.username === decodedJwt.username) {
                 User.findOne({ username: decodedJwt.username }, function (error, result) {
-                    if (error || result === null) {
-                        res.status(404).send({
+                    if (error) {
+                        res.status(500).send({
                             success: false,
-                            message: 'Resource not found'
+                            message: 'Internal server error'
                         });
                     } else {
-                        res.send(result.achievements);
+                        if (result === null) {
+                            res.status(404).send({
+                                success: false,
+                                message: 'Username not found'
+                            });
+                        } else {
+                            res.send(result.achievements);
+                        }
                     }
                 })
             } else {
@@ -395,15 +414,13 @@ module.exports = function(app) {
             const token = req.header('Authorization').replace('Bearer ', '');
             const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
             if (req.params.username === decodedJwt.username) {
-                axios.delete(process.env.NOTIFICATION_SERVICE_URL + req.params.username + '/notification-token', {data : {firebaseUserToken: req.body.firebaseUserToken}, headers: {Authorization: process.env.NOTIFICATION_TOKEN}}).then(response => {
-                    console.log(response.data.message)
+                axios.delete(process.env.NOTIFICATION_SERVICE_URL + req.params.username + '/notification-token', {data : {firebaseUserToken: req.body.firebaseUserToken}, headers: {Authorization: process.env.NOTIFICATION_TOKEN}}).then(() => {
                     res.send({
                         success: true,
                         message: 'Token successfully removed'
                     })
 
-                }).catch(error => {
-                    console.log(error.data.message);
+                }).catch(() => {
                     res.status(500).send({
                         success: false,
                         message: 'Failed to delete token'
