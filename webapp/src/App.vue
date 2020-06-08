@@ -46,7 +46,7 @@
                 router.back();
             },
             searchUser(){
-                axios.get('http://' + process.env.VUE_APP_API_SERVER_URI + ':' + process.env.VUE_APP_API_SERVER_PORT_USERS + '/users/find/' + this.otherUser).then(response => {
+                axios.get( process.env.VUE_APP_USERS_SERVICE + '/users/find/' + this.otherUser).then(response => {
                     console.log(response.data);
                     router.push({name: 'OtherUserProfilePage', params: {
                             username: response.data.username,
