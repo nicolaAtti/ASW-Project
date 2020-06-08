@@ -56,16 +56,23 @@ module.exports = function(app) {
             const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
             if (req.params.username === decodedJwt.username) {
                 FitnessData.deleteMany({ username: decodedJwt.username }, function (error, result) {
-                    if (error || result === null) {
-                        res.status(404).send({
+                    if (error) {
+                        res.status(500).send({
                             success: false,
-                            message: 'Already deleted'
-                        });
+                            message: 'Internal server error'
+                        })
                     } else {
-                        res.send({
-                            success: true,
-                            message: 'User fitness data successfully deleted'
-                        });
+                        if (result === null) {
+                            res.status(404).send({
+                                success: false,
+                                message: 'Already deleted'
+                            });
+                        } else {
+                            res.send({
+                                success: true,
+                                message: 'User fitness data successfully deleted'
+                            });
+                        }
                     }
                 })
             } else {
@@ -88,13 +95,20 @@ module.exports = function(app) {
             const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
             if (req.params.username === decodedJwt.username) {
                 FitnessData.find({ username: decodedJwt.username }, { _id: 0, __v: 0 }, function (error, result) {
-                    if (result === null) {
-                        res.send({
-                            success: true,
-                            message: 'No fitness data found'
-                        });
+                    if (error) {
+                        res.status(500).send({
+                            success: false,
+                            message: 'Internal server error'
+                        })
                     } else {
-                        res.send(result);
+                        if (result === null || result === []) {
+                            res.status(404).send({
+                                success: false,
+                                message: 'No fitness data found'
+                            });
+                        } else {
+                            res.send(result);
+                        }
                     }
                 })
             } else {

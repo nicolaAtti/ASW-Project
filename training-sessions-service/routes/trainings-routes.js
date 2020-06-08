@@ -116,7 +116,7 @@ module.exports = function(app) {
                             message: 'Internal server error'
                         });
                     } else {
-                        if (result === null) {
+                        if (result === null || result === []) {
                             res.status(404).send({
                                 success: false,
                                 message: 'No training data found'
@@ -309,7 +309,7 @@ async function checkTotalSteps(username) {
 
 function checkContinuity(username) {
     Training.find({ username: username }, { _id: 0, __v: 0 }, function (error, result) {
-        if (result === null) {
+        if (result === null || result === []) {
             console.log("No training data found")
         } else {
             const trainingDateList = result.map(entry => { return entry.startTime});

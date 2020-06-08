@@ -41,7 +41,6 @@ module.exports = function(app) {
                         });
                     })
                     .catch(err => {
-                        console.log(err);
                         res.status(500).send({
                             success: false,
                             message: 'Failed to save fat data'
@@ -67,17 +66,23 @@ module.exports = function(app) {
             const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
             if (req.params.username === decodedJwt.username) {
                 FatData.deleteMany({ username: decodedJwt.username }, function (error, result) {
-                    if (error || result === null) {
-                        res.status(404).send({
+                    if (error) {
+                        res.status(500).send({
                             success: false,
-                            message: 'Already deleted'
-                        });
+                            message: 'Internal server error'
+                        })
                     } else {
-                        res.status(200).send
-                        ({
-                            success: true,
-                            message: 'User fat data successfully deleted'
-                        });
+                        if (result === null) {
+                            res.status(404).send({
+                                success: false,
+                                message: 'Already deleted'
+                            });
+                        } else {
+                            res.send({
+                                success: true,
+                                message: 'User fat data successfully deleted'
+                            });
+                        }
                     }
                 })
             } else {
@@ -100,13 +105,20 @@ module.exports = function(app) {
             const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
             if (req.params.username === decodedJwt.username) {
                 FatData.find({ username: decodedJwt.username }, { _id: 0, __v: 0 }, function (error, result) {
-                    if (result === null) {
-                        res.send({
-                            success: true,
-                            message: 'No fat data found'
-                        });
+                    if (error) {
+                        res.status(500).send({
+                            success: false,
+                            message: 'Internal server error'
+                        })
                     } else {
-                        res.send(result);
+                        if (result === null || result === []) {
+                            res.status(404).send({
+                                success: false,
+                                message: 'No fat data found'
+                            });
+                        } else {
+                            res.send(result);
+                        }
                     }
                 })
             } else {
@@ -129,13 +141,20 @@ module.exports = function(app) {
             const decodedJwt = jsonwebtoken.verify(token, JWT_SECRET);
             if (req.params.username === decodedJwt.username) {
                 FatData.findOne({ username: decodedJwt.username }, { _id: 0, __v: 0 }, { sort: { 'timestamp' : -1 } }, function (error, result) {
-                    if (result === null) {
-                        res.status(404).send({
+                    if (error) {
+                        res.status(500).send({
                             success: false,
-                            message: 'No fat data found'
-                        });
+                            message: 'Internal server error'
+                        })
                     } else {
-                        res.send(result);
+                        if (result === null) {
+                            res.status(404).send({
+                                success: false,
+                                message: 'No fat data found'
+                            });
+                        } else {
+                            res.send(result);
+                        }
                     }
                 })
             } else {
