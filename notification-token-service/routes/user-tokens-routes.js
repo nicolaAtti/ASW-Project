@@ -34,16 +34,23 @@ module.exports = function(app) {
     app.delete('/users/:username/notification-token', (req, res) => {
         if (req.header('Authorization') === process.env.NOTIFICATION_TOKEN) {
             User.findOneAndUpdate({ username: req.params.username }, { $pullAll: {tokens: [req.body.firebaseUserToken] }}, function (error, result) {
-                if (error || result === null) {
-                    res.status(404).send({
+                if (error) {
+                    res.status(500).send({
                         success: false,
-                        message: 'Token not present'
+                        message: 'Internal server error'
                     });
                 } else {
-                    res.send({
-                        success: true,
-                        message: 'Token successfully deleted'
-                    });
+                    if (result === null) {
+                        res.status(404).send({
+                            success: false,
+                            message: 'Token not present'
+                        });
+                    } else {
+                        res.send({
+                            success: true,
+                            message: 'Token successfully deleted'
+                        });
+                    }
                 }
             })
         } else {
@@ -57,16 +64,23 @@ module.exports = function(app) {
     app.delete('/users/:username/notification-token/all', (req, res) => {
         if (req.header('Authorization') === process.env.NOTIFICATION_TOKEN) {
             User.deleteOne({ username: req.params.username }, function (error, result) {
-                if (error || result === null) {
-                    res.status(404).send({
+                if (error) {
+                    res.status(500).send({
                         success: false,
-                        message: 'User not present'
+                        message: 'Internal server error'
                     });
                 } else {
-                    res.send({
-                        success: true,
-                        message: 'Tokens successfully deleted'
-                    });
+                    if (result === null) {
+                        res.status(404).send({
+                            success: false,
+                            message: 'User not present'
+                        });
+                    } else {
+                        res.send({
+                            success: true,
+                            message: 'Tokens successfully deleted'
+                        });
+                    }
                 }
             })
         } else {
@@ -81,14 +95,21 @@ module.exports = function(app) {
         //dato username ritorna la lista dei suoi token
         if (req.header('Authorization') === process.env.NOTIFICATION_TOKEN) {
             User.findOne({ username: req.params.username }, { _id: 0, __v: 0 }, function (error, result) {
-                if (error || result === null) {
-                    res.status(404).send({
+                if (error) {
+                    res.status(500).send({
                         success: false,
-                        message: 'Resource not found'
+                        message: 'Internal server error'
                     });
                 } else {
-                    const response = JSON.parse(JSON.stringify(result));
-                    res.send(response);
+                    if (result === null) {
+                        res.status(404).send({
+                            success: false,
+                            message: 'Resource not found'
+                        });
+                    } else {
+                        const response = JSON.parse(JSON.stringify(result));
+                        res.send(response);
+                    }
                 }
             })
         } else {
