@@ -284,61 +284,22 @@ module.exports = function(app) {
                     const registrationDate = result.registrationDate;
                     const today = new Date();
                     const daysDiff = Math.ceil(Math.abs(today - registrationDate) / (1000*60*60*24));
-                    var achievementFileName;
-                    var achievementTitle;
+                    let achievementFileName;
+                    let achievementTitle;
 
                     //Post firebaseToken
                     console.log("Firebase    "+req.body.firebaseUserToken);
                     axios.post(process.env.NOTIFICATION_SERVICE_URL+req.params.username+'/notification-token', {firebaseUserToken: req.body.firebaseUserToken},{headers: { Authorization: process.env.NOTIFICATION_TOKEN}}).then(response => {
                         console.log("New token added")
-                        if(daysDiff >= 180 && daysDiff < 365){
+                        if(daysDiff >= 180){
                             achievementFileName = "AToastToUs";
                             achievementTitle = "A toast to us";
+                            awardAchievement(achievementTitle, achievementFileName, req.body.firebaseUserToken)
                         }
                         if(daysDiff >= 365) {
                             achievementFileName = "AYearWithUs";
                             achievementTitle = "A year with us";
-                        }
-                        if(achievementFileName !== undefined && achievementTitle !== undefined) {
-                            User.findOneAndUpdate({
-                                username: req.params.username,
-                                achievements: {$nin: [achievementFileName]}
-                            }, {$push: {achievements: achievementFileName}}, function (error, result) {
-                                if (error) {
-                                    if (error.code === 11000) {
-                                        console.log("Failed to add achievement")
-                                    } else {
-                                        if (error.name === "ValidationError") {
-                                            console.log("Failed to add achievement")
-                                        } else {
-                                            console.log("Failed to add achievement")
-                                        }
-                                    }
-                                } else {
-                                    if (result === null) {
-                                        console.log("Achievement already awarded")
-                                    } else {
-                                        const notificationPayload = {
-                                            notification: {
-                                                title: "Achievement Earned!",
-                                                body: "Congratulations! You earned the achievement " + achievementTitle + " !",
-                                                icon: "party_icon.png"
-                                            },
-                                            to: req.body.firebaseUserToken
-                                        };
-                                        axios.post("https://fcm.googleapis.com/fcm/send", notificationPayload, {
-                                            headers: {
-                                                Authorization: "key=" + process.env.FIREBASE_SENDER_TOKEN,
-                                                'Content-Type': "application/json"
-                                            }
-                                        }).then(response => {
-                                            console.log("Notification Sent" + response)
-                                        }).catch(error => {
-                                            console.log("Notification not Sent" + error)
-                                        })
-                                    }
-                                }
-                            });
+                           awardAchievement(achievementTitle, achievementFileName, req.body.firebaseUserToken)
                         }
                     }).catch(() => {
                         console.log("Token already present")
@@ -462,3 +423,45 @@ module.exports = function(app) {
         }
     });
 };
+
+function awardAchievement(achievementTitle, achievementFileName, firebaseUserToken) {
+    User.findOneAndUpdate({
+        username: req.params.username,
+        achievements: {$nin: [achievementFileName]}
+    }, {$push: {achievements: achievementFileName}}, function (error, result) {
+        if (error) {
+            if (error.code === 11000) {
+                console.log("Failed to add achievement")
+            } else {
+                if (error.name === "ValidationError") {
+                    console.log("Failed to add achievement")
+                } else {
+                    console.log("Failed to add achievement")
+                }
+            }
+        } else {
+            if (result === null) {
+                console.log("Achievement already awarded")
+            } else {
+                const notificationPayload = {
+                    notification: {
+                        title: "Achievement Earned!",
+                        body: "Congratulations! You earned the achievement " + achievementTitle + " !",
+                        icon: "party_icon.png"
+                    },
+                    to: firebaseUserToken
+                };
+                axios.post("https://fcm.googleapis.com/fcm/send", notificationPayload, {
+                    headers: {
+                        Authorization: "key=" + process.env.FIREBASE_SENDER_TOKEN,
+                        'Content-Type': "application/json"
+                    }
+                }).then(response => {
+                    console.log("Notification Sent" + response)
+                }).catch(error => {
+                    console.log("Notification not Sent" + error)
+                })
+            }
+        }
+    });
+}
