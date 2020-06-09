@@ -146,7 +146,7 @@
                                         snack.className = "show";
                                         setTimeout(() => {
                                             snack.className = snack.className.replace("show", "");
-                                        }, 3000);
+                                        }, 6000);
                                         router.push('home');
                                     }).catch(error => {
                                         console.log("Error in saving fat value "+error)

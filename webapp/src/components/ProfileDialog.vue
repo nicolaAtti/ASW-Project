@@ -110,11 +110,17 @@
                     snack.innerHTML = this.$t('profilePage.dialog.success_change');
                     setTimeout(() => {
                         snack.className = snack.className.replace("show","");
-                    }, 3000);
+                    }, 6000);
                     this.$emit('profileUpdate');
                     this.clearForm();
-                }, error => {
-                    console.log(error.message)
+                }, () => {
+                    const snack = document.getElementById("snackbar");
+                    snack.className = "show";
+                    snack.innerHTML = this.$t('profilePage.dialog.error');
+                    setTimeout(() => {
+                        snack.className = snack.className.replace("show","");
+                    }, 6000);
+
                 });
             },
             clearForm() {

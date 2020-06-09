@@ -88,7 +88,8 @@
       "achi_pub": "Display achievements publicly",
       "dialogButton": "Change Account Information",
       "close": "Close",
-      "save": "Save"
+      "save": "Save",
+      "error": "Unable to change account information"
     },
     "adminDialog": {
       "title": "Change profile information",

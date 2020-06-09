@@ -90,7 +90,8 @@
       "achi_pub": "Mostra achievement pubblicamente.",
       "dialogButton": "Modifica Informazioni Account",
       "close": "Chiudi",
-      "save": "Salva"
+      "save": "Salva",
+      "error": "Errore durante la modifica delle informazioni"
     },
     "adminDialog": {
       "title": "Modifica informazioni profilo amministratore",
