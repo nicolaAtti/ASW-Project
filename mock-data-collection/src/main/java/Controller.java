@@ -1,4 +1,3 @@
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import javafx.application.Application;
 import javafx.fxml.FXML;
@@ -92,10 +91,9 @@ public class Controller extends Application {
                 StatusLine responseCode = response.returnResponse().getStatusLine();
                 Alert alert;
                 if(responseCode.getStatusCode() == 201) {
-                    JsonObject responseContent = new Gson().fromJson(response.returnContent().asString(), JsonObject.class);
                     alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Information");
-                    alert.setContentText(responseContent.get("message").getAsString());
+                    alert.setContentText("Fitness data successfully created");
                 } else {
                     alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error");
@@ -132,10 +130,9 @@ public class Controller extends Application {
                 StatusLine responseCode = response.returnResponse().getStatusLine();
                 Alert alert;
                 if(responseCode.getStatusCode() == 201) {
-                    JsonObject responseContent = new Gson().fromJson(response.returnContent().asString(), JsonObject.class);
                     alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Information");
-                    alert.setContentText(responseContent.get("message").getAsString());
+                    alert.setContentText("Training successfully created");
                 } else {
                     alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error");
