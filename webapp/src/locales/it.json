@@ -38,8 +38,8 @@
     "searchText": "Ricerca utente",
     "searchToast": "Utente non trovato, o profilo privato",
     "Profile": "Profilo",
-    "Sessions History": "Riepilogo Allenamenti",
-    "Sign Out": "Disconnetti",
+    "Sessions History": "Allenamenti",
+    "Sign Out": "Esci",
     "User Data": "Dati Generali",
     "Age": "Età",
     "Weight": "Peso",
@@ -72,7 +72,7 @@
   },
   "adminHomePage": {
     "Profile": "Profilo",
-    "Sign Out": "Disconnetti",
+    "Sign Out": "Esci",
     "General Data": "Dati Generali degli Utenti",
     "Registered Users": "Utenti Registrati",
     "Average Users Age": "Età Media degli Utenti"

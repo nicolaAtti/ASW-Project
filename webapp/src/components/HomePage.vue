@@ -409,8 +409,8 @@
     .menu li {
         position: relative;
         width: 100%;
-        font-size: 15px;
-        padding: 10px;
+        font-size: 13px;
+        padding: 15px 40px;
         margin: -10px -10px 25px 0px;
         border: 0.5px ridge #2c3e50;
         background-color:#0277bd;

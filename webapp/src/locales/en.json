@@ -38,8 +38,8 @@
     "searchText": "Search user",
     "searchToast": "User not found, or private profile",
     "Profile": "Profile",
-    "Sessions History": "Trainings Summary",
-    "Sign Out": "Sign Out",
+    "Sessions History": "Trainings",
+    "Sign Out": "Exit",
     "User Data": "General Data",
     "Age": "Age",
     "Weight": "Weight",
@@ -70,7 +70,7 @@
   },
   "adminHomePage": {
     "Profile": "Profile",
-    "Sign Out": "Sign Out",
+    "Sign Out": "Exit",
     "General Data": "General Users Data",
     "Registered Users": "Registered Users",
     "Average Users Age": "Average Users Age"
