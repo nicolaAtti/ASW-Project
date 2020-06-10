@@ -35,10 +35,10 @@
                             />
                         </v-col>
                         <v-col cols="12" sm="6" md="6">
-                            <v-text-field v-model="height" dense outlined :label="this.$t('registerPage.height')" suffix="Cm"/>
+                            <v-text-field v-model="height" dense outlined :label="this.$t('registerPage.height')" suffix="Cm" required/>
                         </v-col>
                         <v-col cols="12" sm="6" md="6">
-                            <v-text-field v-model="weight" dense outlined :label="this.$t('registerPage.weight')" suffix="Kg"/>
+                            <v-text-field v-model="weight" dense outlined :label="this.$t('registerPage.weight')" suffix="Kg" required/>
                         </v-col>
                     </v-row>
                 </div>
@@ -105,68 +105,73 @@
         methods: {
             async processForm(e) {
                 this.errors = [];
-                if (!(this.password === this.confirm_pass)) {
-                    this.errors.push(this.$t('registerPage.password_mismatch'));
+                if(this.birthday === ""){
+                    this.errors.push(this.$t('registerPage.no_birthday'));
                     e.preventDefault();
-                    window.scrollTo(0, 0)
-                } else {
-                    try {
-                        e.preventDefault();
-                        console.log(sessionStorage.firebase_token);
-                        var translatedGender;
-                        if(VueI18n.locale !== 'en'){
-                            translatedGender = (this.gender === 'Maschio') ? "Male" : "Female";
-                        }else{
-                            translatedGender = this.gender;
-                        }
-                        const response = await axios.post(process.env.VUE_APP_USERS_SERVICE + '/users/' + this.username, {
-                            name: this.name,
-                            surname: this.surname,
-                            birthday: new Date(this.birthday),
-                            gender: translatedGender ,
-                            height: this.height,
-                            email: this.email,
-                            password: this.password,
-                            publicAchievements: this.achi_pub,
-                            firebaseUserToken: sessionStorage.firebase_token
-                        });
-                        if (response.status === 201) {
-                            axios.post()
-                            console.log("Effettuo la login dopo la register");
-                            axios.post(process.env.VUE_APP_USERS_SERVICE + '/users/' + this.username + '/authentication',{
-                                password: this.password,
-                                firebaseUserToken: sessionStorage.firebase_token
-                            }).then(response => {
-                                sessionStorage.token = "Bearer "+response.data.token;
-                                sessionStorage.username = this.username;
-                                if(this.weight !== undefined){
-                                    axios.post(process.env.VUE_APP_FITNESS_SERVICE + '/users/' + this.username + '/fat', { weight: this.weight, timestamp: new Date()}, { headers: {Authorization: sessionStorage.token}}).then( () => {
-                                        console.log("Username register "+sessionStorage.username);
-                                        const snack = document.getElementById("snackbar");
-                                        snack.className = "show";
-                                        setTimeout(() => {
-                                            snack.className = snack.className.replace("show", "");
-                                        }, 6000);
-                                        router.push('home');
-                                    }).catch(error => {
-                                        console.log("Error in saving fat value "+error)
-                                    })
-                                }
-                            }, error => {
-                                console.log(error);
-                                this.errors = [];
-                            });
-                        }
-                    } catch (err) {
-                        if (err.response.status === 409) {
-                            this.errors.push((this.$t('registerPage.existing_username')))
-                        } else {
-                            this.errors.push(this.$t('registerPage.generic_server_error'))
-                        }
+                    window.scrollTo(0,0);
+                }else{
+                    if (!(this.password === this.confirm_pass)) {
+                        this.errors.push(this.$t('registerPage.password_mismatch'));
                         e.preventDefault();
                         window.scrollTo(0, 0)
+                    } else {
+                        try {
+                            e.preventDefault();
+                            console.log(sessionStorage.firebase_token);
+                            var translatedGender;
+                            if(VueI18n.locale !== 'en'){
+                                translatedGender = (this.gender === 'Maschio') ? "Male" : "Female";
+                            }else{
+                                translatedGender = this.gender;
+                            }
+                            const response = await axios.post(process.env.VUE_APP_USERS_SERVICE + '/users/' + this.username, {
+                                name: this.name,
+                                surname: this.surname,
+                                birthday: new Date(this.birthday),
+                                gender: translatedGender ,
+                                height: this.height,
+                                email: this.email,
+                                password: this.password,
+                                publicAchievements: this.achi_pub,
+                                firebaseUserToken: sessionStorage.firebase_token
+                            });
+                            if (response.status === 201) {
+                                axios.post(process.env.VUE_APP_USERS_SERVICE + '/users/' + this.username + '/authentication',{
+                                    password: this.password,
+                                    firebaseUserToken: sessionStorage.firebase_token
+                                }).then(response => {
+                                    sessionStorage.token = "Bearer "+response.data.token;
+                                    sessionStorage.username = this.username;
+                                    if(this.weight !== undefined){
+                                        axios.post(process.env.VUE_APP_FITNESS_SERVICE + '/users/' + this.username + '/fat', { weight: this.weight, timestamp: new Date()}, { headers: {Authorization: sessionStorage.token}}).then( () => {
+                                            console.log("Username register "+sessionStorage.username);
+                                            const snack = document.getElementById("snackbar");
+                                            snack.className = "show";
+                                            setTimeout(() => {
+                                                snack.className = snack.className.replace("show", "");
+                                            }, 6000);
+                                            router.push('home');
+                                        }).catch(error => {
+                                            console.log("Error in saving fat value "+error)
+                                        })
+                                    }
+                                }, error => {
+                                    console.log(error);
+                                    this.errors = [];
+                                });
+                            }
+                        } catch (err) {
+                            if (err.response.status === 409) {
+                                this.errors.push((this.$t('registerPage.existing_username')))
+                            } else {
+                                this.errors.push(this.$t('registerPage.generic_server_error'))
+                            }
+                            e.preventDefault();
+                            window.scrollTo(0, 0)
+                        }
                     }
                 }
+
             }
         }
     }

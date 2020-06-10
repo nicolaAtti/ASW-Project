@@ -21,17 +21,18 @@
     "name": "Name*",
     "surname": "Surname*",
     "birthday_date": "Birthday date*",
+    "no_birthday": "Birthday is missing",
     "gender": "Gender*",
     "male": "Male",
     "female": "Female",
-    "height": "Your height",
-    "weight": "Your weight",
+    "height": "Your height*",
+    "weight": "Your weight*",
     "account_data": "Account data",
     "email": "Email address*",
     "username": "Username*",
     "password": "Password*",
     "confirm_password": "Confirm password*",
-    "pub_achievements": "Display achievements publicly."
+    "pub_achievements": "Display profile publicly."
   },
   "homePage": {
     "searchText": "Search user",
@@ -77,19 +78,22 @@
   "profilePage": {
     "dialog": {
       "title": "Change profile information",
-      "success_change": "Profile data changed",
+      "success_change_general": "Profile data changed",
+      "success_change_fat": "Weight value added",
       "name": "Name",
       "surname": "Surname",
       "gender": "Gender",
       "username": "Username",
       "height": "Height",
+      "weight": "Weight",
       "email": "Email Address",
       "password": "New Password",
-      "achi_pub": "Display achievements publicly",
+      "achi_pub": "Display profile publicly",
       "dialogButton": "Change Account Information",
       "close": "Close",
       "save": "Save",
-      "error": "Unable to change account information"
+      "error_general": "Unable to change account information",
+      "error_fat": "Unable to add weight value"
     },
     "adminDialog": {
       "title": "Change profile information",

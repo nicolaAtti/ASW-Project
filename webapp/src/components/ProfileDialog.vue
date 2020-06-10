@@ -29,6 +29,9 @@
                                     <v-text-field :label="this.$t('profilePage.dialog.height')" v-model="userData.height" suffix="Cm"/>
                                 </v-col>
                                 <v-col cols="12" sm="6" md="6">
+                                    <v-text-field :label="this.$t('profilePage.dialog.weight')" v-model="userData.weight" suffix="Kg"/>
+                                </v-col>
+                                <v-col cols="12" sm="6" md="6">
                                     <v-text-field :label="this.$t('profilePage.dialog.username')" v-model="userData.username"/>
                                 </v-col>
                                 <v-col cols="12" sm="6" md="6">
@@ -79,6 +82,7 @@
                     birthday: "",
                     gender: "",
                     height: "",
+                    weight: "",
                     email: "",
                     username: "",
                     password: "",
@@ -100,6 +104,24 @@
                     translatedGender = this.userData.gender;
                 }
                 patchData.gender = translatedGender;
+                if(this.userData.weight !== undefined){
+                    axios.post(process.env.VUE_APP_FITNESS_SERVICE + '/users/' + sessionStorage.username + '/fat', { weight: this.userData.weight, timestamp: new Date()}, { headers: {Authorization: sessionStorage.token}}).then( () => {
+                        const snack = document.getElementById("snackbar");
+                        snack.className = "show";
+                        snack.innerHTML = this.$t('profilePage.dialog.success_change_general');
+                        setTimeout(() => {
+                            snack.className = snack.className.replace("show","");
+                        }, 6000);
+                    }).catch(error => {
+                        console.log("Error in saving fat value "+error);
+                        const snack = document.getElementById("snackbar");
+                        snack.className = "show";
+                        snack.innerHTML = this.$t('profilePage.dialog.error_fat');
+                        setTimeout(() => {
+                            snack.className = snack.className.replace("show","");
+                        }, 6000);
+                    })
+                }
                 axios.patch(process.env.VUE_APP_USERS_SERVICE + '/users/' + sessionStorage.username, patchData, {headers: { Authorization: sessionStorage.token } }).then( response => {
                     if(response.data.newToken !== undefined){
                         sessionStorage.username = this.userData.username;
@@ -107,7 +129,7 @@
                     }
                     const snack = document.getElementById("snackbar");
                     snack.className = "show";
-                    snack.innerHTML = this.$t('profilePage.dialog.success_change');
+                    snack.innerHTML = this.$t('profilePage.dialog.success_change_general');
                     setTimeout(() => {
                         snack.className = snack.className.replace("show","");
                     }, 6000);
@@ -116,11 +138,10 @@
                 }, () => {
                     const snack = document.getElementById("snackbar");
                     snack.className = "show";
-                    snack.innerHTML = this.$t('profilePage.dialog.error');
+                    snack.innerHTML = this.$t('profilePage.dialog.error_general');
                     setTimeout(() => {
                         snack.className = snack.className.replace("show","");
                     }, 6000);
-
                 });
             },
             clearForm() {
