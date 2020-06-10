@@ -62,16 +62,14 @@
                         }
                     });
                     this.otherUser = ''
-                }).catch(error => {
-                    if(error.status === 404){
+                }).catch( () => {
                         this.otherUser = '';
                         const snack = document.getElementById("snackbar");
                         snack.className = "show";
                         snack.innerHTML = this.$t('userNotFound');
                         setTimeout(() => {
                             snack.className = snack.className.replace("show","");
-                        }, 5000);
-                    }
+                        }, 6000);
                 })
             },
             formatDate(date){
@@ -94,6 +92,7 @@
         color: #2c3e50;
         overflow: hidden;
     }
+
 
     .pages{
         height: 100%;

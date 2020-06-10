@@ -53,13 +53,12 @@
         }
         // Let's check whether notification permissions have already been granted
         else if (Notification.permission === "granted") {
-          // If it's okay let's create a notification
-          var notification = new Notification(notificationTitle, notificationOptions);
-          notification.onclick = function (event) {
-            event.preventDefault(); // prevent the browser from focusing the Notification's tab
-            window.open(payload.notification.click_action, '_blank');
-            notification.close();
-          }
+
+          //For Android support
+          navigator.serviceWorker.getRegistration('/firebase-cloud-messaging-push-scope').then(registration => {
+            registration.showNotification(notificationTitle, notificationOptions)
+          });
+
         }
       });
 

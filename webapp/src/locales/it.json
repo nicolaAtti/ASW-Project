@@ -21,17 +21,18 @@
     "name": "Nome*",
     "surname": "Cognome*",
     "birthday_date": "Data di nascita*",
+    "no_birthday": "Data di nascita mancante",
     "gender": "Sesso*",
     "male": "Maschio",
     "female": "Femmina",
-    "height": "La tua altezza",
-    "weight": "Il tuo peso",
+    "height": "La tua altezza*",
+    "weight": "Il tuo peso*",
     "account_data": "Dati account",
     "email": "Indirizzo email*",
     "username": "Username*",
     "password": "Password*",
     "confirm_password": "Conferma password*",
-    "pub_achievements": "Mostra achievement pubblicamente."
+    "pub_achievements": "Mostra profilo pubblicamente."
   },
   "homePage": {
     "searchText": "Ricerca utente",
@@ -79,18 +80,22 @@
   "profilePage": {
     "dialog": {
       "title": "Modifica informazioni profilo",
-      "success_change": "Informazioni profilo modificate",
+      "success_change_general": "Informazioni profilo modificate",
+      "success_change_fat": "Aggiunto nuovo valore peso",
       "name": "Nome",
       "surname": "Cognome",
       "gender": "Sesso",
       "username": "Username",
       "height": "Altezza",
+      "weight": "Peso",
       "email": "Indirizzo email",
       "password": "Nuova password",
-      "achi_pub": "Mostra achievement pubblicamente.",
+      "achi_pub": "Mostra profilo pubblicamente.",
       "dialogButton": "Modifica Informazioni Account",
       "close": "Chiudi",
-      "save": "Salva"
+      "save": "Salva",
+      "error_general": "Errore durante la modifica delle informazioni",
+      "error_fat": "Errore nell'aggiunta di un nuovo peso"
     },
     "adminDialog": {
       "title": "Modifica informazioni profilo amministratore",
