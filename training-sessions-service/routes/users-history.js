@@ -32,7 +32,7 @@ module.exports = function(app) {
                                 initialReduce.push({month: monthNames[i], steps: 0});
                             }
                             res.send(result
-                                .filter(entry => entry.startTime.getFullYear() === year)
+                                .filter(entry => entry.startTime.getFullYear() === year && entry.steps !== undefined)
                                 .map(entry => {
                                     return {
                                         month: entry.startTime.getMonth(),
@@ -88,7 +88,7 @@ module.exports = function(app) {
                                 initialReduce.push({month: monthNames[i], calories: 0});
                             }
                             res.send(result
-                                .filter(entry => entry.startTime.getFullYear() === year)
+                                .filter(entry => entry.startTime.getFullYear() === year && entry.caloriesBurned !== undefined)
                                 .map(entry => {
                                     return {
                                         month: entry.startTime.getMonth(),
@@ -144,7 +144,7 @@ module.exports = function(app) {
                                 initialReduce.push({month: monthNames[i], km: 0});
                             }
                             res.send(result
-                                .filter(entry => entry.startTime.getFullYear() === year)
+                                .filter(entry => entry.startTime.getFullYear() === year && entry.kilometers !== undefined)
                                 .map(entry => {
                                     return {
                                         month: entry.startTime.getMonth(),
@@ -200,7 +200,7 @@ module.exports = function(app) {
                                 initialReduce.push({month: monthNames[i], km_h: 0, counter: 0});
                             }
                             res.send(result
-                                .filter(entry => entry.startTime.getFullYear() === year)
+                                .filter(entry => entry.startTime.getFullYear() === year && entry.avgSpeed !== undefined)
                                 .map(entry => {
                                     return {
                                         month: entry.startTime.getMonth(),
