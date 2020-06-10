@@ -12,8 +12,8 @@ module.exports = function(app) {
             if (req.params.username === decodedJwt.username) {
                 const training = new Training({
                     username: req.params.username,
-                    startTime: new Date(),
-                    endTime: new Date(),
+                    startTime: req.body.startTime,
+                    endTime: req.body.endTime,
                     caloriesBurned: req.body.caloriesBurned,
                     avgHeartRate: req.body.avgHeartRate,
                     kilometers: req.body.kilometers,
