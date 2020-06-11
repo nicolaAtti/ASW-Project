@@ -83,7 +83,7 @@ module.exports = function(app) {
                         const month = today.getMonth();
                         const initialReduce = [];
                         for (let i = 0; i <= month; i++) {
-                            initialReduce.push({ month: monthNames[i], users: 0 });
+                            initialReduce.push({ month: monthNames[i], users: -1 });
                         }
                         res.send(result
                             .map(entry => entry.registrationDate < new Date(year, 1) ? 0 : entry.registrationDate.getMonth())
