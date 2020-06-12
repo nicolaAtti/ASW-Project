@@ -17,7 +17,7 @@ or utilize the firebase APIs.
 ```
 docker run --env-file .env -it -p 8080:80 --rm --name ads-training-webapp ads-training-webapp
 ```
-Contact me and i'll provide them.
+Contact one of us and we'll provide them.
 
 ## Use on cloud
 Alternately it's possible to find the application at the following url, hosted by Heroku: <br></br>
